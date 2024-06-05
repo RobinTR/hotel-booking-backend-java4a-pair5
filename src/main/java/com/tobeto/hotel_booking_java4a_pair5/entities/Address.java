@@ -32,6 +32,10 @@ public class Address extends BaseEntity {
     @JoinColumn(name = "area_id")
     private Area area;
 
+    @ManyToOne
+    @JoinColumn(name = "neighborhood_id")
+    private Neighborhood neighborhood;
+
     @Column(name = "full_address")
     private String fullAddress;
 

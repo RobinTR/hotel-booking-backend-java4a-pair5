@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Table(name = "neighborhoods")
 @Getter
 @Setter
@@ -24,4 +26,6 @@ public class Neighborhood extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @OneToMany(mappedBy = "neighborhood")
+    private List<Address> addresses;
 }
