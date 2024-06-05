@@ -4,6 +4,9 @@ import com.tobeto.hotel_booking_java4a_pair5.core.entities.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.awt.print.Book;
+import java.util.List;
+
 @Table(name = "hotels")
 @Getter
 @Setter
@@ -11,11 +14,13 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Hotel extends BaseEntity {
-    @Column(name = "address_id")
-    private int addressId;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
-    @Column(name = "hotel_review_id")
-    private int hotelReviewId;
+    @ManyToOne
+    @JoinColumn(name = "hotel_review_id")
+    private HotelReview hotelReview;
 
     @Column(name = "name")
     private String name;
@@ -40,4 +45,13 @@ public class Hotel extends BaseEntity {
 
     @Column(name = "star_rating")
     private int starRating;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<Booking> bookings;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<Manager> managers;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<Room> rooms;
 }

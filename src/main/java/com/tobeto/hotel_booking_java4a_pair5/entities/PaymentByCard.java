@@ -1,14 +1,14 @@
 package com.tobeto.hotel_booking_java4a_pair5.entities;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.entities.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Table(name = "payment_by_cards")
 @Getter
@@ -17,8 +17,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentByCard extends BaseEntity {
-    @Column(name = "payment_method_id")
-    private int paymentMethodId;
+    @ManyToOne
+    @JoinColumn(name = "payment_method_id")
+    private PaymentMethod paymentMethod;
 
     @Column(name = "card_number")
     @Size(max=4)
@@ -29,4 +30,7 @@ public class PaymentByCard extends BaseEntity {
 
     @Column(name = "cvv")
     private String cvv;
+
+    @OneToMany(mappedBy = "paymentByCard")
+    private List<Guest> guests;
 }

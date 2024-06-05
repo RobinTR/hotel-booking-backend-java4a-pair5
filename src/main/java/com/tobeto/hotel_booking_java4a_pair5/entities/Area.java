@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Table(name = "areas")
 @Getter
 @Setter
@@ -14,9 +16,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Area extends BaseEntity {
-    @Column(name = "district_id")
-    private int districtId;
+    @ManyToOne
+    @JoinColumn(name = "district_id")
+    private District district;
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "area")
+    private List<Address> addresses;
+
+    @OneToMany(mappedBy = "area")
+    private List<Neighborhood> neighborhoods;
 }
