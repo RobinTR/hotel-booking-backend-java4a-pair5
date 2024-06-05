@@ -2,7 +2,6 @@ package com.tobeto.hotel_booking_java4a_pair5.entities;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.entities.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
