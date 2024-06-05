@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Table(name = "rooms")
 @Getter
 @Setter
@@ -14,15 +16,20 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Room extends BaseEntity {
+    @ManyToOne
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private RoomType type;
+
     @Column(name = "number")
     private int number;
 
-    @Column(name = "hotel_id")
-    private int hotelId;
-
-    @Column(name = "type_id")
-    private int typeId;
-
     @Column(name = "is_available")
     private boolean isAvailable;
+
+    @OneToMany(mappedBy = "room")
+    private List<RoomBooked> roomBookeds;
 }

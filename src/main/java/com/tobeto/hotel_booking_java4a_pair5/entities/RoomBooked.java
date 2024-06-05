@@ -14,9 +14,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoomBooked extends BaseEntity {
-    @Column(name = "booking_id")
-    private int bookingId;
+    @ManyToOne
+    @JoinColumn(name = "booking_id")
+    private Booking booking;
 
-    @Column(name = "room_id")
-    private int roomId;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 }

@@ -1,12 +1,12 @@
 package com.tobeto.hotel_booking_java4a_pair5.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Table(name = "guests")
 @Getter
@@ -15,6 +15,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Guest extends Person {
-    @Column(name = "payment_information_id")
-    private int paymentInformationId;
+    @ManyToOne
+    @JoinColumn(name = "payment_by_card_id")
+    private PaymentByCard paymentByCard;
+
+    @OneToMany(mappedBy = "guest")
+    private List<Booking> bookings;
 }

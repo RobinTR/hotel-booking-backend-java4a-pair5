@@ -16,8 +16,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person extends BaseEntity {
-    @Column(name = "address_id")
-    private int addressId;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @Column(name = "first_name")
     private String firstName;
