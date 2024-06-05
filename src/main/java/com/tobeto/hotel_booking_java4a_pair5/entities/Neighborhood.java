@@ -16,8 +16,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Neighborhood extends BaseEntity {
-    @Column(name = "area_id")
-    private int areaId;
+    @ManyToOne
+    @JoinColumn(name = "area_id")
+    private Area area;
 
     @Column(name = "zip_code")
     private String zipCode;

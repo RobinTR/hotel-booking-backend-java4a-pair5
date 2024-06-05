@@ -16,8 +16,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoomFeedback extends BaseEntity {
-    @Column(name = "booking_id")
-    private int bookingId;
+    @ManyToOne
+    @JoinColumn(name = "booking_id")
+    private Booking booking;
 
     @Column(name = "is_answered")
     private boolean isAnswered;

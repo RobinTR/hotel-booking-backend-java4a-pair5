@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Table(name = "bookings")
 @Getter
@@ -17,14 +18,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Booking extends BaseEntity {
-    @Column(name = "hotel_id")
-    private int hotelId;
+    @ManyToOne
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
 
-    @Column(name = "guest_id")
-    private int guestId;
+    @ManyToOne
+    @JoinColumn(name = "guest_id")
+    private Guest guest;
 
-    @Column(name = "payment_method_id")
-    private int paymentMethodId;
+    @ManyToOne
+    @JoinColumn(name = "payment_method_id")
+    private PaymentMethod paymentMethod;
 
     @Column(name = "total_rooms_booked")
     private int totalRoomsBooked;
@@ -47,4 +51,10 @@ public class Booking extends BaseEntity {
     @Column(name = "payment_status")
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
+
+    @OneToMany(mappedBy = "booking")
+    private List<RoomBooked> roomBookeds;
+
+    @OneToMany(mappedBy = "booking")
+    private List<RoomFeedback> roomFeedbacks;
 }

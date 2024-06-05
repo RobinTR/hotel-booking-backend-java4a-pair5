@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Table(name = "countries")
 @Getter
 @Setter
@@ -27,4 +29,10 @@ public class Country extends BaseEntity {
 
     @Column(name = "phone_code")
     private String phoneCode;
+
+    @OneToMany(mappedBy = "country")
+    private List<Address> adresses;
+
+    @OneToMany(mappedBy = "country")
+    private List<City> cities;
 }

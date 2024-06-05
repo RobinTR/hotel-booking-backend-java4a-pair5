@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Table(name = "room_types")
 @Getter
 @Setter
@@ -42,4 +44,7 @@ public class RoomType extends BaseEntity {
 
     @Column(name = "is_all_inclusive")
     private boolean isAllInclusive;
+
+    @OneToMany(mappedBy = "type")
+    private List<Room> rooms;
 }

@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Table(name = "hotel_reviews")
 @Getter
 @Setter
@@ -21,4 +23,7 @@ public class HotelReview extends BaseEntity {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "hotelReview")
+    private List<Hotel> hotels;
 }
