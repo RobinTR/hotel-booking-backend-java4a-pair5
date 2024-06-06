@@ -13,7 +13,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.address.Get
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.address.GetByIdAddressResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.AddressMapper;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
