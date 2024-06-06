@@ -1,13 +1,11 @@
 package com.tobeto.hotel_booking_java4a_pair5.controllers;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Address;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.AddressService;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.address.AddAddressRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.address.UpdateAddressRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
