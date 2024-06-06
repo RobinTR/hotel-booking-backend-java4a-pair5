@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetByIdRoomTypeResponse {
+    private Integer id;
     private String name;
     private String description;
     private double cost;

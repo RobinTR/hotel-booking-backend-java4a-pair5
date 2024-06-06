@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Support;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.SupportRepository;
@@ -40,16 +41,25 @@ public class SupportServiceImpl implements SupportService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        Support support = supportRepository.findById(id).orElseThrow(() -> new RuntimeException(SupportMessages.SUPPORT_NOT_FOUND));
+        supportRepository.delete(support);
+
+        return new SuccessResult(SupportMessages.SUPPORT_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllSupportResponse>> getAll() {
-        return null;
+        List<Support> supports = supportRepository.findAll();
+        List<GetAllSupportResponse> response = SupportMapper.INSTANCE.getAllSupportResponseListFromSupports(supports);
+
+        return new SuccessDataResult<>(response, SupportMessages.SUPPORT_LISTED);
     }
 
     @Override
     public DataResult<GetByIdSupportResponse> getById(Integer id) {
-        return null;
+        Support support = supportRepository.findById(id).orElseThrow(() -> new RuntimeException(SupportMessages.SUPPORT_NOT_FOUND));
+        GetByIdSupportResponse response = SupportMapper.INSTANCE.getByIdSupportResponseFromSupport(support);
+
+        return new SuccessDataResult<>(response, SupportMessages.SUPPORT_LISTED);
     }
 }

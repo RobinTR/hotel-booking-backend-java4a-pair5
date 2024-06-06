@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomBooked;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomBookedRepository;
@@ -40,16 +41,25 @@ public class RoomBookedServiceImpl implements RoomBookedService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        RoomBooked roomBooked = roomBookedRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomBookedMessages.ROOMBOOKED_NOT_FOUND));
+        roomBookedRepository.delete(roomBooked);
+
+        return new SuccessResult(RoomBookedMessages.ROOMBOOKED_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllRoomBookedResponse>> getAll() {
-        return null;
+        List<RoomBooked> roomBookeds = roomBookedRepository.findAll();
+        List<GetAllRoomBookedResponse> response = RoomBookedMapper.INSTANCE.getAllRoomBookedResponseListFromRoomBookeds(roomBookeds);
+
+        return new SuccessDataResult<>(response, RoomBookedMessages.ROOMBOOKED_LISTED);
     }
 
     @Override
     public DataResult<GetByIdRoomBookedResponse> getById(Integer id) {
-        return null;
+        RoomBooked roomBooked = roomBookedRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomBookedMessages.ROOMBOOKED_NOT_FOUND));
+        GetByIdRoomBookedResponse getByIdRoomBookedResponse = RoomBookedMapper.INSTANCE.getByIdRoomBookedResponseFromRoomBooked(roomBooked);
+
+        return new SuccessDataResult<>(getByIdRoomBookedResponse, RoomBookedMessages.ROOMBOOKED_LISTED);
     }
 }
