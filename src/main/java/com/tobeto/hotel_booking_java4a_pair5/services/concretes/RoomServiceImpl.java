@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomRepository;
@@ -27,7 +28,7 @@ public class RoomServiceImpl implements RoomService {
         Room room = RoomMapper.INSTANCE.roomFromAddRequest(request);
         room = roomRepository.save(room);
 
-        return new SuccessResult(RoomMessages.ROOMSERVICE_ADDED);
+        return new SuccessResult(RoomMessages.ROOM_ADDED);
     }
 
     @Override
@@ -35,21 +36,30 @@ public class RoomServiceImpl implements RoomService {
         Room room = RoomMapper.INSTANCE.roomFromUpdateRequest(request);
         room = roomRepository.save(room);
 
-        return new SuccessResult(RoomMessages.ROOMSERVICE_UPDATED);
+        return new SuccessResult(RoomMessages.ROOM_UPDATED);
     }
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        Room room = roomRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomMessages.ROOM_NOT_FOUND));
+        roomRepository.delete(room);
+
+        return new SuccessResult(RoomMessages.ROOM_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllRoomResponse>> getAll() {
-        return null;
+        List<Room> rooms = roomRepository.findAll();
+        List<GetAllRoomResponse> getAllRoomResponse = RoomMapper.INSTANCE.getAllRoomResponseListFromRooms(rooms);
+
+        return new SuccessDataResult<>(getAllRoomResponse, RoomMessages.ROOM_LISTED);
     }
 
     @Override
     public DataResult<GetByIdRoomResponse> getById(Integer id) {
-        return null;
+        Room room = roomRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomMessages.ROOM_NOT_FOUND));
+        GetByIdRoomResponse getByIdRoomResponse = RoomMapper.INSTANCE.getByIdRoomResponseFromRoom(room);
+
+        return new SuccessDataResult<>(getByIdRoomResponse, RoomMessages.ROOM_LISTED);
     }
 }
