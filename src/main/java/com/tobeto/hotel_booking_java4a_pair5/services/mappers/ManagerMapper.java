@@ -12,8 +12,10 @@ public interface ManagerMapper {
     ManagerMapper INSTANCE = Mappers.getMapper(ManagerMapper.class);
 
     @Mapping(target = "hotel.id", source = "hotelId")
+    @Mapping(target = "address.id", source = "addressId")
     Manager managerFromAddRequest(AddManagerRequest request);
 
     @Mapping(target = "hotel.id", source = "hotelId")
+    @Mapping(target = "address.id", source = "addressId")
     Manager managerFromUpdateRequest(UpdateManagerRequest request);
 }

@@ -1,12 +1,16 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.*;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.RoomMessages;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.room.*;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.*;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.room.AddRoomRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.room.UpdateRoomRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetAllRoomResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetByIdRoomResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

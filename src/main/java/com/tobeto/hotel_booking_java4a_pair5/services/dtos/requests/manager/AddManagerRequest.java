@@ -7,4 +7,10 @@ import lombok.Setter;
 @Setter
 public class AddManagerRequest {
     private Integer hotelId;
+    private Integer addressId;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private String password;
 }

@@ -8,4 +8,10 @@ import lombok.Setter;
 public class GetAllManagerResponse {
     private Integer id;
     private String hotelName;
+    private String fullAddress;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private String password;
 }

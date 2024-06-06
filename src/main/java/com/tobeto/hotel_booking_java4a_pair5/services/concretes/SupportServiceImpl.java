@@ -1,12 +1,16 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.*;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Support;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.SupportRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.SupportService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.SupportMessages;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.support.*;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.support.*;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.support.AddSupportRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.support.UpdateSupportRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.support.GetAllSupportResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.support.GetByIdSupportResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.SupportMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

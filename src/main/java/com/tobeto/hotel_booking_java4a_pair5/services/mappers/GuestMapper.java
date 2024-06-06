@@ -12,8 +12,10 @@ public interface GuestMapper {
     GuestMapper INSTANCE = Mappers.getMapper(GuestMapper.class);
 
     @Mapping(target = "paymentByCard.id", source = "paymentByCardId")
+    @Mapping(target = "address.id", source = "addressId")
     Guest guestFromAddRequest(AddGuestRequest request);
 
     @Mapping(target = "paymentByCard.id", source = "paymentByCardId")
+    @Mapping(target = "address.id", source = "addressId")
     Guest guestFromUpdateRequest(UpdateGuestRequest request);
 }

@@ -6,5 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddGuestRequest {
+    private Integer addressId;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private String password;
     private Integer paymentByCardId;
 }
