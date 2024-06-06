@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/addresses")
 @AllArgsConstructor
@@ -25,4 +27,5 @@ public class AddressesController {
     public Result update(@RequestBody @Valid UpdateAddressRequest request) {
         return addressService.update(request);
     }
+
 }

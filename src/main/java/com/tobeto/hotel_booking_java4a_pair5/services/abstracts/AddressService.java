@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface AddressService {
     Result add(AddAddressRequest request);
+
     Result update(UpdateAddressRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllAddressResponse>> getAll();
+
     DataResult<GetByIdAddressResponse> getById(Integer id);
 }
