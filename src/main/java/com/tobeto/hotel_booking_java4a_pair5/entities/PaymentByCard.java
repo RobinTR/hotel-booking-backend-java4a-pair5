@@ -22,13 +22,13 @@ public class PaymentByCard extends BaseEntity {
     private PaymentMethod paymentMethod;
 
     @Column(name = "card_number")
-    @Size(max=4)
     private String cardNumber;
 
     @Column(name = "card_expiration_date")
     private String cardExpirationDate;
 
     @Column(name = "cvv")
+    @Size(max=4)
     private String cvv;
 
     @OneToMany(mappedBy = "paymentByCard")
