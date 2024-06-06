@@ -2,8 +2,10 @@ package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.support.*;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.support.*;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.support.AddSupportRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.support.UpdateSupportRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.support.GetAllSupportResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.support.GetByIdSupportResponse;
 
 import java.util.List;
 

@@ -3,6 +3,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.mappers;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Neighborhood;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.neighborhood.AddNeighborhoodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.neighborhood.UpdateNeighborhoodRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.neighborhood.GetByIdNeighborhoodResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -17,4 +18,6 @@ public interface NeighborhoodMapper {
 
     @Mapping(target = "area.id", source = "areaId")
     Neighborhood neighborhoodFromUpdateRequest(UpdateNeighborhoodRequest request);
+
+    Neighborhood neigborhoodFromGetByIdResponse(GetByIdNeighborhoodResponse response);
 }

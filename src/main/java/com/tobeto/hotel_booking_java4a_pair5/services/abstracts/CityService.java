@@ -8,7 +8,6 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.city.UpdateC
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.city.GetAllCityResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.city.GetByIdCityResponse;
 
-
 import java.util.List;
 
 public interface CityService {

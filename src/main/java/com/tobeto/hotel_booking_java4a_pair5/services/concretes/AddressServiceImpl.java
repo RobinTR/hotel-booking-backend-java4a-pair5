@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Address;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.AddressRepository;
@@ -40,16 +41,43 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        //TODO: Refactor Exception and Message
+        Address address = addressRepository.findById(id).orElseThrow(() -> new RuntimeException(AddressMessages.ADDRESS_NOT_FOUND));
+        addressRepository.deleteById(address.getId());
+
+        return new SuccessResult(AddressMessages.ADDRESS_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllAddressResponse>> getAll() {
-        return null;
+        List<Address> addresses = addressRepository.findAll();
+        List<GetAllAddressResponse> response = AddressMapper.INSTANCE.getAllAddressResponseList(addresses);
+
+        return new SuccessDataResult<>(response, AddressMessages.ADDRESS_LISTED);
     }
 
     @Override
     public DataResult<GetByIdAddressResponse> getById(Integer id) {
-        return null;
+        Address address = addressRepository.findById(id).orElseThrow(() -> new RuntimeException(AddressMessages.ADDRESS_NOT_FOUND));
+        GetByIdAddressResponse response = AddressMapper.INSTANCE.getByIdAddressResponse(address);
+
+        return new SuccessDataResult<>(response, AddressMessages.ADDRESS_LISTED);
     }
+
+    /*
+    GetByIdCountryResponse countryResponse = countryService.getById(address.getCountry().getId()).getData();
+    Country country = CountryMapper.INSTANCE.countryFromGetByIdResponse(countryResponse);
+
+    GetByIdCityResponse getByIdCityResponse = cityService.getById(address.getCity().getId()).getData();
+    City city = CityMapper.INSTANCE.cityFromGetByIdResponse(getByIdCityResponse);
+
+    GetByIdDistrictResponse getByIdDistrictResponse = districtService.getById(address.getDistrict().getId()).getData();
+    District district = DistrictMapper.INSTANCE.districtFromGetByIdResponse(getByIdDistrictResponse);
+
+    GetByIdAreaResponse getByIdAreaResponse = areaService.getById(address.getArea().getId()).getData();
+    Area area = AreaMapper.INSTANCE.areaFromGetByIdResponse(getByIdAreaResponse);
+
+    GetByIdNeighborhoodResponse getByIdNeighborhoodResponse = neighborhoodService.getById(address.getNeighborhood().getId()).getData();
+    Neighborhood neighborhood = NeighborhoodMapper.INSTANCE.neigborhoodFromGetByIdResponse(getByIdNeighborhoodResponse);
+    */
 }

@@ -1,7 +1,6 @@
 package com.tobeto.hotel_booking_java4a_pair5.controllers;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.AreaService;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.area.AddAreaRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.area.UpdateAreaRequest;

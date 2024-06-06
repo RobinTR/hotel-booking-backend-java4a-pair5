@@ -8,7 +8,6 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.Upda
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetByIdBookingResponse;
 
-
 import java.util.List;
 
 public interface BookingService {

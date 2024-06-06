@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.awt.print.Book;
 import java.util.List;
 
 @Table(name = "hotels")
