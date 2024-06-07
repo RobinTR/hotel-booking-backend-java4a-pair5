@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.City;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.CityRepository;
@@ -40,16 +41,26 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        //TODO: Refactor Exception and Message
+        City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException(CityMessages.CITY_NOT_FOUND));
+        cityRepository.deleteById(city.getId());
+
+        return new SuccessResult(CityMessages.CITY_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllCityResponse>> getAll() {
-        return null;
+        List<City> cities = cityRepository.findAll();
+        List<GetAllCityResponse> response = CityMapper.INSTANCE.getAllCityResponseList(cities);
+
+        return new SuccessDataResult<>(response, CityMessages.CITY_LISTED);
     }
 
     @Override
     public DataResult<GetByIdCityResponse> getById(Integer id) {
-        return null;
+        City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException(CityMessages.CITY_NOT_FOUND));
+        GetByIdCityResponse response = CityMapper.INSTANCE.getByIdCityResponse(city);
+
+        return new SuccessDataResult<>(response, CityMessages.CITY_DELETED);
     }
 }

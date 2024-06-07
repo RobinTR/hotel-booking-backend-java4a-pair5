@@ -10,22 +10,13 @@ import java.time.LocalDateTime;
 @Setter
 public class GetByIdBookingResponse {
     private Integer id;
-
     private String hotelName;
-
-    private Integer guestName;
-
+    private String guestName;
     private String paymentMethodName;
-
     private int totalRoomsBooked;
-
     private LocalDate date;
-
     private int durationOfStay;
-
     private LocalDateTime checkInDate;
-
     private LocalDateTime checkOutDate;
-
     private double totalCost;
 }

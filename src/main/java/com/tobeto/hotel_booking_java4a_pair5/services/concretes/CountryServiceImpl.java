@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Country;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.CountryRepository;
@@ -40,16 +41,28 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        //TODO: Refactor Exception and Message
+        Country country = countryRepository.findById(id).orElseThrow(() -> new RuntimeException(CountryMessages.COUNTRY_NOT_FOUND));
+        countryRepository.deleteById(country.getId());
+
+        return new SuccessResult(CountryMessages.COUNTRY_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllCountryResponse>> getAll() {
-        return null;
+        List<Country> countryes = countryRepository.findAll();
+        List<GetAllCountryResponse> response = CountryMapper.INSTANCE.getAllCountryResponseList(countryes);
+
+        return new SuccessDataResult<>(response, CountryMessages.COUNTRY_LISTED);
+
     }
 
     @Override
     public DataResult<GetByIdCountryResponse> getById(Integer id) {
-        return null;
+        Country country = countryRepository.findById(id).orElseThrow(() -> new RuntimeException(CountryMessages.COUNTRY_NOT_FOUND));
+        GetByIdCountryResponse response = CountryMapper.INSTANCE.getByIdCountryResponse(country);
+
+        return new SuccessDataResult<>(response, CountryMessages.COUNTRY_LISTED);
+
     }
 }

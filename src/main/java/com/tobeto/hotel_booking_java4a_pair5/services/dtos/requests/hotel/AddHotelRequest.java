@@ -13,7 +13,7 @@ public class AddHotelRequest {
     private String email;
     private String website;
     private String description;
-    private Integer floorCountId;
-    private Integer roomCapacityId;
-    private Integer startRatingId;
+    private int floorCount;
+    private int roomCapacity;
+    private int startRating;
 }

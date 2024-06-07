@@ -3,6 +3,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.BookingRepository;
@@ -41,16 +42,26 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        //TODO: Refactor Exception and Message
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException(BookingMessages.BOOKING_NOT_FOUND));
+        bookingRepository.deleteById(booking.getId());
+
+        return new SuccessResult(BookingMessages.BOOKING_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllBookingResponse>> getAll() {
-        return null;
+        List<Booking> bookings = bookingRepository.findAll();
+        List<GetAllBookingResponse> response = BookingMapper.INSTANCE.getAllBookingResponseList(bookings);
+
+        return new SuccessDataResult<>(response, BookingMessages.BOOKING_LISTED);
     }
 
     @Override
     public DataResult<GetByIdBookingResponse> getById(Integer id) {
-        return null;
+        Booking bookings = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException(BookingMessages.BOOKING_NOT_FOUND));
+        GetByIdBookingResponse response = BookingMapper.INSTANCE.getByIdBookingResponse(bookings);
+
+        return new SuccessDataResult<>(response, BookingMessages.BOOKING_LISTED);
     }
 }

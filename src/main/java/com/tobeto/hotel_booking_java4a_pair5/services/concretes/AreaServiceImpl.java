@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Area;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.AreaRepository;
@@ -40,16 +41,27 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        //TODO: Refactor Exception and Message
+        Area area = areaRepository.findById(id).orElseThrow(() -> new RuntimeException(AreaMessages.AREA_NOT_FOUND));
+        areaRepository.deleteById(area.getId());
+
+        return new SuccessResult(AreaMessages.AREA_DELETED);
+
     }
 
     @Override
     public DataResult<List<GetAllAreaResponse>> getAll() {
-        return null;
+        List<Area> areas = areaRepository.findAll();
+        List<GetAllAreaResponse> response = AreaMapper.INSTANCE.getAllAreaResponseList(areas);
+
+        return new SuccessDataResult<>(response, AreaMessages.AREA_LISTED);
     }
 
     @Override
     public DataResult<GetByIdAreaResponse> getById(Integer id) {
-        return null;
+        Area area = areaRepository.findById(id).orElseThrow(() -> new RuntimeException(AreaMessages.AREA_NOT_FOUND));
+        GetByIdAreaResponse response = AreaMapper.INSTANCE.getByIdAreaResponse(area);
+
+        return new SuccessDataResult<>(response, AreaMessages.AREA_LISTED);
     }
 }

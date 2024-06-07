@@ -3,6 +3,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.District;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.DistrictRepository;
@@ -41,16 +42,26 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        //TODO: Refactor Exception and Message
+        District district = districtRepository.findById(id).orElseThrow(() -> new RuntimeException(DistrictMessages.DISTRICT_NOT_FOUND));
+        districtRepository.deleteById(district.getId());
+
+        return new SuccessResult(DistrictMessages.DISTRICT_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllDistrictResponse>> getAll() {
-        return null;
+        List<District> districtes = districtRepository.findAll();
+        List<GetAllDistrictResponse> response = DistrictMapper.INSTANCE.getAllDistrictResponseList(districtes);
+
+        return new SuccessDataResult<>(response, DistrictMessages.DISTRICT_LISTED);
     }
 
     @Override
     public DataResult<GetByIdDistrictResponse> getById(Integer id) {
-        return null;
+        District district = districtRepository.findById(id).orElseThrow(() -> new RuntimeException(DistrictMessages.DISTRICT_NOT_FOUND));
+        GetByIdDistrictResponse response = DistrictMapper.INSTANCE.getByIdDistrictResponse(district);
+
+        return new SuccessDataResult<>(response, DistrictMessages.DISTRICT_LISTED);
     }
 }
