@@ -9,6 +9,7 @@ import lombok.Setter;
 public class AddRoomBookedRequest {
     @NotNull(message = "You must enter a booking id.")
     private Integer bookingId;
+
     @NotNull(message = "You must enter a room id.")
     private Integer roomId;
 }

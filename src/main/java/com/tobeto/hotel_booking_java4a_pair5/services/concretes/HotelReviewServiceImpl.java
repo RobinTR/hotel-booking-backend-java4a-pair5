@@ -23,13 +23,12 @@ import java.util.List;
 public class HotelReviewServiceImpl implements HotelReviewService {
     private HotelReviewRepository hotelReviewRepository;
 
-
     @Override
     public Result add(AddHotelReviewRequest request) {
         HotelReview hotelReview = HotelReviewMapper.INSTANCE.hotelReviewFromAddRequest(request);
         hotelReview = hotelReviewRepository.save(hotelReview);
 
-        return new SuccessResult(HotelReviewMessages.HOTELREVİEW_ADDED);
+        return new SuccessResult(HotelReviewMessages.HOTELREVIEW_ADDED);
     }
 
     @Override
@@ -37,15 +36,15 @@ public class HotelReviewServiceImpl implements HotelReviewService {
         HotelReview hotelReview = HotelReviewMapper.INSTANCE.hotelReviewFromUpdateRequest(request);
         hotelReview = hotelReviewRepository.save(hotelReview);
 
-        return new SuccessResult(HotelReviewMessages.HOTELREVİEW_UPDATED);
+        return new SuccessResult(HotelReviewMessages.HOTELREVIEW_UPDATED);
     }
 
     @Override
     public Result delete(Integer id) {
-        HotelReview hotelReview = hotelReviewRepository.findById(id).orElseThrow(() -> new RuntimeException(HotelReviewMessages.HOTELREVİEW_NOT_FOUND));
+        HotelReview hotelReview = hotelReviewRepository.findById(id).orElseThrow(() -> new RuntimeException(HotelReviewMessages.HOTELREVIEW_NOT_FOUND));
         hotelReviewRepository.deleteById(hotelReview.getId());
 
-        return new SuccessDataResult<>(HotelReviewMessages.HOTELREVİEW_DELETED);
+        return new SuccessDataResult<>(HotelReviewMessages.HOTELREVIEW_DELETED);
     }
 
     @Override
@@ -53,14 +52,14 @@ public class HotelReviewServiceImpl implements HotelReviewService {
         List<HotelReview> hotelReviews = hotelReviewRepository.findAll();
         List<GetAllHotelReviewResponse> response = HotelReviewMapper.INSTANCE.getAllHotelReviewResponseList(hotelReviews);
 
-        return new SuccessDataResult<>(response, HotelReviewMessages.HOTELREVİEW_LISTED);
+        return new SuccessDataResult<>(response, HotelReviewMessages.HOTELREVIEW_LISTED);
     }
 
     @Override
     public DataResult<GetByIdHotelReviewResponse> getById(Integer id) {
-        HotelReview hotelReview = hotelReviewRepository.findById(id).orElseThrow(() -> new RuntimeException(HotelReviewMessages.HOTELREVİEW_NOT_FOUND));
+        HotelReview hotelReview = hotelReviewRepository.findById(id).orElseThrow(() -> new RuntimeException(HotelReviewMessages.HOTELREVIEW_NOT_FOUND));
         GetByIdHotelReviewResponse response = HotelReviewMapper.INSTANCE.getByIdHotelReviewResponse(hotelReview);
 
-        return new SuccessDataResult<>(response, HotelReviewMessages.HOTELREVİEW_LISTED);
+        return new SuccessDataResult<>(response, HotelReviewMessages.HOTELREVIEW_LISTED);
     }
 }

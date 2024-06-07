@@ -8,5 +8,6 @@ import lombok.Setter;
 @Setter
 public class AddDistrictRequest {
     private Integer cityId;
+
     private String name;
 }

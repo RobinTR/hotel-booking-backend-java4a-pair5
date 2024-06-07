@@ -9,5 +9,4 @@ public class GetAllRoomBookedResponse {
     private Integer id;
     private String bookingHotelName;
     private String roomTypeName;
-    private int roomNumber;
 }

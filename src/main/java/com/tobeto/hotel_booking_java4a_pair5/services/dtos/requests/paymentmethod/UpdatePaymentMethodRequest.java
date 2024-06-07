@@ -10,6 +10,7 @@ import lombok.Setter;
 public class UpdatePaymentMethodRequest {
     @NotNull(message = "You must enter an id.")
     private Integer id;
+
     @NotBlank(message = "Payment method name cannot be blank.")
     private String name;
 }

@@ -2,6 +2,8 @@ package com.tobeto.hotel_booking_java4a_pair5.entities;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.entities.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,24 +22,33 @@ public class Hotel extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
     @ManyToOne
     @JoinColumn(name = "hotel_review_id")
     private HotelReview hotelReview;
+
     @Size(min = 8, max = 128, message = "Hotel name must be between 8-128 characters.")
     @Column(name = "name")
     private String name;
+
     @Column(name = "contact_number")
     private String contactNumber;
+
     @Size(max = 128, message = "Email must be maximum 128 characters.")
     @Column(name = "email")
     private String email;
+
     @Column(name = "website")
     private String website;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "floor_count")
     private int floorCount;
-    @Size(min = 1, max = 5)
+
+    @Min(1)
+    @Max(5)
     @Column(name = "star_rating")
     private int starRating;
 

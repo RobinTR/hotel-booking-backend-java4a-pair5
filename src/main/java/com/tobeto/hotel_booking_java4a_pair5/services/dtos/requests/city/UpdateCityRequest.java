@@ -7,8 +7,12 @@ import lombok.Setter;
 @Setter
 public class UpdateCityRequest {
     private Integer id;
+
     private Integer countryId;
+
     private String name;
+
     private String plateNo;
+
     private String phoneCode;
 }

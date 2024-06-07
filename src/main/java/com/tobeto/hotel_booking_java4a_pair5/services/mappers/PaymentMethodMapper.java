@@ -12,8 +12,6 @@ import java.util.List;
 
 @Mapper
 public interface PaymentMethodMapper {
-
-
     PaymentMethodMapper INSTANCE = Mappers.getMapper(PaymentMethodMapper.class);
 
     PaymentMethod paymentMethodFromAddRequest(AddPaymentMethodRequest request);

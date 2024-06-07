@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class UpdateDistrictRequest {
     private Integer id;
+
     private Integer cityId;
+
     private String name;
 }

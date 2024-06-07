@@ -13,9 +13,7 @@ import java.util.List;
 
 @Mapper
 public interface PaymentByCardMapper {
-
     PaymentByCardMapper INSTANCE = Mappers.getMapper(PaymentByCardMapper.class);
-
 
     @Mapping(target = "paymentMethod.id", source = "paymentMethodId")
     PaymentByCard paymentByCardFromAddRequest(AddPaymentByCardRequest request);

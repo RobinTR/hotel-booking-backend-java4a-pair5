@@ -10,10 +10,13 @@ import lombok.Setter;
 public class AddPaymentByCardRequest {
     @NotNull(message = "You must enter a payment method id.")
     private Integer paymentMethodId;
+
     @Size(max = 19, message = "Card number  must be maximum 19 characters")
     private String cardNumber;
+
     @Size(min = 5, max = 5, message = "Card expiration date must be  5 characters")
     private String cardExpirationDate;
+
     @Size(max = 4, message = "Cvv must be maximum 4 characters")
     private String cvv;
 }

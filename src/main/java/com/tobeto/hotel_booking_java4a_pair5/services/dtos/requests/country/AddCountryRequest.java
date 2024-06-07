@@ -7,7 +7,10 @@ import lombok.Setter;
 @Setter
 public class AddCountryRequest {
     private String binaryCode;
+
     private String tripleCode;
+
     private String name;
+
     private String phoneCode;
 }

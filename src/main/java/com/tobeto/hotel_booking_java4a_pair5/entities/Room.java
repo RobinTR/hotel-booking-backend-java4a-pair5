@@ -21,8 +21,8 @@ public class Room extends BaseEntity {
     private Hotel hotel;
 
     @ManyToOne
-    @JoinColumn(name = "type_id")
-    private RoomType type;
+    @JoinColumn(name = "room_type_id")
+    private RoomType roomType;
 
     @Column(name = "number")
     private int number;

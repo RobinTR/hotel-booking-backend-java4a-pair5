@@ -7,8 +7,12 @@ import lombok.Setter;
 @Setter
 public class UpdateCountryRequest {
     private Integer id;
+
     private String binaryCode;
+
     private String tripleCode;
+
     private String name;
+
     private String phoneCode;
 }

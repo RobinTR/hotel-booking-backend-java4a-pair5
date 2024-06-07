@@ -19,5 +19,4 @@ public class GetAllBookingResponse {
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
     private double totalCost;
-
 }
