@@ -12,8 +12,12 @@ import java.util.List;
 public interface NeighborhoodService {
 
     Result add(AddNeighborhoodRequest request);
+
     Result update(UpdateNeighborhoodRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllNeighborhoodResponse>> getAll();
+
     DataResult<GetByIdNeighborhoodResponse> getById(Integer id);
 }

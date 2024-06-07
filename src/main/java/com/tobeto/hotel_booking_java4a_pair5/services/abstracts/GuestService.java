@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface GuestService {
     Result add(AddGuestRequest request);
+
     Result update(UpdateGuestRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllGuestResponse>> getAll();
+
     DataResult<GetByIdGuestResponse> getById(Integer id);
 }

@@ -11,8 +11,14 @@ import java.util.List;
 
 public interface HotelService {
     Result add(AddHotelRequest request);
+
     Result update(UpdateHotelRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllHotelResponse>> getAll();
+
     DataResult<GetByIdHotelResponse> getById(Integer id);
+
+    DataResult<List<GetAllHotelResponse>> searchByHotelName(String name);
 }

@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface PaymentMethodService {
     Result add(AddPaymentMethodRequest request);
+
     Result update(UpdatePaymentMethodRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllPaymentMethodResponse>> getAll();
+
     DataResult<GetByIdPaymentMethodResponse> getById(Integer id);
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateNeighborhoodRequest {
+    private Integer id;
     private Integer areaId;
     private String zipCode;
     private String name;

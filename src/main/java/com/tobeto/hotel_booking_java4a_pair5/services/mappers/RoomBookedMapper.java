@@ -27,7 +27,7 @@ public interface RoomBookedMapper {
     @Mapping(target = "roomTypeName", source = "room.type.name")
     GetAllRoomBookedResponse getAllRoomBookedResponseMap(RoomBooked roomBooked);
 
-    List<GetAllRoomBookedResponse> getAllRoomBookedResponseListFromRoomBookeds(List<RoomBooked> roomBookeds);
+    List<GetAllRoomBookedResponse> getAllRoomBookedResponseListFromRoomBooked(List<RoomBooked> roomBooked);
 
     @Mapping(target = "bookingHotelName", source = "booking.hotel.name")
     @Mapping(target = "roomTypeName", source = "room.type.name")

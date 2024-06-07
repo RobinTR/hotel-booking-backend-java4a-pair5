@@ -31,5 +31,5 @@ public class Room extends BaseEntity {
     private boolean isAvailable;
 
     @OneToMany(mappedBy = "room")
-    private List<RoomBooked> roomBookeds;
+    private List<RoomBooked> roomBooked;
 }

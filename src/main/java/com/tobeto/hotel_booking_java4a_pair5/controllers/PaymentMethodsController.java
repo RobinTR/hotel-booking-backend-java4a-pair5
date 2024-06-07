@@ -5,8 +5,6 @@ import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.PaymentMethodService;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentmethod.AddPaymentMethodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentmethod.UpdatePaymentMethodRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentbycard.GetAllPaymentByCardResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentbycard.GetByIdPaymentByCardResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentmethod.GetAllPaymentMethodResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentmethod.GetByIdPaymentMethodResponse;
 import jakarta.validation.Valid;
@@ -24,11 +22,13 @@ public class PaymentMethodsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Result add(@RequestBody @Valid AddPaymentMethodRequest request) {return paymentMethodService.add (request);
+    public Result add(@RequestBody @Valid AddPaymentMethodRequest request) {
+        return paymentMethodService.add(request);
     }
 
     @PutMapping
-    public Result update(@RequestBody @Valid UpdatePaymentMethodRequest request) {return paymentMethodService.update(request);
+    public Result update(@RequestBody @Valid UpdatePaymentMethodRequest request) {
+        return paymentMethodService.update(request);
     }
 
     @DeleteMapping
