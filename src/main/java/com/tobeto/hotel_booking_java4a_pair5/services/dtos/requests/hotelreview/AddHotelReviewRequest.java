@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddHotelReviewRequest {
-    private Integer startRating;
+    private int starRating;
     private String description;
 }

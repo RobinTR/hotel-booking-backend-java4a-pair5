@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.HotelReview;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelReviewRepository;
@@ -41,16 +42,25 @@ public class HotelReviewServiceImpl implements HotelReviewService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        HotelReview hotelReview = hotelReviewRepository.findById(id).orElseThrow(() -> new RuntimeException(HotelReviewMessages.HOTELREVİEW_NOT_FOUND));
+        hotelReviewRepository.deleteById(hotelReview.getId());
+
+        return new SuccessDataResult<>(HotelReviewMessages.HOTELREVİEW_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllHotelReviewResponse>> getAll() {
-        return null;
+        List<HotelReview> hotelReviews = hotelReviewRepository.findAll();
+        List<GetAllHotelReviewResponse> response = HotelReviewMapper.INSTANCE.getAllHotelReviewResponseList(hotelReviews);
+
+        return new SuccessDataResult<>(response, HotelReviewMessages.HOTELREVİEW_LISTED);
     }
 
     @Override
     public DataResult<GetByIdHotelReviewResponse> getById(Integer id) {
-        return null;
+        HotelReview hotelReview = hotelReviewRepository.findById(id).orElseThrow(() -> new RuntimeException(HotelReviewMessages.HOTELREVİEW_NOT_FOUND));
+        GetByIdHotelReviewResponse response = HotelReviewMapper.INSTANCE.getByIdHotelReviewResponse(hotelReview);
+
+        return new SuccessDataResult<>(response, HotelReviewMessages.HOTELREVİEW_LISTED);
     }
 }
