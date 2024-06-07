@@ -17,6 +17,7 @@ public class GetAllHotelResponse {
     private String description;
     private int floorCount;
     private int starRating;
+
     public GetAllHotelResponse(Integer id, String addressName, String hotelReviewDescription, String name, String contactNumber, String email, String website, String description, int floorCount, int starRating) {
         this.id = id;
         this.addressName = addressName;
