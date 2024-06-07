@@ -14,7 +14,6 @@ public class GetByIdHotelResponse {
     private String email;
     private String website;
     private String description;
-    private String floorCount;
-    private String roomCapacity;
+    private int floorCount;
     private int starRating;
 }

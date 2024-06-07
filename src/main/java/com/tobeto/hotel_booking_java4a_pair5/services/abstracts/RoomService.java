@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface RoomService {
     Result add(AddRoomRequest request);
+
     Result update(UpdateRoomRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllRoomResponse>> getAll();
+
     DataResult<GetByIdRoomResponse> getById(Integer id);
 }

@@ -42,8 +42,8 @@ public class NeighborhoodServiceImpl implements NeighborhoodService {
 
     @Override
     public Result delete(Integer id) {
-       Neighborhood neighborhood = neighborhoodRepository.findById(id).orElseThrow(() -> new RuntimeException(NeighborhoodMessages.NEIGHBORHOOD_NOT_FOUND));
-       neighborhoodRepository.deleteById(neighborhood.getId());
+        Neighborhood neighborhood = neighborhoodRepository.findById(id).orElseThrow(() -> new RuntimeException(NeighborhoodMessages.NEIGHBORHOOD_NOT_FOUND));
+        neighborhoodRepository.deleteById(neighborhood.getId());
 
         return new SuccessResult(NeighborhoodMessages.NEIGHBORHOOD_DELETED);
     }

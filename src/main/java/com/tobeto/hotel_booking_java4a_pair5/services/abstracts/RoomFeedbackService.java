@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface RoomFeedbackService {
     Result add(AddRoomFeedbackRequest request);
+
     Result update(UpdateRoomFeedbackRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllRoomFeedbackResponse>> getAll();
+
     DataResult<GetByIdRoomFeedbackResponse> getById(Integer id);
 }

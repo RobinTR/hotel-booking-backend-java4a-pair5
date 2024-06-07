@@ -45,4 +45,9 @@ public class HotelsController {
     public DataResult<GetByIdHotelResponse> getById(@PathVariable Integer getById) {
         return hotelService.getById(getById);
     }
+
+    @GetMapping("/searchByName")
+    public DataResult<List<GetAllHotelResponse>> searchByName(@RequestParam String name) {
+        return hotelService.searchByHotelName(name);
+    }
 }

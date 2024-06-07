@@ -49,8 +49,8 @@ public class RoomBookedServiceImpl implements RoomBookedService {
 
     @Override
     public DataResult<List<GetAllRoomBookedResponse>> getAll() {
-        List<RoomBooked> roomBookeds = roomBookedRepository.findAll();
-        List<GetAllRoomBookedResponse> response = RoomBookedMapper.INSTANCE.getAllRoomBookedResponseListFromRoomBookeds(roomBookeds);
+        List<RoomBooked> roomBooked = roomBookedRepository.findAll();
+        List<GetAllRoomBookedResponse> response = RoomBookedMapper.INSTANCE.getAllRoomBookedResponseListFromRoomBooked(roomBooked);
 
         return new SuccessDataResult<>(response, RoomBookedMessages.ROOMBOOKED_LISTED);
     }
