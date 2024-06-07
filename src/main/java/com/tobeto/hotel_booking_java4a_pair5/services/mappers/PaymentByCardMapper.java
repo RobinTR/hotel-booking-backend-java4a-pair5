@@ -1,11 +1,8 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.mappers;
 
-import com.tobeto.hotel_booking_java4a_pair5.entities.Address;
 import com.tobeto.hotel_booking_java4a_pair5.entities.PaymentByCard;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentbycard.AddPaymentByCardRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentbycard.UpdatePaymentByCardRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.address.GetAllAddressResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.address.GetByIdAddressResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentbycard.GetAllPaymentByCardResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentbycard.GetByIdPaymentByCardResponse;
 import org.mapstruct.Mapper;

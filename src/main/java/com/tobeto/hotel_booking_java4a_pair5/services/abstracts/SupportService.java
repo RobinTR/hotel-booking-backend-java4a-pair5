@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface SupportService {
     Result add(AddSupportRequest request);
+
     Result update(UpdateSupportRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllSupportResponse>> getAll();
+
     DataResult<GetByIdSupportResponse> getById(Integer id);
 }

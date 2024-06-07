@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface HotelReviewService {
     Result add(AddHotelReviewRequest request);
+
     Result update(UpdateHotelReviewRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllHotelReviewResponse>> getAll();
+
     DataResult<GetByIdHotelReviewResponse> getById(Integer id);
 }

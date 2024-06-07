@@ -11,7 +11,12 @@ import java.util.List;
 
 public interface PaymentByCardService {
     Result add(AddPaymentByCardRequest request);
+
     Result update(UpdatePaymentByCardRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllPaymentByCardResponse>> getAll();
-    DataResult<GetByIdPaymentByCardResponse> getById(Integer id);}
+
+    DataResult<GetByIdPaymentByCardResponse> getById(Integer id);
+}

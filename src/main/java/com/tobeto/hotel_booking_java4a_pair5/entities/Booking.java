@@ -52,8 +52,12 @@ public class Booking extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
+    @Column(name = "reservation_status")
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus reservationStatus;
+
     @OneToMany(mappedBy = "booking")
-    private List<RoomBooked> roomBookeds;
+    private List<RoomBooked> roomBooked;
 
     @OneToMany(mappedBy = "booking")
     private List<RoomFeedback> roomFeedbacks;

@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface ManagerService {
     Result add(AddManagerRequest request);
+
     Result update(UpdateManagerRequest request);
+
     Result delete(Integer id);
+
     DataResult<List<GetAllManagerResponse>> getAll();
+
     DataResult<GetByIdManagerResponse> getById(Integer id);
 }
