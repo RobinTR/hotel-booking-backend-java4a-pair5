@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.PaymentMethod;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.PaymentMethodRepository;
@@ -39,18 +40,21 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         return new SuccessResult(PaymentMethodMessages.PAYMENTMETHOD_UPDATED);
     }
 
-        @Override
-        public Result delete (Integer id){
-            return null;
-        }
-
-        @Override
-        public DataResult<List<GetAllPaymentMethodResponse>> getAll () {
-            return null;
-        }
-
-        @Override
-        public DataResult<GetByIdPaymentMethodResponse> getById (Integer id){
-            return null;
-        }
+    @Override
+    public Result delete(Integer id) {
+        return null;
     }
+
+    @Override
+    public DataResult<List<GetAllPaymentMethodResponse>> getAll() {
+        return null;
+    }
+
+    @Override
+    public DataResult<GetByIdPaymentMethodResponse> getById(Integer id) {
+        PaymentMethod paymentMethod = paymentMethodRepository.findById(id).orElseThrow(() -> new RuntimeException(PaymentMethodMessages.PAYMENTMETHOD_NOT_FOUND));
+        GetByIdPaymentMethodResponse response = PaymentMethodMapper.INSTANCE.getByIdPaymentMethodResponse(paymentMethod);
+
+        return new SuccessDataResult<>(response, PaymentMethodMessages.PAYMENTMETHOD_LISTED);
+    }
+}

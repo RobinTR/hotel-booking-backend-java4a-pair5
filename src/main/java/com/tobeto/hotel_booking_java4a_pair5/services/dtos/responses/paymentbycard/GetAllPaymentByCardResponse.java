@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetAllPaymentByCardResponse {
-    private Integer paymentMethodId;
+    private String paymentMethodName;
     private String cardNumber;
     private String cardExpirationDate;
     private String cvv;

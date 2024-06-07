@@ -3,6 +3,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Neighborhood;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.NeighborhoodRepository;
@@ -22,6 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 public class NeighborhoodServiceImpl implements NeighborhoodService {
     private NeighborhoodRepository neighborhoodRepository;
+
     @Override
     public Result add(AddNeighborhoodRequest request) {
         Neighborhood neighborhood = NeighborhoodMapper.INSTANCE.neighborhoodFromAddRequest(request);
@@ -40,16 +42,25 @@ public class NeighborhoodServiceImpl implements NeighborhoodService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+       Neighborhood neighborhood = neighborhoodRepository.findById(id).orElseThrow(() -> new RuntimeException(NeighborhoodMessages.NEIGHBORHOOD_NOT_FOUND));
+       neighborhoodRepository.deleteById(neighborhood.getId());
+
+        return new SuccessResult(NeighborhoodMessages.NEIGHBORHOOD_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllNeighborhoodResponse>> getAll() {
-        return null;
+        List<Neighborhood> neighborhoods = neighborhoodRepository.findAll();
+        List<GetAllNeighborhoodResponse> response = NeighborhoodMapper.INSTANCE.getAllNeighborhoodResponseList(neighborhoods);
+
+        return new SuccessDataResult<>(response, NeighborhoodMessages.NEIGHBORHOOD_LISTED);
     }
 
     @Override
     public DataResult<GetByIdNeighborhoodResponse> getById(Integer id) {
-        return null;
+        Neighborhood neighborhood = neighborhoodRepository.findById(id).orElseThrow(() -> new RuntimeException(NeighborhoodMessages.NEIGHBORHOOD_NOT_FOUND));
+        GetByIdNeighborhoodResponse response = NeighborhoodMapper.INSTANCE.getByIdNeighborhoodResponse(neighborhood);
+
+        return new SuccessDataResult<>(response, NeighborhoodMessages.NEIGHBORHOOD_LISTED);
     }
 }
