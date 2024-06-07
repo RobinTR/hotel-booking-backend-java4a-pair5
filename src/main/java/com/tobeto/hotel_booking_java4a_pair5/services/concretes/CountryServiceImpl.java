@@ -50,8 +50,8 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public DataResult<List<GetAllCountryResponse>> getAll() {
-        List<Country> countryes = countryRepository.findAll();
-        List<GetAllCountryResponse> response = CountryMapper.INSTANCE.getAllCountryResponseList(countryes);
+        List<Country> countries = countryRepository.findAll();
+        List<GetAllCountryResponse> response = CountryMapper.INSTANCE.getAllCountryResponseList(countries);
 
         return new SuccessDataResult<>(response, CountryMessages.COUNTRY_LISTED);
     }
