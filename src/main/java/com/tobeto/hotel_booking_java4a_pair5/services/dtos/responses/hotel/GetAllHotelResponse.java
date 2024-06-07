@@ -8,13 +8,13 @@ import lombok.Setter;
 public class GetAllHotelResponse {
     private Integer id;
     private String addressName;
-    private String hotelReviewName;
+    private String hotelReviewDescription;
     private String name;
     private String contactNumber;
     private String email;
     private String website;
     private String description;
-    private String floorCountName;
-    private String roomCapacityName;
-    private String startRatingName;
+    private String floorCount;
+    private String roomCapacity;
+    private int starRating;
 }

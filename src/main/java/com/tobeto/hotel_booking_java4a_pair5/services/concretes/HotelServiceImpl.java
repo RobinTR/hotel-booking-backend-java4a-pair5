@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelRepository;
@@ -40,16 +41,26 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        Hotel hotel = hotelRepository.findById(id).orElseThrow(() -> new RuntimeException(HotelMessages.HOTEL_NOT_FOUND));
+        hotelRepository.deleteById(hotel.getId());
+
+        return new SuccessResult(HotelMessages.HOTEL_DELETED);
     }
+
 
     @Override
     public DataResult<List<GetAllHotelResponse>> getAll() {
-        return null;
+        List<Hotel> hotels = hotelRepository.findAll();
+        List<GetAllHotelResponse> response = HotelMapper.INSTANCE.getAllHotelResponseList(hotels);
+
+        return new SuccessDataResult<>(response, HotelMessages.HOTEL_LISTED);
     }
 
     @Override
     public DataResult<GetByIdHotelResponse> getById(Integer id) {
-        return null;
+        Hotel hotel = hotelRepository.findById(id).orElseThrow(() -> new RuntimeException(HotelMessages.HOTEL_NOT_FOUND));
+        GetByIdHotelResponse response = HotelMapper.INSTANCE.getByIdHotelResponse(hotel);
+
+        return new SuccessDataResult<>(response, HotelMessages.HOTEL_LISTED);
     }
 }

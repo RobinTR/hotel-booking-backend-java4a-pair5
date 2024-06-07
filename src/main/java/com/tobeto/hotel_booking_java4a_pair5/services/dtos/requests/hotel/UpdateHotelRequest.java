@@ -14,7 +14,7 @@ public class UpdateHotelRequest {
     private String email;
     private String website;
     private String description;
-    private Integer floorCountId;
-    private Integer roomCapacityId;
-    private Integer startRatingId;
+    private Integer floorCount;
+    private Integer roomCapacity;
+    private Integer startRating;
 }
