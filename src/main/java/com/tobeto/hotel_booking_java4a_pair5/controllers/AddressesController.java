@@ -45,5 +45,4 @@ public class AddressesController {
     public DataResult<GetByIdAddressResponse> getById(@PathVariable Integer getById) {
         return addressService.getById(getById);
     }
-
 }

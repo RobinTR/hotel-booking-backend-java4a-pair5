@@ -37,5 +37,4 @@ public interface BookingMapper {
     @Mapping(target = "guestName", expression = "java(booking.getGuest().getFirstName() + \"\" + booking.getGuest().getLastName())")
     @Mapping(target = "paymentMethodName", source = "paymentMethod.name")
     GetByIdBookingResponse getByIdBookingResponse(Booking booking);
-
 }

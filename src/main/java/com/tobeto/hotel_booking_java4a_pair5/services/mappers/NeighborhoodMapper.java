@@ -13,7 +13,6 @@ import java.util.List;
 
 @Mapper
 public interface NeighborhoodMapper {
-
     NeighborhoodMapper INSTANCE = Mappers.getMapper(NeighborhoodMapper.class);
 
     @Mapping(target = "area.id", source = "areaId")

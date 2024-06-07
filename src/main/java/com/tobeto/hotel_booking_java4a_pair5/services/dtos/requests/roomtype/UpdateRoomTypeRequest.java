@@ -10,14 +10,23 @@ import lombok.Setter;
 public class UpdateRoomTypeRequest {
     @NotNull(message = "You must enter a room type id.")
     private Integer id;
+
     @NotBlank(message = "Payment method name cannot be blank.")
     private String name;
+
     private String description;
+
     private double cost;
+
     private int capacity;
+
     private boolean smokeFriendly;
+
     private boolean petFriendly;
+
     private boolean wifi;
+
     private boolean food;
+
     private boolean isAllInclusive;
 }

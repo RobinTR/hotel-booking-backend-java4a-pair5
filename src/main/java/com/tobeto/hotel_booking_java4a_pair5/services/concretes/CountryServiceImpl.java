@@ -54,7 +54,6 @@ public class CountryServiceImpl implements CountryService {
         List<GetAllCountryResponse> response = CountryMapper.INSTANCE.getAllCountryResponseList(countryes);
 
         return new SuccessDataResult<>(response, CountryMessages.COUNTRY_LISTED);
-
     }
 
     @Override
@@ -63,6 +62,5 @@ public class CountryServiceImpl implements CountryService {
         GetByIdCountryResponse response = CountryMapper.INSTANCE.getByIdCountryResponse(country);
 
         return new SuccessDataResult<>(response, CountryMessages.COUNTRY_LISTED);
-
     }
 }

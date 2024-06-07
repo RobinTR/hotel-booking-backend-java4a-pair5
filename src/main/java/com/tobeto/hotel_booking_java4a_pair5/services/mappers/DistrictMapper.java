@@ -16,7 +16,6 @@ import java.util.List;
 public interface DistrictMapper {
     DistrictMapper INSTANCE = Mappers.getMapper(DistrictMapper.class);
 
-
     @Mapping(target = "city.id", source = "cityId")
     District districtFromAddRequest(AddDistrictRequest request);
 

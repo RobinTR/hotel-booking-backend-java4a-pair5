@@ -42,12 +42,18 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        PaymentMethod paymentMethod = paymentMethodRepository.findById(id).orElseThrow(() -> new RuntimeException(PaymentMethodMessages.PAYMENTMETHOD_NOT_FOUND));
+        paymentMethodRepository.delete(paymentMethod);
+
+        return new SuccessResult(PaymentMethodMessages.PAYMENTMETHOD_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllPaymentMethodResponse>> getAll() {
-        return null;
+        List<PaymentMethod> paymentMethods = paymentMethodRepository.findAll();
+        List<GetAllPaymentMethodResponse> response = PaymentMethodMapper.INSTANCE.getAllPaymentMethodResponseList(paymentMethods);
+
+        return new SuccessDataResult<>(response, PaymentMethodMessages.PAYMENTMETHOD_LISTED);
     }
 
     @Override

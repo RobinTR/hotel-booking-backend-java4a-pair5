@@ -11,5 +11,4 @@ public class GetAllNeighborhoodResponse {
     private String areaName;
     private String zipCode;
     private String name;
-
 }

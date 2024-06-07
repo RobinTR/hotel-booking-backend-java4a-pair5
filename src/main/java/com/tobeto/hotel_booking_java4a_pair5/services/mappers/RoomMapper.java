@@ -16,20 +16,20 @@ public interface RoomMapper {
     RoomMapper INSTANCE = Mappers.getMapper(RoomMapper.class);
 
     @Mapping(target = "hotel.id", source = "hotelId")
-    @Mapping(target = "type.id", source = "roomTypeId")
+    @Mapping(target = "roomType.id", source = "roomTypeId")
     Room roomFromAddRequest(AddRoomRequest request);
 
     @Mapping(target = "hotel.id", source = "hotelId")
-    @Mapping(target = "type.id", source = "roomTypeId")
+    @Mapping(target = "roomType.id", source = "roomTypeId")
     Room roomFromUpdateRequest(UpdateRoomRequest request);
 
     @Mapping(target = "hotelName", source = "hotel.name")
-    @Mapping(target = "roomTypeName", source = "type.name")
+    @Mapping(target = "roomTypeName", source = "roomType.name")
     GetAllRoomResponse getAllRoomResponseMap(Room room);
 
     List<GetAllRoomResponse> getAllRoomResponseListFromRooms(List<Room> rooms);
 
     @Mapping(target = "hotelName", source = "hotel.name")
-    @Mapping(target = "roomTypeName", source = "type.name")
+    @Mapping(target = "roomTypeName", source = "roomType.name")
     GetByIdRoomResponse getByIdRoomResponseFromRoom(Room room);
 }

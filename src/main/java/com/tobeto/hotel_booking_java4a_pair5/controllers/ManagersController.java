@@ -20,7 +20,6 @@ import java.util.List;
 public class ManagersController {
     private ManagerService managerService;
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Result add(@RequestBody @Valid AddManagerRequest request) {

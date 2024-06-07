@@ -9,5 +9,4 @@ public class GetAllAreaResponse {
     private Integer id;
     private String districtName;
     private String name;
-
 }
