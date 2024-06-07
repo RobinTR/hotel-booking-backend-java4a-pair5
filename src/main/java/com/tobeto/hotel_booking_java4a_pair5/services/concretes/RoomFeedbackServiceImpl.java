@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomFeedback;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomFeedbackRepository;
@@ -40,16 +41,25 @@ public class RoomFeedbackServiceImpl implements RoomFeedbackService {
 
     @Override
     public Result delete(Integer id) {
-        return null;
+        RoomFeedback roomFeedback = roomFeedbackRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomFeedbackMessages.ROOMFEEDBACK_NOT_FOUND));
+        roomFeedbackRepository.delete(roomFeedback);
+
+        return new SuccessResult(RoomFeedbackMessages.ROOMFEEDBACK_DELETED);
     }
 
     @Override
     public DataResult<List<GetAllRoomFeedbackResponse>> getAll() {
-        return null;
+        List<RoomFeedback> roomFeedbacks = roomFeedbackRepository.findAll();
+        List<GetAllRoomFeedbackResponse> response = RoomFeedbackMapper.INSTANCE.getAllRoomFeedbackResponseListFromRoomFeedbacks(roomFeedbacks);
+
+        return new SuccessDataResult<>(response, RoomFeedbackMessages.ROOMFEEDBACK_LISTED);
     }
 
     @Override
     public DataResult<GetByIdRoomFeedbackResponse> getById(Integer id) {
-        return null;
+        RoomFeedback roomFeedback = roomFeedbackRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomFeedbackMessages.ROOMFEEDBACK_NOT_FOUND));
+        GetByIdRoomFeedbackResponse response = RoomFeedbackMapper.INSTANCE.getByIdRoomFeedbackResponseFromRoomFeedback(roomFeedback);
+
+        return new SuccessDataResult<>(response, RoomFeedbackMessages.ROOMFEEDBACK_LISTED);
     }
 }

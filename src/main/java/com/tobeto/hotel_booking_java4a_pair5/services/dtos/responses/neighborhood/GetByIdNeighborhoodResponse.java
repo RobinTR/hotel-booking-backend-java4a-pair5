@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class GetByIdNeighborhoodResponse {
     private Integer id;
-    private Integer areaId;
+    private String areaName;
     private String zipCode;
     private String name;
 }
