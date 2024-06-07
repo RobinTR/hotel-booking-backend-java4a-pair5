@@ -5,8 +5,6 @@ import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelReviewService;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotelreview.AddHotelReviewRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotelreview.UpdateHotelReviewRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetByIdHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelreview.GetAllHotelReviewResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelreview.GetByIdHotelReviewResponse;
 import jakarta.validation.Valid;
@@ -32,6 +30,7 @@ public class HotelReviewsController {
     public Result update(@RequestBody @Valid UpdateHotelReviewRequest request) {
         return hotelReviewService.update(request);
     }
+
     @DeleteMapping
     public Result delete(@RequestParam Integer id) {
         return hotelReviewService.delete(id);
