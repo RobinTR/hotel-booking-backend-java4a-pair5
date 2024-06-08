@@ -50,4 +50,14 @@ public class HotelsController {
     public DataResult<List<GetAllHotelResponse>> searchByName(@RequestParam String name) {
         return hotelService.searchByHotelName(name);
     }
+
+    @GetMapping("/location")
+    public DataResult<List<GetAllHotelResponse>> searchByLocation(@RequestParam String name) {
+        return hotelService.searchByLocation(name);
+    }
+
+    @GetMapping("/star")
+    public DataResult<List<GetAllHotelResponse>> searchByStarRating(@RequestParam int star) {
+        return hotelService.searchByStarRating(star);
+    }
 }

@@ -69,4 +69,16 @@ public class HotelServiceImpl implements HotelService {
         List<GetAllHotelResponse> response = hotelRepository.searchByHotelName(name);
         return new SuccessDataResult<>(response, HotelMessages.HOTEL_LISTED);
     }
+
+    @Override
+    public DataResult<List<GetAllHotelResponse>> searchByLocation(String name) {
+        List<GetAllHotelResponse> response = hotelRepository.searchByLocation(name);
+        return new SuccessDataResult<>(response, HotelMessages.HOTEL_LISTED);
+    }
+
+    @Override
+    public DataResult<List<GetAllHotelResponse>> searchByStarRating(int star) {
+        List<GetAllHotelResponse> response = hotelRepository.searchByStarRating(star);
+        return new SuccessDataResult<>(response, HotelMessages.HOTEL_LISTED);
+    }
 }

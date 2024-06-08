@@ -21,4 +21,8 @@ public interface HotelService {
     DataResult<GetByIdHotelResponse> getById(Integer id);
 
     DataResult<List<GetAllHotelResponse>> searchByHotelName(String name);
+
+    DataResult<List<GetAllHotelResponse>> searchByLocation(String name);
+
+    DataResult<List<GetAllHotelResponse>> searchByStarRating(int star);
 }
