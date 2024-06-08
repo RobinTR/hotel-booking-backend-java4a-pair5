@@ -27,9 +27,7 @@ public class AddBookingRequest {
 
     private LocalDate date;
 
-    @NotNull(message = "You must enter a duration of stay.")
-    @Positive(message = "Duration of stay must be higher than 0.")
-    private int durationOfStay;
+    private LocalDate bookingEndDate;
 
     private LocalDateTime checkInDate;
 

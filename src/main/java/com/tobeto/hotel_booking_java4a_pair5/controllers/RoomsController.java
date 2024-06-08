@@ -45,4 +45,9 @@ public class RoomsController {
     public DataResult<GetByIdRoomResponse> getById(@PathVariable Integer getById) {
         return roomService.getById(getById);
     }
+
+    /*@GetMapping("/roomType")
+    public DataResult<List<GetAllRoomResponse>> searchByRoomType(@RequestParam String name) {
+        return roomService.searchByRoomType(name);
+    }*/
 }

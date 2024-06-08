@@ -36,8 +36,8 @@ public class Booking extends BaseEntity {
     @Column(name = "date")
     private LocalDate date;
 
-    @Column(name = "duration_of_stay")
-    private int durationOfStay;
+    @Column(name = "booking_end_date")
+    private LocalDate bookingEndDate;
 
     @Column(name = "check_in_date")
     private LocalDateTime checkInDate;

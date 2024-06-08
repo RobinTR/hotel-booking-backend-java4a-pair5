@@ -62,4 +62,10 @@ public class RoomServiceImpl implements RoomService {
 
         return new SuccessDataResult<>(getByIdRoomResponse, RoomMessages.ROOM_LISTED);
     }
+
+   /* @Override
+    public DataResult<List<GetAllRoomResponse>> searchByRoomType(String name) {
+        List<GetAllRoomResponse> response = roomRepository.searchByRoomType(name);
+        return new SuccessDataResult<>(response, RoomMessages.ROOM_LISTED);
+    }*/
 }

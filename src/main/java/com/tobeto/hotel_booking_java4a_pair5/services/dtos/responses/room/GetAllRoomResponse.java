@@ -11,4 +11,12 @@ public class GetAllRoomResponse {
     private String roomTypeName;
     private int number;
     private boolean isAvailable;
+
+    public GetAllRoomResponse(Integer id, String hotelName, String roomTypeName, int number, boolean isAvailable) {
+        this.id = id;
+        this.hotelName = hotelName;
+        this.roomTypeName = roomTypeName;
+        this.number = number;
+        this.isAvailable = isAvailable;
+    }
 }

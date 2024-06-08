@@ -15,7 +15,7 @@ public class GetAllBookingResponse {
     private String paymentMethodName;
     private int totalRoomsBooked;
     private LocalDate date;
-    private int durationOfStay;
+    private LocalDate bookingEndDate;
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
     private double totalCost;
