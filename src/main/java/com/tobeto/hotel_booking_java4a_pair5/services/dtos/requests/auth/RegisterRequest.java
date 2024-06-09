@@ -1,4 +1,4 @@
-package com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.person;
+package com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddPersonRequest {
+public class RegisterRequest {
     @NotNull(message = "You must enter an address id.")
     private Integer addressId;
 
