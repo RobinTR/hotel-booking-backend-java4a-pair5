@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.List;
 
 @Table(name = "persons")
 @Getter
@@ -15,7 +18,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Person extends BaseEntity {
+public class Person extends BaseEntity implements UserDetails {
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    List<Role> authorities;
+
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -35,7 +42,32 @@ public class Person extends BaseEntity {
     @Column(name = "phone")
     private String phone;
 
-    @Size(min = 8, max = 32, message = "Password must be between 8-32 characters.")
+    @Size(min = 8, max = 128)
     @Column(name = "password")
     private String password;
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
 }
