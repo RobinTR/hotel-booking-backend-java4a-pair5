@@ -15,7 +15,7 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Manager extends Person {
+public class Manager extends User {
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;

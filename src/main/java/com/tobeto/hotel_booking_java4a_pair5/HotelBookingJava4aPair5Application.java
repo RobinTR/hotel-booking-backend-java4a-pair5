@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class HotelBookingJava4aPair5Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HotelBookingJava4aPair5Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HotelBookingJava4aPair5Application.class, args);
+    }
 
 }

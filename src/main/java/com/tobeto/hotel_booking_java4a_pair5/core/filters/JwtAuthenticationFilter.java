@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.core.filters;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.services.JwtService;
-import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.PersonService;
+import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
-    private final PersonService personService;
+    private final UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -31,10 +31,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String username = jwtService.extractUsername(jwt);
 
             if (username != null) {
-                UserDetails person = personService.loadUserByUsername(username);
+                UserDetails user = userService.loadUserByUsername(username);
 
-                if (jwtService.validateToken(jwt, person)) {
-                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null, person.getAuthorities());
+                if (jwtService.validateToken(jwt, user)) {
+                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null, user.getAuthorities());
                     token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(token);
                 }
