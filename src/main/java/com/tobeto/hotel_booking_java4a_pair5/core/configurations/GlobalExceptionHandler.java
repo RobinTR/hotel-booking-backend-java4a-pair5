@@ -28,9 +28,11 @@ public class GlobalExceptionHandler {
     public ValidationProblemDetails handleValidationException(MethodArgumentNotValidException exception) {
         List<String> errorMessages = new ArrayList<>();
         List<FieldError> errors = exception.getBindingResult().getFieldErrors();
+
         for (FieldError error : errors) {
             errorMessages.add(error.getDefaultMessage());
         }
+
         ValidationProblemDetails validationProblemDetails = new ValidationProblemDetails(errorMessages);
         return validationProblemDetails;
     }

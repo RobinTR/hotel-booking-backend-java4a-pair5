@@ -17,8 +17,11 @@ public class UpdatePaymentByCardRequest {
     @Size(max = 19, message = "Card number  must be maximum 19 characters")
     private String cardNumber;
 
-    @Size(min = 5, max = 5, message = "Card expiration date must be  5 characters")
-    private String cardExpirationDate;
+    @Size(min = 2, max = 2, message = "Card expiration year must be 2 characters")
+    private String expirationMonth;
+
+    @Size(min = 2, max = 2, message = "Card expiration year must be 2 characters")
+    private String expirationYear;
 
     @Size(max = 4, message = "Cvv must be maximum 4 characters")
     private String cvv;

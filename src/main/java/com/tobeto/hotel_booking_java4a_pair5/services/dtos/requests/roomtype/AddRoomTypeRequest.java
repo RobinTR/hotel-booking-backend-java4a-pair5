@@ -12,8 +12,6 @@ public class AddRoomTypeRequest {
 
     private String description;
 
-    private double cost;
-
     private int capacity;
 
     private boolean smokeFriendly;

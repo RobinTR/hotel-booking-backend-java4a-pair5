@@ -8,6 +8,7 @@ import lombok.Setter;
 public class GetByIdPaymentByCardResponse {
     private String paymentMethodName;
     private String cardNumber;
-    private String cardExpirationDate;
+    private String expirationMonth;
+    private String expirationYear;
     private String cvv;
 }

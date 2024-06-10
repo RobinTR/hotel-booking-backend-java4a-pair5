@@ -27,6 +27,9 @@ public class Room extends BaseEntity {
     @Column(name = "number")
     private int number;
 
+    @Column(name = "cost")
+    private double cost;
+
     @Column(name = "is_available")
     private boolean isAvailable;
 

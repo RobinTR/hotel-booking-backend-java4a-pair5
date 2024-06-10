@@ -9,7 +9,6 @@ public class GetAllRoomTypeResponse {
     private Integer id;
     private String name;
     private String description;
-    private double cost;
     private int capacity;
     private boolean smokeFriendly;
     private boolean petFriendly;

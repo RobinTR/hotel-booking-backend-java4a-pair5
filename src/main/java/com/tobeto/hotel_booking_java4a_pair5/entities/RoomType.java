@@ -27,9 +27,6 @@ public class RoomType extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "cost")
-    private double cost;
-
     @Column(name = "capacity")
     private int capacity;
 
