@@ -2,7 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.core.configurations;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.filters.JwtAuthenticationFilter;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Role;
-import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.PersonService;
+import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    private final PersonService personService;
+    private final UserService userService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
@@ -32,7 +32,7 @@ public class SecurityConfiguration {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(personService);
+        provider.setUserDetailsService(userService);
 
         return provider;
     }

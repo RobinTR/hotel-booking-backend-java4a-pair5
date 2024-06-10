@@ -9,20 +9,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Table(name = "persons")
+@Table(name = "users")
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Person extends BaseEntity implements UserDetails {
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    List<Role> authorities;
-
+public class User extends BaseEntity implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -45,6 +43,12 @@ public class Person extends BaseEntity implements UserDetails {
     @Size(min = 8, max = 128)
     @Column(name = "password")
     private String password;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Set<Role> authorities = new HashSet<>();
 
     @Override
     public String getUsername() {

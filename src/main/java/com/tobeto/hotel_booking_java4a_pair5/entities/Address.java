@@ -45,5 +45,5 @@ public class Address extends BaseEntity {
     private List<Hotel> hotels;
 
     @OneToMany(mappedBy = "address")
-    private List<Person> persons;
+    private List<User> users;
 }

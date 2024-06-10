@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Guest extends Person {
+public class Guest extends User {
     @ManyToOne
     @JoinColumn(name = "payment_by_card_id")
     private PaymentByCard paymentByCard;

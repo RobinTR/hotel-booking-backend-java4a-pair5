@@ -1,11 +1,11 @@
-package com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.person;
+package com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.user;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class GetByIdPersonResponse {
+public class GetAllUserResponse {
     private Integer id;
     private String fullAddress;
     private String firstName;
