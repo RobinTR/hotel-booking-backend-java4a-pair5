@@ -1,13 +1,11 @@
 package com.tobeto.hotel_booking_java4a_pair5.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 @Table(name = "managers")
 @Getter
@@ -19,4 +17,8 @@ public class Manager extends User {
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
+
+    @Column(name = "verified")
+    @Value("${my.boolean.property:true}")
+    private boolean verified;
 }

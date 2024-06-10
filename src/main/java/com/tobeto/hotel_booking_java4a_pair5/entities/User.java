@@ -25,6 +25,10 @@ public class User extends BaseEntity implements UserDetails {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @ManyToOne
+    @JoinColumn(name = "payment_by_card_id")
+    private PaymentByCard paymentByCard;
+
     @Size(min = 2, max = 32, message = "First name must be between 2-32 characters.")
     @Column(name = "first_name")
     private String firstName;

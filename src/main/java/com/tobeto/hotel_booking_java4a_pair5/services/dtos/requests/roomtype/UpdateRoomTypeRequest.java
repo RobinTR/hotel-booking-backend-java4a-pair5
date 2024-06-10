@@ -16,8 +16,6 @@ public class UpdateRoomTypeRequest {
 
     private String description;
 
-    private double cost;
-
     private int capacity;
 
     private boolean smokeFriendly;

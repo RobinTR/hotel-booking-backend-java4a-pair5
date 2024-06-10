@@ -27,10 +27,15 @@ public class PaymentByCard extends BaseEntity {
     @Column(name = "card_number")
     private String cardNumber;
 
-    @NotBlank(message = "Card expiration date  cannot be blank.")
-    @Size(min = 5, max = 5, message = "Card expiration date must be  5 characters")
-    @Column(name = "card_expiration_date")
-    private String cardExpirationDate;
+    @NotBlank(message = "Card expiration month cannot be blank.")
+    @Size(min = 2, max = 2, message = "Card expiration month must be 2 characters")
+    @Column(name = "expiration_month")
+    private String expirationMonth;
+
+    @NotBlank(message = "Card expiration year cannot be blank.")
+    @Size(min = 2, max = 2, message = "Card expiration year must be 2 characters")
+    @Column(name = "expiration_year")
+    private String expirationYear;
 
     @NotBlank(message = "CVV cannot be blank.")
     @Column(name = "cvv")
@@ -38,5 +43,5 @@ public class PaymentByCard extends BaseEntity {
     private String cvv;
 
     @OneToMany(mappedBy = "paymentByCard")
-    private List<Guest> guests;
+    private List<User> users;
 }

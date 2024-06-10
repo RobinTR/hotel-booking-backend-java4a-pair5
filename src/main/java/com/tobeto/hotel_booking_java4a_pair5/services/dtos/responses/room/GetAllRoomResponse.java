@@ -10,6 +10,7 @@ public class GetAllRoomResponse {
     private String hotelName;
     private String roomTypeName;
     private int number;
+    private double cost;
     private boolean isAvailable;
 
     public GetAllRoomResponse(Integer id, String hotelName, String roomTypeName, int number, boolean isAvailable) {

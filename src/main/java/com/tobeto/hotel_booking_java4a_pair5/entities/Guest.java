@@ -15,10 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Guest extends User {
-    @ManyToOne
-    @JoinColumn(name = "payment_by_card_id")
-    private PaymentByCard paymentByCard;
-
     @OneToMany(mappedBy = "guest")
     private List<Booking> bookings;
 }
