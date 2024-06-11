@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class GetAllHotelReviewResponse {
     private Integer id;
+    private String hotelName;
     private int starRating;
     private String description;
 }

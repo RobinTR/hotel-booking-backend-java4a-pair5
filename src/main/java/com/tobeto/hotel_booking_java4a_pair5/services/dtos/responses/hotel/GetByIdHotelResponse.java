@@ -8,7 +8,6 @@ import lombok.Setter;
 public class GetByIdHotelResponse {
     private Integer id;
     private String addressName;
-    private String hotelReviewDescription;
     private String name;
     private String contactNumber;
     private String email;

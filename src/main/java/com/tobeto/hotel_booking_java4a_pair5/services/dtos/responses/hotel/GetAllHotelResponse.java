@@ -9,7 +9,6 @@ import lombok.Setter;
 public class GetAllHotelResponse {
     private Integer id;
     private String addressName;
-    private String hotelReviewDescription;
     private String name;
     private String contactNumber;
     private String email;
@@ -18,10 +17,9 @@ public class GetAllHotelResponse {
     private int floorCount;
     private int starRating;
 
-    public GetAllHotelResponse(Integer id, String addressName, String hotelReviewDescription, String name, String contactNumber, String email, String website, String description, int floorCount, int starRating) {
+    public GetAllHotelResponse(Integer id, String addressName, String name, String contactNumber, String email, String website, String description, int floorCount, int starRating) {
         this.id = id;
         this.addressName = addressName;
-        this.hotelReviewDescription = hotelReviewDescription;
         this.name = name;
         this.contactNumber = contactNumber;
         this.email = email;
