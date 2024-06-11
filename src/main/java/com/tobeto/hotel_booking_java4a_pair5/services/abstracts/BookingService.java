@@ -8,6 +8,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.Upda
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetByIdBookingResponse;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface BookingService {
@@ -20,4 +21,8 @@ public interface BookingService {
     DataResult<List<GetAllBookingResponse>> getAll();
 
     DataResult<GetByIdBookingResponse> getById(Integer id);
+
+    DataResult<List<GetAllBookingResponse>> searchByDate(LocalDate startDate, LocalDate endDate);
+
+    DataResult<List<GetAllBookingResponse>> searchByRoomType(Integer roomTypeId);
 }

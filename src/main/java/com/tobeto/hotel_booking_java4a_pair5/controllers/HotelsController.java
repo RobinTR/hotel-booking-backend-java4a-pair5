@@ -51,13 +51,18 @@ public class HotelsController {
         return hotelService.searchByHotelName(name);
     }
 
-    @GetMapping("/location")
-    public DataResult<List<GetAllHotelResponse>> searchByLocation(@RequestParam String name) {
-        return hotelService.searchByLocation(name);
+    @GetMapping("/searchByLocation")
+    public DataResult<List<GetAllHotelResponse>> searchByLocation(@RequestParam String location) {
+        return hotelService.searchByLocation(location);
     }
 
-    @GetMapping("/star")
-    public DataResult<List<GetAllHotelResponse>> searchByStarRating(@RequestParam int star) {
-        return hotelService.searchByStarRating(star);
+    @GetMapping("/searchByStarRating")
+    public DataResult<List<GetAllHotelResponse>> searchByStarRating(@RequestParam int starRating) {
+        return hotelService.searchByStarRating(starRating);
+    }
+
+    @GetMapping("/searchByPrice")
+    public DataResult<List<GetAllHotelResponse>> searchByPrice(@RequestParam double minPrice, @RequestParam double maxPrice) {
+        return hotelService.searchByPrice(minPrice, maxPrice);
     }
 }

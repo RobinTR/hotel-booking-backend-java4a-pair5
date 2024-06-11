@@ -19,6 +19,4 @@ public interface RoomService {
     DataResult<List<GetAllRoomResponse>> getAll();
 
     DataResult<GetByIdRoomResponse> getById(Integer id);
-
-    //  DataResult<List<GetAllRoomResponse>>  searchByRoomType(String name);
 }

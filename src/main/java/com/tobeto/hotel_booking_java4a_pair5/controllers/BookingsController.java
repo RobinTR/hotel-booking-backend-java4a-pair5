@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -44,5 +45,15 @@ public class BookingsController {
     @GetMapping("/{getById}")
     public DataResult<GetByIdBookingResponse> getById(@PathVariable Integer getById) {
         return bookingService.getById(getById);
+    }
+
+    @GetMapping("/searchByDate")
+    public DataResult<List<GetAllBookingResponse>> searchByDate(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+        return bookingService.searchByDate(startDate, endDate);
+    }
+
+    @GetMapping("/searchByRoomType")
+    public DataResult<List<GetAllBookingResponse>> searchByRoomType(@RequestParam Integer roomTypeId) {
+        return bookingService.searchByRoomType(roomTypeId);
     }
 }

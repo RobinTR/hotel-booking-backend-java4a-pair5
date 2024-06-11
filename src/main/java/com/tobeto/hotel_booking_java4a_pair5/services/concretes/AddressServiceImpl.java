@@ -63,21 +63,4 @@ public class AddressServiceImpl implements AddressService {
 
         return new SuccessDataResult<>(response, AddressMessages.ADDRESS_LISTED);
     }
-
-    /*
-    GetByIdCountryResponse countryResponse = countryService.getById(address.getCountry().getId()).getData();
-    Country country = CountryMapper.INSTANCE.countryFromGetByIdResponse(countryResponse);
-
-    GetByIdCityResponse getByIdCityResponse = cityService.getById(address.getCity().getId()).getData();
-    City city = CityMapper.INSTANCE.cityFromGetByIdResponse(getByIdCityResponse);
-
-    GetByIdDistrictResponse getByIdDistrictResponse = districtService.getById(address.getDistrict().getId()).getData();
-    District district = DistrictMapper.INSTANCE.districtFromGetByIdResponse(getByIdDistrictResponse);
-
-    GetByIdAreaResponse getByIdAreaResponse = areaService.getById(address.getArea().getId()).getData();
-    Area area = AreaMapper.INSTANCE.areaFromGetByIdResponse(getByIdAreaResponse);
-
-    GetByIdNeighborhoodResponse getByIdNeighborhoodResponse = neighborhoodService.getById(address.getNeighborhood().getId()).getData();
-    Neighborhood neighborhood = NeighborhoodMapper.INSTANCE.neigborhoodFromGetByIdResponse(getByIdNeighborhoodResponse);
-    */
 }
