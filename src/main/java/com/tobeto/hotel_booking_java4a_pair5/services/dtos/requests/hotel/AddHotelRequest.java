@@ -10,9 +10,6 @@ public class AddHotelRequest {
     @NotNull(message = "You must enter a address id.")
     private Integer addressId;
 
-    @NotNull(message = "You must enter a hotel review id.")
-    private Integer hotelReviewId;
-
     @NotBlank(message = "Hotel name cannot be blank.")
     @Size(min = 8, max = 128, message = "Hotel name must be between 8-128 characters.")
     private String name;

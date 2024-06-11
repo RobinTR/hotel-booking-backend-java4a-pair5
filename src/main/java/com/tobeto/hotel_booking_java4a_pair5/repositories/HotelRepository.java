@@ -8,17 +8,15 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
-    @Query(value = "SELECT NEW  com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse(h.id, a.fullAddress, hr.description, h.name, h.contactNumber, h.email, h.website, h.description, h.floorCount, h.starRating) " +
+    @Query(value = "SELECT NEW  com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse(h.id, a.fullAddress, h.name, h.contactNumber, h.email, h.website, h.description, h.floorCount, h.starRating) " +
             "FROM Hotel AS h " +
             "INNER JOIN Address AS a ON h.address.id = a.id " +
-            "INNER JOIN HotelReview AS hr ON h.hotelReview.id=hr.id " +
             "WHERE LOWER(h.name) LIKE LOWER(:name)")
     List<GetAllHotelResponse> searchByHotelName(String name);
 
-    @Query(value = "SELECT NEW  com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse(h.id, a.fullAddress, hr.description, h.name, h.contactNumber, h.email, h.website, h.description, h.floorCount, h.starRating) " +
+    @Query(value = "SELECT NEW  com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse(h.id, a.fullAddress, h.name, h.contactNumber, h.email, h.website, h.description, h.floorCount, h.starRating) " +
             "FROM Hotel AS h " +
             "INNER JOIN Address AS a ON h.address.id = a.id " +
-            "INNER JOIN HotelReview AS hr ON h.hotelReview.id=hr.id " +
             "INNER JOIN Country AS c ON a.country.id=c.id " +
             "INNER JOIN City AS ci ON a.city.id=ci.id " +
             "INNER JOIN District AS d ON a.district.id=d.id " +
@@ -27,10 +25,9 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
             "LOWER(d.name) LIKE LOWER(:name)  ")
     List<GetAllHotelResponse> searchByLocation(String name);
 
-    @Query(value = "SELECT NEW  com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse(h.id, a.fullAddress, hr.description, h.name, h.contactNumber, h.email, h.website, h.description, h.floorCount, h.starRating) " +
+    @Query(value = "SELECT NEW  com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse(h.id, a.fullAddress, h.name, h.contactNumber, h.email, h.website, h.description, h.floorCount, h.starRating) " +
             "FROM Hotel AS h " +
             "INNER JOIN Address AS a ON h.address.id = a.id " +
-            "INNER JOIN HotelReview AS hr ON h.hotelReview.id=hr.id " +
             "WHERE h.starRating = :star")
     List<GetAllHotelResponse> searchByStarRating(int star);
 }

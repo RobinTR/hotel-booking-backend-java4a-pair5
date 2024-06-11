@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotelreview
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,9 @@ import lombok.Setter;
 @Setter
 public class UpdateHotelReviewRequest {
     private Integer id;
+
+    @NotNull(message = "You must enter a hotel id.")
+    private Integer hotelId;
 
     @Min(1)
     @Max(5)

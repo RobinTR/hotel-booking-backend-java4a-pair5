@@ -24,10 +24,6 @@ public class Hotel extends BaseEntity {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @ManyToOne
-    @JoinColumn(name = "hotel_review_id")
-    private HotelReview hotelReview;
-
     @Size(min = 8, max = 128, message = "Hotel name must be between 8-128 characters.")
     @Column(name = "name")
     private String name;
@@ -65,4 +61,7 @@ public class Hotel extends BaseEntity {
 
     @OneToMany(mappedBy = "hotel")
     private List<Room> rooms;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<HotelReview> hotelReviews;
 }
