@@ -17,6 +17,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.mappers.BookingMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -63,5 +64,15 @@ public class BookingServiceImpl implements BookingService {
         GetByIdBookingResponse response = BookingMapper.INSTANCE.getByIdBookingResponse(bookings);
 
         return new SuccessDataResult<>(response, BookingMessages.BOOKING_LISTED);
+    }
+
+    @Override
+    public DataResult<List<GetAllBookingResponse>> searchByDate(LocalDate startDate, LocalDate endDate) {
+        return new SuccessDataResult<>(bookingRepository.searchByDate(startDate, endDate), BookingMessages.BOOKING_LISTED);
+    }
+
+    @Override
+    public DataResult<List<GetAllBookingResponse>> searchByRoomType(Integer roomTypeId) {
+        return new SuccessDataResult<>(bookingRepository.searchByRoomType(roomTypeId));
     }
 }

@@ -30,14 +30,11 @@ public class Booking extends BaseEntity {
     @JoinColumn(name = "payment_method_id")
     private PaymentMethod paymentMethod;
 
-    @Column(name = "total_rooms_booked")
-    private int totalRoomsBooked;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    @Column(name = "date")
-    private LocalDate date;
-
-    @Column(name = "booking_end_date")
-    private LocalDate bookingEndDate;
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
     @Column(name = "check_in_date")
     private LocalDateTime checkInDate;

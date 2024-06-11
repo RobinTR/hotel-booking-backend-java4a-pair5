@@ -24,13 +24,9 @@ public class UpdateBookingRequest {
     @NotNull(message = "You must enter a payment method id.")
     private Integer paymentMethodId;
 
-    @NotNull(message = "You must enter a total rooms booked.")
-    @Positive(message = "Total rooms booked must be higher than 0.")
-    private int totalRoomsBooked;
+    private LocalDate startDate;
 
-    private LocalDate date;
-
-    private LocalDate bookingEndDate;
+    private LocalDate endDate;
 
     private LocalDateTime checkInDate;
 

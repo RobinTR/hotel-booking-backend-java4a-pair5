@@ -25,4 +25,6 @@ public interface HotelService {
     DataResult<List<GetAllHotelResponse>> searchByLocation(String name);
 
     DataResult<List<GetAllHotelResponse>> searchByStarRating(int star);
+
+    DataResult<List<GetAllHotelResponse>> searchByPrice(double minPrice, double maxPrice);
 }

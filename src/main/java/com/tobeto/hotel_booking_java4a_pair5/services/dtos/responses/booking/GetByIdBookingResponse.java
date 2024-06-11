@@ -13,9 +13,8 @@ public class GetByIdBookingResponse {
     private String hotelName;
     private String guestName;
     private String paymentMethodName;
-    private int totalRoomsBooked;
-    private LocalDate date;
-    private LocalDate bookingEndDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
     private double totalCost;

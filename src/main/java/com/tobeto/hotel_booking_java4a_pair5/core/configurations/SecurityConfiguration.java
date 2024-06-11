@@ -21,9 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    private final UserService userService;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
     private static final String[] GET_WHITE_LIST_URL = {
             "/api/roomfeedbacks",
             "/api/roomfeedbacks/{getById}",
@@ -56,7 +53,6 @@ public class SecurityConfiguration {
             "/api/bookings/{getById}",
             "/api/addresses/{getById}",
     };
-
     private static final String[] GET_ADMIN_URL = {
             "/api/supports",
             "/api/supports/{getById}",
@@ -68,14 +64,12 @@ public class SecurityConfiguration {
             "/api/guests/{getById}",
             "/api/addresses",
     };
-
     private static final String[] POST_WHITE_LIST_URL = {
             "/api/supports",
             "/api/guests",
             "/api/v1/auth/register",
             "/api/v1/auth/login"
     };
-
     private static final String[] POST_GUEST_MANAGER_ADMIN = {
             "/api/roomfeedbacks",
             "/api/roombooked",
@@ -84,13 +78,11 @@ public class SecurityConfiguration {
             "/api/bookings",
             "/api/addresses"
     };
-
     private static final String[] POST_MANAGER_ADMIN = {
             "/api/rooms",
             "/api/managers",
             "/api/hotels",
     };
-
     private static final String[] POST_ADMIN = {
             "/api/roomtypes",
             "/api/paymentmethods",
@@ -100,25 +92,21 @@ public class SecurityConfiguration {
             "/api/areas",
             "/api/neighborhoods",
     };
-
     private static final String[] PUT_WHITE_LIST_URL = {
             "/api/v1/auth/register",
             "/api/v1/auth/login"
     };
-
     private static final String[] PUT_GUEST_MANAGER_ADMIN = {
             "/api/paymentbycards",
             "/api/bookings",
             "/api/addresses"
     };
-
     private static final String[] PUT_MANAGER_ADMIN = {
             "/api/roomfeedbacks",
             "/api/rooms",
             "/api/managers",
             "/api/hotels",
     };
-
     private static final String[] PUT_ADMIN = {
             "/api/roombooked",
             "/api/hotelreviews",
@@ -130,17 +118,17 @@ public class SecurityConfiguration {
             "/api/areas",
             "/api/neighborhoods",
     };
-
+    private static final String[] PUT_GUEST_ADMIN = {
+            "/api/guests"
+    };
     private static final String[] DELETE_MANAGER_ADMIN = {
             "/api/hotels",
             "/api/bookings"
     };
-
     private static final String[] DELETE_WHITE_LIST_URL = {
             "/api/users/address",
             "/api/users/card"
     };
-
     private static final String[] DELETE_ADMIN = {
             "/api/**"
             /* "/api/rooms",
@@ -155,20 +143,17 @@ public class SecurityConfiguration {
             "/api/neighborhoods",
             */
     };
-
-    private static final String[] PUT_GUEST_ADMIN = {
-            "/api/guests"
-    };
-
     private static final String[] PATCH_ADMIN = {
             "/api/hotels",
             "/api/managers",
             "/api/supports"
     };
-
     private static final String[] PATCH_MANAGER = {
             "/api/roomfeedbacks",
+            "/api/booking/{reservationStatus}"
     };
+    private final UserService userService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

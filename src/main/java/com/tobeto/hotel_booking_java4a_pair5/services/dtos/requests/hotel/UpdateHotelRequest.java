@@ -32,6 +32,7 @@ public class UpdateHotelRequest {
     @Positive(message = "Floor count must be higher than 0.")
     private int floorCount;
 
-    @Size(min = 1, max = 5)
+    @Min(1)
+    @Max(5)
     private int starRating;
 }
