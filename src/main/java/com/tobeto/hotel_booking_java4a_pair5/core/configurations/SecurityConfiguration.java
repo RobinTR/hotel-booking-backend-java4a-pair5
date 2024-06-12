@@ -4,6 +4,7 @@ import com.tobeto.hotel_booking_java4a_pair5.core.filters.JwtAuthenticationFilte
 import com.tobeto.hotel_booking_java4a_pair5.entities.Role;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,6 +22,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-ui.html",
+    };
+
     private static final String[] GET_WHITE_LIST_URL = {
             "/api/roomfeedbacks",
             "/api/roomfeedbacks/{getById}",
@@ -180,6 +194,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req
+                                .requestMatchers(WHITE_LIST_URL).permitAll()
                                 .requestMatchers(HttpMethod.GET, GET_WHITE_LIST_URL).permitAll()
                                 .requestMatchers(HttpMethod.GET, GET_ADMIN_URL).hasAnyAuthority(Role.ADMIN.getAuthority())
                                 .requestMatchers(HttpMethod.POST, POST_WHITE_LIST_URL).permitAll()
@@ -196,9 +211,10 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.DELETE, DELETE_MANAGER_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority(), Role.MANAGER.getAuthority())
                                 .requestMatchers(HttpMethod.PATCH, PATCH_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority())
                                 .requestMatchers(HttpMethod.PATCH, PATCH_MANAGER).hasAnyAuthority(Role.MANAGER.getAuthority())
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .exceptionHandling(eh -> eh.authenticationEntryPoint(new CustomAuthenticationFailureHandler()))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
