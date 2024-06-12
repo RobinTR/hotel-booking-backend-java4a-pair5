@@ -4,6 +4,7 @@ import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
 import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomBooked;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomBookedRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomBookedService;
@@ -61,5 +62,13 @@ public class RoomBookedServiceImpl implements RoomBookedService {
         GetByIdRoomBookedResponse getByIdRoomBookedResponse = RoomBookedMapper.INSTANCE.getByIdRoomBookedResponseFromRoomBooked(roomBooked);
 
         return new SuccessDataResult<>(getByIdRoomBookedResponse, RoomBookedMessages.ROOMBOOKED_LISTED);
+    }
+
+    @Override
+    public DataResult<List<GetByIdRoomBookedResponse>> findByBookingId(int bookingId) {
+        List<RoomBooked> roomBooked = roomBookedRepository.findByBookingId(bookingId);
+        List<GetByIdRoomBookedResponse> getByIdRoomBookedResponse = RoomBookedMapper.INSTANCE.getByIdRoomBookedResponseFromRoomBookedList(roomBooked);
+
+        return new SuccessDataResult<>(roomBooked, RoomBookedMessages.ROOMBOOKED_LISTED);
     }
 }

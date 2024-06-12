@@ -56,4 +56,20 @@ public class BookingsController {
     public DataResult<List<GetAllBookingResponse>> searchByRoomType(@RequestParam Integer roomTypeId) {
         return bookingService.searchByRoomType(roomTypeId);
     }
+
+    @PatchMapping("/{id}/checkindate")
+    public Result changeCheckInDate(@PathVariable Integer id) {
+        return bookingService.changeCheckInDate(id);
+    }
+
+    @PatchMapping("/{id}/checkoutdate")
+    public Result changeCheckOutDate(@PathVariable Integer id) {
+        return bookingService.changeCheckOutDate(id);
+    }
+
+    @PatchMapping("/{id}/reservationstatus")
+    public Result changeReservationStatus(@PathVariable Integer id, @RequestParam(value="reservationStatus")
+    boolean reservationStatus) {
+        return bookingService.changeReservationStatus(id, reservationStatus);
+    }
 }

@@ -32,4 +32,8 @@ public interface RoomMapper {
     @Mapping(target = "hotelName", source = "hotel.name")
     @Mapping(target = "roomTypeName", source = "roomType.name")
     GetByIdRoomResponse getByIdRoomResponseFromRoom(Room room);
+
+    @Mapping(target = "hotel.name", source = "hotelName")
+    @Mapping(target = "roomType.name", source = "roomTypeName")
+    Room roomFromGetByIdResponse(GetByIdRoomResponse response);
 }
