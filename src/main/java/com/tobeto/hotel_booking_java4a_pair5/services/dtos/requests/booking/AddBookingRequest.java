@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,18 +19,16 @@ public class AddBookingRequest {
     @NotNull(message = "You must enter a guest id.")
     private Integer guestId;
 
+    private List<Integer> roomIds;
+
     @NotNull(message = "You must enter a payment method id.")
     private Integer paymentMethodId;
 
-    private LocalDate starDate;
+    private LocalDate startDate;
 
     private LocalDate endDate;
 
     private LocalDateTime checkInDate;
 
     private LocalDateTime checkOutDate;
-
-    @NotNull(message = "You must enter a total cost.")
-    @Positive(message = "Total cost must be higher than 0.")
-    private double totalCost;
 }

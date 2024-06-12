@@ -31,8 +31,4 @@ public class UpdateBookingRequest {
     private LocalDateTime checkInDate;
 
     private LocalDateTime checkOutDate;
-
-    @NotNull(message = "You must enter a total cost.")
-    @Positive(message = "Total cost must be higher than 0.")
-    private double totalCost;
 }

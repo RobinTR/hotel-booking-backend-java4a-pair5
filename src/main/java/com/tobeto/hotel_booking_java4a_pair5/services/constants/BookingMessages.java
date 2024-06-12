@@ -6,4 +6,7 @@ public class BookingMessages {
     public static final String BOOKING_DELETED = "Booking deleted.";
     public static final String BOOKING_NOT_FOUND = "Booking not found.";
     public static final String BOOKING_LISTED = "Booking listed.";
+    public static final String BOOKING_RESERVATION_STATUS_UPDATED = "Reservation status updated.";
+    public static final String BOOKING_CHECK_IN_DATE_UPDATED = "Check in Date updated.";
+    public static final String BOOKING_CHECK_OUT_DATE_UPDATED = "Check out Date updated.";
 }

@@ -162,10 +162,13 @@ public class SecurityConfiguration {
             "/api/managers",
             "/api/supports"
     };
-    private static final String[] PATCH_MANAGER = {
+    private static final String[] PATCH_MANAGER_ADMIN = {
             "/api/roomfeedbacks",
-            "/api/booking/{reservationStatus}"
+            "/api/bookings/{id}/checkindate",
+            "/api/bookings/{id}/checkoutdate",
+            "/api/bookings/{id}/reservationstatus"
     };
+
     private final UserService userService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -210,8 +213,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.DELETE, DELETE_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority())
                                 .requestMatchers(HttpMethod.DELETE, DELETE_MANAGER_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority(), Role.MANAGER.getAuthority())
                                 .requestMatchers(HttpMethod.PATCH, PATCH_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority())
-                                .requestMatchers(HttpMethod.PATCH, PATCH_MANAGER).hasAnyAuthority(Role.MANAGER.getAuthority())
-                                .anyRequest().authenticated()
+                                .requestMatchers(HttpMethod.PATCH, PATCH_MANAGER_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority(), Role.MANAGER.getAuthority())
+                                .anyRequest().permitAll()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .exceptionHandling(eh -> eh.authenticationEntryPoint(new CustomAuthenticationFailureHandler()))
