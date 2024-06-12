@@ -32,7 +32,7 @@ public class Support extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "is_answered")
+    @Column(name = "is_answered", columnDefinition = "boolean default false")
     private boolean isAnswered;
 
     @Column(name = "answer")

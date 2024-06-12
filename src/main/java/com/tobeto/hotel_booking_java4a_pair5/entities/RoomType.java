@@ -30,19 +30,19 @@ public class RoomType extends BaseEntity {
     @Column(name = "capacity")
     private int capacity;
 
-    @Column(name = "smoke_friendly")
+    @Column(name = "smoke_friendly", columnDefinition = "boolean default false")
     private boolean smokeFriendly;
 
-    @Column(name = "pet_friendly")
+    @Column(name = "pet_friendly", columnDefinition = "boolean default false")
     private boolean petFriendly;
 
-    @Column(name = "wifi")
+    @Column(name = "wifi", columnDefinition = "boolean default false")
     private boolean wifi;
 
-    @Column(name = "food")
+    @Column(name = "food", columnDefinition = "boolean default false")
     private boolean food;
 
-    @Column(name = "is_all_inclusive")
+    @Column(name = "is_all_inclusive", columnDefinition = "boolean default false")
     private boolean isAllInclusive;
 
     @OneToMany(mappedBy = "roomType")

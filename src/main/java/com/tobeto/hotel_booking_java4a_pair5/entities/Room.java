@@ -30,7 +30,7 @@ public class Room extends BaseEntity {
     @Column(name = "cost")
     private double cost;
 
-    @Column(name = "is_available")
+    @Column(name = "is_available", columnDefinition = "boolean default false")
     private boolean isAvailable;
 
     @OneToMany(mappedBy = "room")

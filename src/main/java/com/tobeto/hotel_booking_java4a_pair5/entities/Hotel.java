@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -49,8 +48,7 @@ public class Hotel extends BaseEntity {
     @Column(name = "star_rating")
     private int starRating;
 
-    @Column(name = "verified")
-    @Value("${my.boolean.property:true}")
+    @Column(name = "verified", columnDefinition = "boolean default false")
     private boolean verified;
 
     @OneToMany(mappedBy = "hotel")
