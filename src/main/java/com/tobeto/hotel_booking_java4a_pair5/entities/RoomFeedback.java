@@ -20,7 +20,7 @@ public class RoomFeedback extends BaseEntity {
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    @Column(name = "is_answered")
+    @Column(name = "is_answered", columnDefinition = "boolean default false")
     private boolean isAnswered;
 
     @Column(name = "star_rating")

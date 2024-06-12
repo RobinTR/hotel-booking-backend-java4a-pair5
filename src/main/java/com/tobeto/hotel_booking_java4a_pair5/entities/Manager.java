@@ -18,7 +18,6 @@ public class Manager extends User {
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
-    @Column(name = "verified")
-    @Value("${my.boolean.property:true}")
+    @Column(name = "verified", columnDefinition = "boolean default false")
     private boolean verified;
 }
