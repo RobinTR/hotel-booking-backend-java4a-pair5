@@ -1,9 +1,9 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomFeedback;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomFeedbackRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomFeedbackService;
@@ -24,42 +24,42 @@ public class RoomFeedbackServiceImpl implements RoomFeedbackService {
     private final RoomFeedbackRepository roomFeedbackRepository;
 
     @Override
-    public Result add(AddRoomFeedbackRequest request) {
+    public Response add(AddRoomFeedbackRequest request) {
         RoomFeedback roomFeedback = RoomFeedbackMapper.INSTANCE.roomFeedbackFromAddRequest(request);
         roomFeedback = roomFeedbackRepository.save(roomFeedback);
 
-        return new SuccessResult(RoomFeedbackMessages.ROOMFEEDBACK_ADDED);
+        return new SuccessResponse(RoomFeedbackMessages.ROOMFEEDBACK_ADDED);
     }
 
     @Override
-    public Result update(UpdateRoomFeedbackRequest request) {
+    public Response update(UpdateRoomFeedbackRequest request) {
         RoomFeedback roomFeedback = RoomFeedbackMapper.INSTANCE.roomFeedbackFromUpdateRequest(request);
         roomFeedback = roomFeedbackRepository.save(roomFeedback);
 
-        return new SuccessResult(RoomFeedbackMessages.ROOMFEEDBACK_UPDATED);
+        return new SuccessResponse(RoomFeedbackMessages.ROOMFEEDBACK_UPDATED);
     }
 
     @Override
-    public Result delete(Integer id) {
+    public Response delete(Integer id) {
         RoomFeedback roomFeedback = roomFeedbackRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomFeedbackMessages.ROOMFEEDBACK_NOT_FOUND));
         roomFeedbackRepository.delete(roomFeedback);
 
-        return new SuccessResult(RoomFeedbackMessages.ROOMFEEDBACK_DELETED);
+        return new SuccessResponse(RoomFeedbackMessages.ROOMFEEDBACK_DELETED);
     }
 
     @Override
-    public DataResult<List<GetAllRoomFeedbackResponse>> getAll() {
+    public DataResponse<List<GetAllRoomFeedbackResponse>> getAll() {
         List<RoomFeedback> roomFeedbacks = roomFeedbackRepository.findAll();
         List<GetAllRoomFeedbackResponse> response = RoomFeedbackMapper.INSTANCE.getAllRoomFeedbackResponseListFromRoomFeedbacks(roomFeedbacks);
 
-        return new SuccessDataResult<>(response, RoomFeedbackMessages.ROOMFEEDBACK_LISTED);
+        return new SuccessDataResponse<>(response, RoomFeedbackMessages.ROOMFEEDBACK_LISTED);
     }
 
     @Override
-    public DataResult<GetByIdRoomFeedbackResponse> getById(Integer id) {
+    public DataResponse<GetByIdRoomFeedbackResponse> getById(Integer id) {
         RoomFeedback roomFeedback = roomFeedbackRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomFeedbackMessages.ROOMFEEDBACK_NOT_FOUND));
         GetByIdRoomFeedbackResponse response = RoomFeedbackMapper.INSTANCE.getByIdRoomFeedbackResponseFromRoomFeedback(roomFeedback);
 
-        return new SuccessDataResult<>(response, RoomFeedbackMessages.ROOMFEEDBACK_LISTED);
+        return new SuccessDataResponse<>(response, RoomFeedbackMessages.ROOMFEEDBACK_LISTED);
     }
 }

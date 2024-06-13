@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.controllers;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHotelRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.UpdateHotelRequest;
@@ -22,47 +22,47 @@ public class HotelsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Result add(@RequestBody @Valid AddHotelRequest request) {
+    public Response add(@RequestBody @Valid AddHotelRequest request) {
         return hotelService.add(request);
     }
 
     @PutMapping
-    public Result update(@RequestBody @Valid UpdateHotelRequest request) {
+    public Response update(@RequestBody @Valid UpdateHotelRequest request) {
         return hotelService.update(request);
     }
 
     @DeleteMapping
-    public Result delete(@RequestParam Integer id) {
+    public Response delete(@RequestParam Integer id) {
         return hotelService.delete(id);
     }
 
     @GetMapping
-    public DataResult<List<GetAllHotelResponse>> getAll() {
+    public DataResponse<List<GetAllHotelResponse>> getAll() {
         return hotelService.getAll();
     }
 
     @GetMapping("/{getById}")
-    public DataResult<GetByIdHotelResponse> getById(@PathVariable Integer getById) {
+    public DataResponse<GetByIdHotelResponse> getById(@PathVariable Integer getById) {
         return hotelService.getById(getById);
     }
 
     @GetMapping("/searchByName")
-    public DataResult<List<GetAllHotelResponse>> searchByName(@RequestParam String name) {
+    public DataResponse<List<GetAllHotelResponse>> searchByName(@RequestParam String name) {
         return hotelService.searchByHotelName(name);
     }
 
     @GetMapping("/searchByLocation")
-    public DataResult<List<GetAllHotelResponse>> searchByLocation(@RequestParam String location) {
+    public DataResponse<List<GetAllHotelResponse>> searchByLocation(@RequestParam String location) {
         return hotelService.searchByLocation(location);
     }
 
     @GetMapping("/searchByStarRating")
-    public DataResult<List<GetAllHotelResponse>> searchByStarRating(@RequestParam int starRating) {
+    public DataResponse<List<GetAllHotelResponse>> searchByStarRating(@RequestParam int starRating) {
         return hotelService.searchByStarRating(starRating);
     }
 
     @GetMapping("/searchByPrice")
-    public DataResult<List<GetAllHotelResponse>> searchByPrice(@RequestParam double minPrice, @RequestParam double maxPrice) {
+    public DataResponse<List<GetAllHotelResponse>> searchByPrice(@RequestParam double minPrice, @RequestParam double maxPrice) {
         return hotelService.searchByPrice(minPrice, maxPrice);
     }
 }

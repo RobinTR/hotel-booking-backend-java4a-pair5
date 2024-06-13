@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomtype.AddRoomTypeRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomtype.UpdateRoomTypeRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtype.GetAllRoomTypeResponse;
@@ -10,13 +10,13 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtype.Ge
 import java.util.List;
 
 public interface RoomTypeService {
-    Result add(AddRoomTypeRequest request);
+    Response add(AddRoomTypeRequest request);
 
-    Result update(UpdateRoomTypeRequest request);
+    Response update(UpdateRoomTypeRequest request);
 
-    Result delete(Integer id);
+    Response delete(Integer id);
 
-    DataResult<List<GetAllRoomTypeResponse>> getAll();
+    DataResponse<List<GetAllRoomTypeResponse>> getAll();
 
-    DataResult<GetByIdRoomTypeResponse> getById(Integer id);
+    DataResponse<GetByIdRoomTypeResponse> getById(Integer id);
 }

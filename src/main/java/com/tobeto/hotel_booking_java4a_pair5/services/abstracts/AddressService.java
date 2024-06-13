@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.address.AddAddressRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.address.UpdateAddressRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.address.GetAllAddressResponse;
@@ -10,13 +10,13 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.address.Get
 import java.util.List;
 
 public interface AddressService {
-    Result add(AddAddressRequest request);
+    Response add(AddAddressRequest request);
 
-    Result update(UpdateAddressRequest request);
+    Response update(UpdateAddressRequest request);
 
-    Result delete(Integer id);
+    Response delete(Integer id);
 
-    DataResult<List<GetAllAddressResponse>> getAll();
+    DataResponse<List<GetAllAddressResponse>> getAll();
 
-    DataResult<GetByIdAddressResponse> getById(Integer id);
+    DataResponse<GetByIdAddressResponse> getById(Integer id);
 }

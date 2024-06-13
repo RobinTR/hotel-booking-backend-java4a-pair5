@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentmethod.AddPaymentMethodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentmethod.UpdatePaymentMethodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentmethod.GetAllPaymentMethodResponse;
@@ -10,13 +10,13 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentmeth
 import java.util.List;
 
 public interface PaymentMethodService {
-    Result add(AddPaymentMethodRequest request);
+    Response add(AddPaymentMethodRequest request);
 
-    Result update(UpdatePaymentMethodRequest request);
+    Response update(UpdatePaymentMethodRequest request);
 
-    Result delete(Integer id);
+    Response delete(Integer id);
 
-    DataResult<List<GetAllPaymentMethodResponse>> getAll();
+    DataResponse<List<GetAllPaymentMethodResponse>> getAll();
 
-    DataResult<GetByIdPaymentMethodResponse> getById(Integer id);
+    DataResponse<GetByIdPaymentMethodResponse> getById(Integer id);
 }

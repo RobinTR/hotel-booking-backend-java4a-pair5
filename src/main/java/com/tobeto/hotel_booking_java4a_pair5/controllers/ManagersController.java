@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.controllers;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.ManagerService;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.manager.AddManagerRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.manager.UpdateManagerRequest;
@@ -22,27 +22,27 @@ public class ManagersController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Result add(@RequestBody @Valid AddManagerRequest request) {
+    public Response add(@RequestBody @Valid AddManagerRequest request) {
         return managerService.add(request);
     }
 
     @PutMapping
-    public Result update(@RequestBody @Valid UpdateManagerRequest request) {
+    public Response update(@RequestBody @Valid UpdateManagerRequest request) {
         return managerService.update(request);
     }
 
     @DeleteMapping
-    public Result delete(@RequestParam Integer id) {
+    public Response delete(@RequestParam Integer id) {
         return managerService.delete(id);
     }
 
     @GetMapping
-    public DataResult<List<GetAllManagerResponse>> getAll() {
+    public DataResponse<List<GetAllManagerResponse>> getAll() {
         return managerService.getAll();
     }
 
     @GetMapping("/{getById}")
-    public DataResult<GetByIdManagerResponse> getById(@PathVariable Integer getById) {
+    public DataResponse<GetByIdManagerResponse> getById(@PathVariable Integer getById) {
         return managerService.getById(getById);
     }
 }

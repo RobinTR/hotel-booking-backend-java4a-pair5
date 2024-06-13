@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.controllers;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.PaymentByCardService;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentbycard.AddPaymentByCardRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentbycard.UpdatePaymentByCardRequest;
@@ -22,27 +22,27 @@ public class PaymentByCardsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Result add(@RequestBody @Valid AddPaymentByCardRequest request) {
+    public Response add(@RequestBody @Valid AddPaymentByCardRequest request) {
         return paymentByCardService.add(request);
     }
 
     @PutMapping
-    public Result update(@RequestBody @Valid UpdatePaymentByCardRequest request) {
+    public Response update(@RequestBody @Valid UpdatePaymentByCardRequest request) {
         return paymentByCardService.update(request);
     }
 
     @DeleteMapping
-    public Result delete(@RequestParam Integer id) {
+    public Response delete(@RequestParam Integer id) {
         return paymentByCardService.delete(id);
     }
 
     @GetMapping
-    public DataResult<List<GetAllPaymentByCardResponse>> getAll() {
+    public DataResponse<List<GetAllPaymentByCardResponse>> getAll() {
         return paymentByCardService.getAll();
     }
 
     @GetMapping("/{getById}")
-    public DataResult<GetByIdPaymentByCardResponse> getById(@PathVariable Integer getById) {
+    public DataResponse<GetByIdPaymentByCardResponse> getById(@PathVariable Integer getById) {
         return paymentByCardService.getById(getById);
     }
 }

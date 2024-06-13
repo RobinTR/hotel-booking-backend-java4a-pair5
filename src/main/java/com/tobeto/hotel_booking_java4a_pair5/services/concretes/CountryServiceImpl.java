@@ -1,9 +1,9 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Country;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.CountryRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.CountryService;
@@ -24,43 +24,43 @@ public class CountryServiceImpl implements CountryService {
     private CountryRepository countryRepository;
 
     @Override
-    public Result add(AddCountryRequest request) {
+    public Response add(AddCountryRequest request) {
         Country country = CountryMapper.INSTANCE.countryFromAddRequest(request);
         country = countryRepository.save(country);
 
-        return new SuccessResult(CountryMessages.COUNTRY_ADDED);
+        return new SuccessResponse(CountryMessages.COUNTRY_ADDED);
     }
 
     @Override
-    public Result update(UpdateCountryRequest request) {
+    public Response update(UpdateCountryRequest request) {
         Country country = CountryMapper.INSTANCE.countryFromUpdateRequest(request);
         country = countryRepository.save(country);
 
-        return new SuccessResult(CountryMessages.COUNTRY_UPDATED);
+        return new SuccessResponse(CountryMessages.COUNTRY_UPDATED);
     }
 
     @Override
-    public Result delete(Integer id) {
+    public Response delete(Integer id) {
         //TODO: Refactor Exception and Message
         Country country = countryRepository.findById(id).orElseThrow(() -> new RuntimeException(CountryMessages.COUNTRY_NOT_FOUND));
         countryRepository.deleteById(country.getId());
 
-        return new SuccessResult(CountryMessages.COUNTRY_DELETED);
+        return new SuccessResponse(CountryMessages.COUNTRY_DELETED);
     }
 
     @Override
-    public DataResult<List<GetAllCountryResponse>> getAll() {
+    public DataResponse<List<GetAllCountryResponse>> getAll() {
         List<Country> countries = countryRepository.findAll();
         List<GetAllCountryResponse> response = CountryMapper.INSTANCE.getAllCountryResponseList(countries);
 
-        return new SuccessDataResult<>(response, CountryMessages.COUNTRY_LISTED);
+        return new SuccessDataResponse<>(response, CountryMessages.COUNTRY_LISTED);
     }
 
     @Override
-    public DataResult<GetByIdCountryResponse> getById(Integer id) {
+    public DataResponse<GetByIdCountryResponse> getById(Integer id) {
         Country country = countryRepository.findById(id).orElseThrow(() -> new RuntimeException(CountryMessages.COUNTRY_NOT_FOUND));
         GetByIdCountryResponse response = CountryMapper.INSTANCE.getByIdCountryResponse(country);
 
-        return new SuccessDataResult<>(response, CountryMessages.COUNTRY_LISTED);
+        return new SuccessDataResponse<>(response, CountryMessages.COUNTRY_LISTED);
     }
 }

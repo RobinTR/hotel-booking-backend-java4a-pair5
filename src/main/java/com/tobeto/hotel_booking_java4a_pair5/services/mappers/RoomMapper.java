@@ -33,7 +33,7 @@ public interface RoomMapper {
     @Mapping(target = "roomTypeName", source = "roomType.name")
     GetByIdRoomResponse getByIdRoomResponseFromRoom(Room room);
 
-    @Mapping(target = "hotel.name", source = "hotelName")
-    @Mapping(target = "roomType.name", source = "roomTypeName")
-    Room roomFromGetByIdResponse(GetByIdRoomResponse response);
+    @Mapping(target = "hotelId", source = "hotel.id")
+    @Mapping(target = "roomTypeId", source = "roomType.id")
+    UpdateRoomRequest updateRoomRequestFromRoom(Room room);
 }

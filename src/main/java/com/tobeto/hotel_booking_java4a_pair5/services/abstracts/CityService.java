@@ -1,8 +1,8 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.city.AddCityRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.city.UpdateCityRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.city.GetAllCityResponse;
@@ -11,13 +11,13 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.city.GetByI
 import java.util.List;
 
 public interface CityService {
-    Result add(AddCityRequest request);
+    Response add(AddCityRequest request);
 
-    Result update(UpdateCityRequest request);
+    Response update(UpdateCityRequest request);
 
-    Result delete(Integer id);
+    Response delete(Integer id);
 
-    DataResult<List<GetAllCityResponse>> getAll();
+    DataResponse<List<GetAllCityResponse>> getAll();
 
-    DataResult<GetByIdCityResponse> getById(Integer id);
+    DataResponse<GetByIdCityResponse> getById(Integer id);
 }

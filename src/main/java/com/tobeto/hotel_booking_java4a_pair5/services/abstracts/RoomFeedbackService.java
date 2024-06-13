@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomfeedback.AddRoomFeedbackRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomfeedback.UpdateRoomFeedbackRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomfeedback.GetAllRoomFeedbackResponse;
@@ -10,13 +10,13 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomfeedbac
 import java.util.List;
 
 public interface RoomFeedbackService {
-    Result add(AddRoomFeedbackRequest request);
+    Response add(AddRoomFeedbackRequest request);
 
-    Result update(UpdateRoomFeedbackRequest request);
+    Response update(UpdateRoomFeedbackRequest request);
 
-    Result delete(Integer id);
+    Response delete(Integer id);
 
-    DataResult<List<GetAllRoomFeedbackResponse>> getAll();
+    DataResponse<List<GetAllRoomFeedbackResponse>> getAll();
 
-    DataResult<GetByIdRoomFeedbackResponse> getById(Integer id);
+    DataResponse<GetByIdRoomFeedbackResponse> getById(Integer id);
 }

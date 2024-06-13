@@ -1,8 +1,8 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.country.AddCountryRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.country.UpdateCountryRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.country.GetAllCountryResponse;
@@ -12,13 +12,13 @@ import java.util.List;
 
 
 public interface CountryService {
-    Result add(AddCountryRequest request);
+    Response add(AddCountryRequest request);
 
-    Result update(UpdateCountryRequest request);
+    Response update(UpdateCountryRequest request);
 
-    Result delete(Integer id);
+    Response delete(Integer id);
 
-    DataResult<List<GetAllCountryResponse>> getAll();
+    DataResponse<List<GetAllCountryResponse>> getAll();
 
-    DataResult<GetByIdCountryResponse> getById(Integer id);
+    DataResponse<GetByIdCountryResponse> getById(Integer id);
 }

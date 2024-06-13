@@ -1,9 +1,9 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Guest;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.GuestRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.GuestService;
@@ -24,42 +24,42 @@ public class GuestServiceImpl implements GuestService {
     private GuestRepository guestRepository;
 
     @Override
-    public Result add(AddGuestRequest request) {
+    public Response add(AddGuestRequest request) {
         Guest guest = GuestMapper.INSTANCE.guestFromAddRequest(request);
         guest = guestRepository.save(guest);
 
-        return new SuccessResult(GuestMessages.GUEST_ADDED);
+        return new SuccessResponse(GuestMessages.GUEST_ADDED);
     }
 
     @Override
-    public Result update(UpdateGuestRequest request) {
+    public Response update(UpdateGuestRequest request) {
         Guest guest = GuestMapper.INSTANCE.guestFromUpdateRequest(request);
         guest = guestRepository.save(guest);
 
-        return new SuccessResult(GuestMessages.GUEST_UPDATED);
+        return new SuccessResponse(GuestMessages.GUEST_UPDATED);
     }
 
     @Override
-    public Result delete(Integer id) {
+    public Response delete(Integer id) {
         Guest guest = guestRepository.findById(id).orElseThrow(() -> new RuntimeException(GuestMessages.GUEST_DELETED));
         guestRepository.deleteById(guest.getId());
 
-        return new SuccessResult(GuestMessages.GUEST_DELETED);
+        return new SuccessResponse(GuestMessages.GUEST_DELETED);
     }
 
     @Override
-    public DataResult<List<GetAllGuestResponse>> getAll() {
+    public DataResponse<List<GetAllGuestResponse>> getAll() {
         List<Guest> guests = guestRepository.findAll();
         List<GetAllGuestResponse> response = GuestMapper.INSTANCE.getAllGuestResponseList(guests);
 
-        return new SuccessDataResult<>(response, GuestMessages.GUEST_LISTED);
+        return new SuccessDataResponse<>(response, GuestMessages.GUEST_LISTED);
     }
 
     @Override
-    public DataResult<GetByIdGuestResponse> getById(Integer id) {
+    public DataResponse<GetByIdGuestResponse> getById(Integer id) {
         Guest guest = guestRepository.findById(id).orElseThrow(() -> new RuntimeException(GuestMessages.GUEST_NOT_FOUND));
         GetByIdGuestResponse response = GuestMapper.INSTANCE.getByIdGuestResponse(guest);
 
-        return new SuccessDataResult<>(response, GuestMessages.GUEST_LISTED);
+        return new SuccessDataResponse<>(response, GuestMessages.GUEST_LISTED);
     }
 }
