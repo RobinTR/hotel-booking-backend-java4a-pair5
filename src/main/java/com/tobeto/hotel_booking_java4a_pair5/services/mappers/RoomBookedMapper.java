@@ -34,12 +34,4 @@ public interface RoomBookedMapper {
     GetByIdRoomBookedResponse getByIdRoomBookedResponseFromRoomBooked(RoomBooked roomBooked);
 
     List<GetByIdRoomBookedResponse> getByIdRoomBookedResponseFromRoomBookedList(List<RoomBooked> roomBooked);
-
-    @Mapping(target = "booking.hotel.name", source = "bookingHotelName")
-    @Mapping(target = "room.roomType.name", source = "roomTypeName")
-    RoomBooked getRoomBookedFromGetByIdRoomBookedResponse(GetByIdRoomBookedResponse response);
-
-    @Mapping(target = "bookingId", source = "booking.id")
-    @Mapping(target = "roomId", source = "room.id")
-    AddRoomBookedRequest roomBookedFromAddRequest(RoomBooked roomBooked);
 }

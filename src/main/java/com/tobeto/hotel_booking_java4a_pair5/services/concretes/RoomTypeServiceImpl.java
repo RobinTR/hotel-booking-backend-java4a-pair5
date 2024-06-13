@@ -1,9 +1,9 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomType;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomTypeRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomTypeService;
@@ -24,42 +24,42 @@ public class RoomTypeServiceImpl implements RoomTypeService {
     private final RoomTypeRepository roomTypeRepository;
 
     @Override
-    public Result add(AddRoomTypeRequest request) {
+    public Response add(AddRoomTypeRequest request) {
         RoomType roomType = RoomTypeMapper.INSTANCE.roomTypeFromAddRequest(request);
         roomType = roomTypeRepository.save(roomType);
 
-        return new SuccessResult(RoomTypeMessages.ROOMTYPE_ADDED);
+        return new SuccessResponse(RoomTypeMessages.ROOMTYPE_ADDED);
     }
 
     @Override
-    public Result update(UpdateRoomTypeRequest request) {
+    public Response update(UpdateRoomTypeRequest request) {
         RoomType roomType = RoomTypeMapper.INSTANCE.roomTypeFromUpdateRequest(request);
         roomType = roomTypeRepository.save(roomType);
 
-        return new SuccessResult(RoomTypeMessages.ROOMTYPE_UPDATED);
+        return new SuccessResponse(RoomTypeMessages.ROOMTYPE_UPDATED);
     }
 
     @Override
-    public Result delete(Integer id) {
+    public Response delete(Integer id) {
         RoomType roomType = roomTypeRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomTypeMessages.ROOMTYPE_NOT_FOUND));
         roomTypeRepository.delete(roomType);
 
-        return new SuccessResult(RoomTypeMessages.ROOMTYPE_DELETED);
+        return new SuccessResponse(RoomTypeMessages.ROOMTYPE_DELETED);
     }
 
     @Override
-    public DataResult<List<GetAllRoomTypeResponse>> getAll() {
+    public DataResponse<List<GetAllRoomTypeResponse>> getAll() {
         List<RoomType> roomTypes = roomTypeRepository.findAll();
         List<GetAllRoomTypeResponse> response = RoomTypeMapper.INSTANCE.getAllRoomTypeResponseListFromRoomTypes(roomTypes);
 
-        return new SuccessDataResult<>(response, RoomTypeMessages.ROOMTYPE_LISTED);
+        return new SuccessDataResponse<>(response, RoomTypeMessages.ROOMTYPE_LISTED);
     }
 
     @Override
-    public DataResult<GetByIdRoomTypeResponse> getById(Integer id) {
+    public DataResponse<GetByIdRoomTypeResponse> getById(Integer id) {
         RoomType roomType = roomTypeRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomTypeMessages.ROOMTYPE_NOT_FOUND));
         GetByIdRoomTypeResponse response = RoomTypeMapper.INSTANCE.getByIdRoomTypeResponseFromRoomType(roomType);
 
-        return new SuccessDataResult<>(response, RoomTypeMessages.ROOMTYPE_LISTED);
+        return new SuccessDataResponse<>(response, RoomTypeMessages.ROOMTYPE_LISTED);
     }
 }

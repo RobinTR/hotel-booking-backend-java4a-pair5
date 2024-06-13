@@ -1,9 +1,9 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.HotelReview;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelReviewRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelReviewService;
@@ -24,42 +24,42 @@ public class HotelReviewServiceImpl implements HotelReviewService {
     private HotelReviewRepository hotelReviewRepository;
 
     @Override
-    public Result add(AddHotelReviewRequest request) {
+    public Response add(AddHotelReviewRequest request) {
         HotelReview hotelReview = HotelReviewMapper.INSTANCE.hotelReviewFromAddRequest(request);
         hotelReview = hotelReviewRepository.save(hotelReview);
 
-        return new SuccessResult(HotelReviewMessages.HOTELREVIEW_ADDED);
+        return new SuccessResponse(HotelReviewMessages.HOTELREVIEW_ADDED);
     }
 
     @Override
-    public Result update(UpdateHotelReviewRequest request) {
+    public Response update(UpdateHotelReviewRequest request) {
         HotelReview hotelReview = HotelReviewMapper.INSTANCE.hotelReviewFromUpdateRequest(request);
         hotelReview = hotelReviewRepository.save(hotelReview);
 
-        return new SuccessResult(HotelReviewMessages.HOTELREVIEW_UPDATED);
+        return new SuccessResponse(HotelReviewMessages.HOTELREVIEW_UPDATED);
     }
 
     @Override
-    public Result delete(Integer id) {
+    public Response delete(Integer id) {
         HotelReview hotelReview = hotelReviewRepository.findById(id).orElseThrow(() -> new RuntimeException(HotelReviewMessages.HOTELREVIEW_NOT_FOUND));
         hotelReviewRepository.deleteById(hotelReview.getId());
 
-        return new SuccessDataResult<>(HotelReviewMessages.HOTELREVIEW_DELETED);
+        return new SuccessDataResponse<>(HotelReviewMessages.HOTELREVIEW_DELETED);
     }
 
     @Override
-    public DataResult<List<GetAllHotelReviewResponse>> getAll() {
+    public DataResponse<List<GetAllHotelReviewResponse>> getAll() {
         List<HotelReview> hotelReviews = hotelReviewRepository.findAll();
         List<GetAllHotelReviewResponse> response = HotelReviewMapper.INSTANCE.getAllHotelReviewResponseList(hotelReviews);
 
-        return new SuccessDataResult<>(response, HotelReviewMessages.HOTELREVIEW_LISTED);
+        return new SuccessDataResponse<>(response, HotelReviewMessages.HOTELREVIEW_LISTED);
     }
 
     @Override
-    public DataResult<GetByIdHotelReviewResponse> getById(Integer id) {
+    public DataResponse<GetByIdHotelReviewResponse> getById(Integer id) {
         HotelReview hotelReview = hotelReviewRepository.findById(id).orElseThrow(() -> new RuntimeException(HotelReviewMessages.HOTELREVIEW_NOT_FOUND));
         GetByIdHotelReviewResponse response = HotelReviewMapper.INSTANCE.getByIdHotelReviewResponse(hotelReview);
 
-        return new SuccessDataResult<>(response, HotelReviewMessages.HOTELREVIEW_LISTED);
+        return new SuccessDataResponse<>(response, HotelReviewMessages.HOTELREVIEW_LISTED);
     }
 }

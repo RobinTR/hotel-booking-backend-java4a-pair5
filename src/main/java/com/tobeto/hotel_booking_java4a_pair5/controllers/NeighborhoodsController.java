@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.controllers;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.NeighborhoodService;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.neighborhood.AddNeighborhoodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.neighborhood.UpdateNeighborhoodRequest;
@@ -22,28 +22,28 @@ public class NeighborhoodsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Result add(@RequestBody @Valid AddNeighborhoodRequest request) {
+    public Response add(@RequestBody @Valid AddNeighborhoodRequest request) {
         return neighborhoodService.add(request);
     }
 
     @PutMapping
-    public Result update(@RequestBody @Valid UpdateNeighborhoodRequest request) {
+    public Response update(@RequestBody @Valid UpdateNeighborhoodRequest request) {
         return neighborhoodService.update(request);
     }
 
     @DeleteMapping
-    public Result delete(@RequestParam Integer id) {
+    public Response delete(@RequestParam Integer id) {
         return neighborhoodService.delete(id);
     }
 
     @GetMapping
-    public DataResult<List<GetAllNeighborhoodResponse>> getAll() {
+    public DataResponse<List<GetAllNeighborhoodResponse>> getAll() {
         return neighborhoodService.getAll();
     }
 
 
     @GetMapping("/{getById}")
-    public DataResult<GetByIdNeighborhoodResponse> getById(@PathVariable Integer getById) {
+    public DataResponse<GetByIdNeighborhoodResponse> getById(@PathVariable Integer getById) {
         return neighborhoodService.getById(getById);
     }
 }

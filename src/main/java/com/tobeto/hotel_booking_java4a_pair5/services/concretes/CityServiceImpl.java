@@ -1,9 +1,9 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.City;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.CityRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.CityService;
@@ -24,43 +24,43 @@ public class CityServiceImpl implements CityService {
     private CityRepository cityRepository;
 
     @Override
-    public Result add(AddCityRequest request) {
+    public Response add(AddCityRequest request) {
         City city = CityMapper.INSTANCE.cityFromAddRequest(request);
         city = cityRepository.save(city);
 
-        return new SuccessResult(CityMessages.CITY_ADDED);
+        return new SuccessResponse(CityMessages.CITY_ADDED);
     }
 
     @Override
-    public Result update(UpdateCityRequest request) {
+    public Response update(UpdateCityRequest request) {
         City city = CityMapper.INSTANCE.cityFromUpdateRequest(request);
         city = cityRepository.save(city);
 
-        return new SuccessResult(CityMessages.CITY_UPDATED);
+        return new SuccessResponse(CityMessages.CITY_UPDATED);
     }
 
     @Override
-    public Result delete(Integer id) {
+    public Response delete(Integer id) {
         //TODO: Refactor Exception and Message
         City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException(CityMessages.CITY_NOT_FOUND));
         cityRepository.deleteById(city.getId());
 
-        return new SuccessResult(CityMessages.CITY_DELETED);
+        return new SuccessResponse(CityMessages.CITY_DELETED);
     }
 
     @Override
-    public DataResult<List<GetAllCityResponse>> getAll() {
+    public DataResponse<List<GetAllCityResponse>> getAll() {
         List<City> cities = cityRepository.findAll();
         List<GetAllCityResponse> response = CityMapper.INSTANCE.getAllCityResponseList(cities);
 
-        return new SuccessDataResult<>(response, CityMessages.CITY_LISTED);
+        return new SuccessDataResponse<>(response, CityMessages.CITY_LISTED);
     }
 
     @Override
-    public DataResult<GetByIdCityResponse> getById(Integer id) {
+    public DataResponse<GetByIdCityResponse> getById(Integer id) {
         City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException(CityMessages.CITY_NOT_FOUND));
         GetByIdCityResponse response = CityMapper.INSTANCE.getByIdCityResponse(city);
 
-        return new SuccessDataResult<>(response, CityMessages.CITY_DELETED);
+        return new SuccessDataResponse<>(response, CityMessages.CITY_DELETED);
     }
 }

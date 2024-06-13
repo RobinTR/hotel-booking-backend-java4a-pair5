@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.JwtService;
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.User;
@@ -30,12 +30,12 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
 
     @Override
-    public Result register(RegisterRequest request) {
+    public Response register(RegisterRequest request) {
         User user = AuthMapper.INSTANCE.userFromRegisterRequest(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
-        return new SuccessResult(AuthMessages.AUTH_REGISTER_SUCCESS);
+        return new SuccessResponse(AuthMessages.AUTH_REGISTER_SUCCESS);
     }
 
     @Override

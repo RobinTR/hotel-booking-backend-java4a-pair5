@@ -27,8 +27,4 @@ public class AddBookingRequest {
     private LocalDate startDate;
 
     private LocalDate endDate;
-
-    private LocalDateTime checkInDate;
-
-    private LocalDateTime checkOutDate;
 }

@@ -6,4 +6,5 @@ public class RoomMessages {
     public static final String ROOM_DELETED = "Room deleted.";
     public static final String ROOM_NOT_FOUND = "Room not found.";
     public static final String ROOM_LISTED = "Room listed.";
+    public static final String ROOM_IS_NOT_AVAILABLE = "Room is not available.";
 }

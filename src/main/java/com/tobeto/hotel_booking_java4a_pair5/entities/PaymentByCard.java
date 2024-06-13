@@ -23,7 +23,7 @@ public class PaymentByCard extends BaseEntity {
     private PaymentMethod paymentMethod;
 
     @NotBlank(message = "Card number cannot be blank.")
-    @Size(max = 19, message = "Card number  must be maximum 19 characters")
+    @Size(max = 128)
     @Column(name = "card_number")
     private String cardNumber;
 
@@ -38,8 +38,8 @@ public class PaymentByCard extends BaseEntity {
     private String expirationYear;
 
     @NotBlank(message = "CVV cannot be blank.")
+    @Size(max = 128)
     @Column(name = "cvv")
-    @Size(max = 4, message = "Cvv must be maximum 4 characters")
     private String cvv;
 
     @OneToMany(mappedBy = "paymentByCard")

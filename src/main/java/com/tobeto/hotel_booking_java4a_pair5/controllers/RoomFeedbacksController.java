@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.controllers;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomFeedbackService;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomfeedback.AddRoomFeedbackRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomfeedback.UpdateRoomFeedbackRequest;
@@ -22,27 +22,27 @@ public class RoomFeedbacksController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Result add(@RequestBody @Valid AddRoomFeedbackRequest request) {
+    public Response add(@RequestBody @Valid AddRoomFeedbackRequest request) {
         return roomFeedbackService.add(request);
     }
 
     @PutMapping
-    public Result update(@RequestBody @Valid UpdateRoomFeedbackRequest request) {
+    public Response update(@RequestBody @Valid UpdateRoomFeedbackRequest request) {
         return roomFeedbackService.update(request);
     }
 
     @DeleteMapping
-    public Result delete(@RequestParam Integer id) {
+    public Response delete(@RequestParam Integer id) {
         return roomFeedbackService.delete(id);
     }
 
     @GetMapping
-    public DataResult<List<GetAllRoomFeedbackResponse>> getAll() {
+    public DataResponse<List<GetAllRoomFeedbackResponse>> getAll() {
         return roomFeedbackService.getAll();
     }
 
     @GetMapping("/{getById}")
-    public DataResult<GetByIdRoomFeedbackResponse> getById(@PathVariable Integer getById) {
+    public DataResponse<GetByIdRoomFeedbackResponse> getById(@PathVariable Integer getById) {
         return roomFeedbackService.getById(getById);
     }
 }

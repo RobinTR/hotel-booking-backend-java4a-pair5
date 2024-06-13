@@ -1,32 +1,20 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.entities.ReservationStatus;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
-import com.tobeto.hotel_booking_java4a_pair5.entities.RoomBooked;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.BookingRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.BookingService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomBookedService;
-import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.BookingMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.AddBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.UpdateBookingRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.room.AddRoomRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetByIdBookingResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetByIdRoomResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roombooked.AddRoomBookedRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.BookingMapper;
-import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomBookedMapper;
-import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomMapper;
 import com.tobeto.hotel_booking_java4a_pair5.services.rules.BookingBusinessRules;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -36,97 +24,93 @@ import java.util.List;
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final RoomBookedService roomBookedService;
-    private final RoomService roomService;
     private final BookingBusinessRules bookingBusinessRules;
 
+    @Transactional
     @Override
-    public Result add(AddBookingRequest request) {
+    public Booking add(AddBookingRequest request) {
         Booking booking = BookingMapper.INSTANCE.bookingFromAddRequest(request);
         booking.setReservationStatus(ReservationStatus.PENDING);
         booking = bookingRepository.save(booking);
 
         for (Integer id : request.getRoomIds()) {
-            RoomBooked roomBooked = new RoomBooked();
-            roomBooked.setBooking(booking);
-            GetByIdRoomResponse getByIdRoomResponse = roomService.getById(id).getData();
-            Room room = RoomMapper.INSTANCE.roomFromGetByIdResponse(getByIdRoomResponse);
-            roomBooked.setRoom(room);
-            roomBookedService.add(RoomBookedMapper.INSTANCE.roomBookedFromAddRequest(roomBooked));
+            AddRoomBookedRequest roomBookedRequest = new AddRoomBookedRequest();
+            roomBookedRequest.setBookingId(booking.getId());
+            roomBookedRequest.setRoomId(id);
+            roomBookedService.add(roomBookedRequest);
         }
 
-        booking.setTotalCost(bookingBusinessRules.calculatePrice(booking.getId()));
+        booking.setTotalCost(bookingBusinessRules.reserveRoomAndCalculatePrice(booking.getId()));
         booking = bookingRepository.save(booking);
 
-        return new SuccessResult(BookingMessages.BOOKING_ADDED);
+        return booking;
     }
 
     @Override
-    public Result update(UpdateBookingRequest request) {
+    public Booking update(UpdateBookingRequest request) {
         Booking booking = BookingMapper.INSTANCE.bookingFromUpdateRequest(request);
         booking = bookingRepository.save(booking);
 
-        return new SuccessResult(BookingMessages.BOOKING_UPDATED);
+        return booking;
     }
 
+    @Transactional
     @Override
-    public Result delete(Integer id) {
-        //TODO: Refactor Exception and Message
-        Booking booking = bookingBusinessRules.isBookingExist(id);
+    public String delete(Integer id) {
+        Booking booking = bookingBusinessRules.getBooking(id);
+        bookingBusinessRules.deleteBookingCheck(booking);
         bookingRepository.deleteById(booking.getId());
 
-        return new SuccessResult(BookingMessages.BOOKING_DELETED);
+        return BookingMessages.BOOKING_DELETED;
     }
 
     @Override
-    public DataResult<List<GetAllBookingResponse>> getAll() {
-        List<Booking> bookings = bookingRepository.findAll();
-        List<GetAllBookingResponse> response = BookingMapper.INSTANCE.getAllBookingResponseList(bookings);
-
-        return new SuccessDataResult<>(response, BookingMessages.BOOKING_LISTED);
+    public List<Booking> getAll() {
+        return bookingRepository.findAll();
     }
 
     @Override
-    public DataResult<GetByIdBookingResponse> getById(Integer id) {
-        Booking booking = bookingBusinessRules.isBookingExist(id);
-        GetByIdBookingResponse response = BookingMapper.INSTANCE.getByIdBookingResponse(booking);
+    public Booking getById(Integer id) {
+        Booking booking = bookingBusinessRules.getBooking(id);
 
-        return new SuccessDataResult<>(response, BookingMessages.BOOKING_LISTED);
+        return booking;
     }
 
     @Override
-    public DataResult<List<GetAllBookingResponse>> searchByDate(LocalDate startDate, LocalDate endDate) {
-        return new SuccessDataResult<>(bookingRepository.searchByDate(startDate, endDate), BookingMessages.BOOKING_LISTED);
+    public List<Booking> searchByDate(LocalDate startDate, LocalDate endDate) {
+        return bookingRepository.searchByDate(startDate, endDate);
     }
 
     @Override
-    public DataResult<List<GetAllBookingResponse>> searchByRoomType(Integer roomTypeId) {
-        return new SuccessDataResult<>(bookingRepository.searchByRoomType(roomTypeId));
+    public List<Booking> searchByRoomType(Integer roomTypeId) {
+        return bookingRepository.searchByRoomType(roomTypeId);
     }
 
     @Override
-    public Result changeCheckInDate(Integer id) {
-        Booking booking = bookingBusinessRules.isBookingExist(id);
+    public Booking changeCheckInDate(Integer id) {
+        Booking booking = bookingBusinessRules.getBooking(id);
         bookingBusinessRules.changeCheckInDate(booking);
         bookingRepository.save(booking);
 
-        return new SuccessResult(BookingMessages.BOOKING_CHECK_IN_DATE_UPDATED);
+        return booking;
     }
 
     @Override
-    public Result changeCheckOutDate(Integer id) {
-        Booking booking = bookingBusinessRules.isBookingExist(id);
+    public Booking changeCheckOutDate(Integer id) {
+        Booking booking = bookingBusinessRules.getBooking(id);
         bookingBusinessRules.changeCheckOutDate(booking);
         bookingRepository.save(booking);
 
-        return new SuccessResult(BookingMessages.BOOKING_CHECK_OUT_DATE_UPDATED);
+        return booking;
     }
 
+    @Transactional
     @Override
-    public Result changeReservationStatus(Integer id, boolean isConfirmed) {
-        Booking booking = bookingBusinessRules.isBookingExist(id);
-        bookingBusinessRules.changeReservationStatus(booking, isConfirmed);
+    public Booking changeReservationStatus(Integer id, ReservationStatus reservationStatus) {
+        Booking booking = bookingBusinessRules.getBooking(id);
+        bookingBusinessRules.changeReservationStatus(booking, reservationStatus);
         bookingRepository.save(booking);
 
-        return new SuccessResult(BookingMessages.BOOKING_RESERVATION_STATUS_UPDATED);
+        return booking;
     }
 }

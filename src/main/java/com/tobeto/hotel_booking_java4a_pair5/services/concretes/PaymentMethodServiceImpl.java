@@ -1,9 +1,9 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessDataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.SuccessResult;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.PaymentMethod;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.PaymentMethodRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.PaymentMethodService;
@@ -25,42 +25,42 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     private PaymentMethodRepository paymentMethodRepository;
 
     @Override
-    public Result add(AddPaymentMethodRequest request) {
+    public Response add(AddPaymentMethodRequest request) {
         PaymentMethod paymentMethod = PaymentMethodMapper.INSTANCE.paymentMethodFromAddRequest(request);
         paymentMethod = paymentMethodRepository.save(paymentMethod);
 
-        return new SuccessResult(PaymentMethodMessages.PAYMENTMETHOD_ADDED);
+        return new SuccessResponse(PaymentMethodMessages.PAYMENTMETHOD_ADDED);
     }
 
     @Override
-    public Result update(UpdatePaymentMethodRequest request) {
+    public Response update(UpdatePaymentMethodRequest request) {
         PaymentMethod paymentMethod = PaymentMethodMapper.INSTANCE.paymentMethodFromUpdateRequest(request);
         paymentMethod = paymentMethodRepository.save(paymentMethod);
 
-        return new SuccessResult(PaymentMethodMessages.PAYMENTMETHOD_UPDATED);
+        return new SuccessResponse(PaymentMethodMessages.PAYMENTMETHOD_UPDATED);
     }
 
     @Override
-    public Result delete(Integer id) {
+    public Response delete(Integer id) {
         PaymentMethod paymentMethod = paymentMethodRepository.findById(id).orElseThrow(() -> new RuntimeException(PaymentMethodMessages.PAYMENTMETHOD_NOT_FOUND));
         paymentMethodRepository.delete(paymentMethod);
 
-        return new SuccessResult(PaymentMethodMessages.PAYMENTMETHOD_DELETED);
+        return new SuccessResponse(PaymentMethodMessages.PAYMENTMETHOD_DELETED);
     }
 
     @Override
-    public DataResult<List<GetAllPaymentMethodResponse>> getAll() {
+    public DataResponse<List<GetAllPaymentMethodResponse>> getAll() {
         List<PaymentMethod> paymentMethods = paymentMethodRepository.findAll();
         List<GetAllPaymentMethodResponse> response = PaymentMethodMapper.INSTANCE.getAllPaymentMethodResponseList(paymentMethods);
 
-        return new SuccessDataResult<>(response, PaymentMethodMessages.PAYMENTMETHOD_LISTED);
+        return new SuccessDataResponse<>(response, PaymentMethodMessages.PAYMENTMETHOD_LISTED);
     }
 
     @Override
-    public DataResult<GetByIdPaymentMethodResponse> getById(Integer id) {
+    public DataResponse<GetByIdPaymentMethodResponse> getById(Integer id) {
         PaymentMethod paymentMethod = paymentMethodRepository.findById(id).orElseThrow(() -> new RuntimeException(PaymentMethodMessages.PAYMENTMETHOD_NOT_FOUND));
         GetByIdPaymentMethodResponse response = PaymentMethodMapper.INSTANCE.getByIdPaymentMethodResponse(paymentMethod);
 
-        return new SuccessDataResult<>(response, PaymentMethodMessages.PAYMENTMETHOD_LISTED);
+        return new SuccessDataResponse<>(response, PaymentMethodMessages.PAYMENTMETHOD_LISTED);
     }
 }

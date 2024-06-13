@@ -1,8 +1,8 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.district.AddDistrictRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.district.UpdateDistrictRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.district.GetAllDistrictResponse;
@@ -12,13 +12,13 @@ import java.util.List;
 
 
 public interface DistrictService {
-    Result add(AddDistrictRequest request);
+    Response add(AddDistrictRequest request);
 
-    Result update(UpdateDistrictRequest request);
+    Response update(UpdateDistrictRequest request);
 
-    Result delete(Integer id);
+    Response delete(Integer id);
 
-    DataResult<List<GetAllDistrictResponse>> getAll();
+    DataResponse<List<GetAllDistrictResponse>> getAll();
 
-    DataResult<GetByIdDistrictResponse> getById(Integer id);
+    DataResponse<GetByIdDistrictResponse> getById(Integer id);
 }

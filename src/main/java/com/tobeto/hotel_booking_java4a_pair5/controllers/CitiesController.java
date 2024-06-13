@@ -1,7 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.controllers;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.result.DataResult;
-import com.tobeto.hotel_booking_java4a_pair5.core.result.Result;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.CityService;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.city.AddCityRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.city.UpdateCityRequest;
@@ -22,27 +22,27 @@ public class CitiesController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Result add(@RequestBody @Valid AddCityRequest request) {
+    public Response add(@RequestBody @Valid AddCityRequest request) {
         return cityService.add(request);
     }
 
     @PutMapping
-    public Result update(@RequestBody @Valid UpdateCityRequest request) {
+    public Response update(@RequestBody @Valid UpdateCityRequest request) {
         return cityService.update(request);
     }
 
     @DeleteMapping
-    public Result delete(@RequestParam Integer id) {
+    public Response delete(@RequestParam Integer id) {
         return cityService.delete(id);
     }
 
     @GetMapping
-    public DataResult<List<GetAllCityResponse>> getAll() {
+    public DataResponse<List<GetAllCityResponse>> getAll() {
         return cityService.getAll();
     }
 
     @GetMapping("/{getById}")
-    public DataResult<GetByIdCityResponse> getById(@PathVariable Integer getById) {
+    public DataResponse<GetByIdCityResponse> getById(@PathVariable Integer getById) {
         return cityService.getById(getById);
     }
 }
