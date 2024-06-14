@@ -4,6 +4,7 @@ import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataRe
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomType;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomTypeRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomTypeService;
@@ -41,7 +42,7 @@ public class RoomTypeServiceImpl implements RoomTypeService {
 
     @Override
     public Response delete(Integer id) {
-        RoomType roomType = roomTypeRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomTypeMessages.ROOMTYPE_NOT_FOUND));
+        RoomType roomType = roomTypeRepository.findById(id).orElseThrow(() -> new BusinessException(RoomTypeMessages.ROOMTYPE_NOT_FOUND));
         roomTypeRepository.delete(roomType);
 
         return new SuccessResponse(RoomTypeMessages.ROOMTYPE_DELETED);
@@ -57,7 +58,7 @@ public class RoomTypeServiceImpl implements RoomTypeService {
 
     @Override
     public DataResponse<GetByIdRoomTypeResponse> getById(Integer id) {
-        RoomType roomType = roomTypeRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomTypeMessages.ROOMTYPE_NOT_FOUND));
+        RoomType roomType = roomTypeRepository.findById(id).orElseThrow(() -> new BusinessException(RoomTypeMessages.ROOMTYPE_NOT_FOUND));
         GetByIdRoomTypeResponse response = RoomTypeMapper.INSTANCE.getByIdRoomTypeResponseFromRoomType(roomType);
 
         return new SuccessDataResponse<>(response, RoomTypeMessages.ROOMTYPE_LISTED);
