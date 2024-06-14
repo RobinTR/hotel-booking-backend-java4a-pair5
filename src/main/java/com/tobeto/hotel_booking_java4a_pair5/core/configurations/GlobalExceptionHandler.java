@@ -5,7 +5,6 @@ import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.problemdetail
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.problemdetails.ValidationProblemDetails;
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

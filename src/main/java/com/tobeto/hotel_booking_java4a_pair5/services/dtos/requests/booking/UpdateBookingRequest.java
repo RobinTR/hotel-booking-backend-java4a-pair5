@@ -2,7 +2,6 @@ package com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking;
 
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 

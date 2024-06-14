@@ -1,30 +1,27 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHotelRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.UpdateHotelRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetByIdHotelResponse;
 
 import java.util.List;
 
 public interface HotelService {
-    Response add(AddHotelRequest request);
+    Hotel add(AddHotelRequest request);
 
-    Response update(UpdateHotelRequest request);
+    Hotel update(UpdateHotelRequest request);
 
-    Response delete(Integer id);
+    String delete(Integer id);
 
-    DataResponse<List<GetAllHotelResponse>> getAll();
+    List<Hotel> getAll();
 
-    DataResponse<GetByIdHotelResponse> getById(Integer id);
+    Hotel getById(Integer id);
 
-    DataResponse<List<GetAllHotelResponse>> searchByHotelName(String name);
+    List<Hotel> searchByHotelName(String name);
 
-    DataResponse<List<GetAllHotelResponse>> searchByLocation(String name);
+    List<Hotel> searchByLocation(String name);
 
-    DataResponse<List<GetAllHotelResponse>> searchByStarRating(int star);
+    List<Hotel> searchByStarRating(int star);
 
-    DataResponse<List<GetAllHotelResponse>> searchByPrice(double minPrice, double maxPrice);
+    List<Hotel> searchByPrice(double minPrice, double maxPrice);
 }
