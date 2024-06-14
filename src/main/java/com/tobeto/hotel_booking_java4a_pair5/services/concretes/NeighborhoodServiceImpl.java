@@ -22,45 +22,41 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class NeighborhoodServiceImpl implements NeighborhoodService {
-    private NeighborhoodRepository neighborhoodRepository;
+    private final NeighborhoodRepository neighborhoodRepository;
 
     @Override
-    public Response add(AddNeighborhoodRequest request) {
+    public Neighborhood add(AddNeighborhoodRequest request) {
         Neighborhood neighborhood = NeighborhoodMapper.INSTANCE.neighborhoodFromAddRequest(request);
         neighborhood = neighborhoodRepository.save(neighborhood);
 
-        return new SuccessResponse(NeighborhoodMessages.NEIGHBORHOOD_ADDED);
+        return neighborhood;
     }
 
     @Override
-    public Response update(UpdateNeighborhoodRequest request) {
+    public Neighborhood update(UpdateNeighborhoodRequest request) {
         Neighborhood neighborhood = NeighborhoodMapper.INSTANCE.neighborhoodFromUpdateRequest(request);
         neighborhood = neighborhoodRepository.save(neighborhood);
 
-        return new SuccessResponse(NeighborhoodMessages.NEIGHBORHOOD_UPDATED);
+        return neighborhood;
     }
 
     @Override
-    public Response delete(Integer id) {
+    public String delete(Integer id) {
         Neighborhood neighborhood = neighborhoodRepository.findById(id).orElseThrow(() -> new RuntimeException(NeighborhoodMessages.NEIGHBORHOOD_NOT_FOUND));
         neighborhoodRepository.deleteById(neighborhood.getId());
 
-        return new SuccessResponse(NeighborhoodMessages.NEIGHBORHOOD_DELETED);
+        return NeighborhoodMessages.NEIGHBORHOOD_DELETED;
     }
 
     @Override
-    public DataResponse<List<GetAllNeighborhoodResponse>> getAll() {
-        List<Neighborhood> neighborhoods = neighborhoodRepository.findAll();
-        List<GetAllNeighborhoodResponse> response = NeighborhoodMapper.INSTANCE.getAllNeighborhoodResponseList(neighborhoods);
-
-        return new SuccessDataResponse<>(response, NeighborhoodMessages.NEIGHBORHOOD_LISTED);
+    public List<Neighborhood> getAll() {
+        return neighborhoodRepository.findAll();
     }
 
     @Override
-    public DataResponse<GetByIdNeighborhoodResponse> getById(Integer id) {
+    public Neighborhood getById(Integer id) {
         Neighborhood neighborhood = neighborhoodRepository.findById(id).orElseThrow(() -> new RuntimeException(NeighborhoodMessages.NEIGHBORHOOD_NOT_FOUND));
-        GetByIdNeighborhoodResponse response = NeighborhoodMapper.INSTANCE.getByIdNeighborhoodResponse(neighborhood);
 
-        return new SuccessDataResponse<>(response, NeighborhoodMessages.NEIGHBORHOOD_LISTED);
+        return neighborhood;
     }
 }

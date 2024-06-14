@@ -21,46 +21,40 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CountryServiceImpl implements CountryService {
-    private CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
     @Override
-    public Response add(AddCountryRequest request) {
+    public Country add(AddCountryRequest request) {
         Country country = CountryMapper.INSTANCE.countryFromAddRequest(request);
         country = countryRepository.save(country);
 
-        return new SuccessResponse(CountryMessages.COUNTRY_ADDED);
+        return country;
     }
 
     @Override
-    public Response update(UpdateCountryRequest request) {
+    public Country update(UpdateCountryRequest request) {
         Country country = CountryMapper.INSTANCE.countryFromUpdateRequest(request);
         country = countryRepository.save(country);
 
-        return new SuccessResponse(CountryMessages.COUNTRY_UPDATED);
+        return country;
     }
 
     @Override
-    public Response delete(Integer id) {
+    public String delete(Integer id) {
         //TODO: Refactor Exception and Message
         Country country = countryRepository.findById(id).orElseThrow(() -> new RuntimeException(CountryMessages.COUNTRY_NOT_FOUND));
         countryRepository.deleteById(country.getId());
 
-        return new SuccessResponse(CountryMessages.COUNTRY_DELETED);
+        return CountryMessages.COUNTRY_DELETED;
     }
 
     @Override
-    public DataResponse<List<GetAllCountryResponse>> getAll() {
-        List<Country> countries = countryRepository.findAll();
-        List<GetAllCountryResponse> response = CountryMapper.INSTANCE.getAllCountryResponseList(countries);
-
-        return new SuccessDataResponse<>(response, CountryMessages.COUNTRY_LISTED);
-    }
+    public List<Country> getAll() { return countryRepository.findAll(); }
 
     @Override
-    public DataResponse<GetByIdCountryResponse> getById(Integer id) {
+    public Country getById(Integer id) {
         Country country = countryRepository.findById(id).orElseThrow(() -> new RuntimeException(CountryMessages.COUNTRY_NOT_FOUND));
-        GetByIdCountryResponse response = CountryMapper.INSTANCE.getByIdCountryResponse(country);
 
-        return new SuccessDataResponse<>(response, CountryMessages.COUNTRY_LISTED);
+        return country;
     }
 }

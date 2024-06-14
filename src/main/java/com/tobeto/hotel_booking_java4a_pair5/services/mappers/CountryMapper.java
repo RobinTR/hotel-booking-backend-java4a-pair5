@@ -20,7 +20,9 @@ public interface CountryMapper {
 
     GetAllCountryResponse getAllCountryResponseMap(Country country);
 
-    List<GetAllCountryResponse> getAllCountryResponseList(List<Country> countries);
+    List<GetAllCountryResponse> getAllCountryResponseListFromCountries(List<Country> countries);
 
-    GetByIdCountryResponse getByIdCountryResponse(Country country);
+    GetByIdCountryResponse getByIdCountryResponseFromCountry(Country country);
+
+    List<GetAllCountryResponse> getAllCountryResponseList(List<Country> countries);
 }

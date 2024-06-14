@@ -22,46 +22,43 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class DistrictServiceImpl implements DistrictService {
-    private DistrictRepository districtRepository;
+    private final DistrictRepository districtRepository;
 
     @Override
-    public Response add(AddDistrictRequest request) {
+    public District add(AddDistrictRequest request) {
         District district = DistrictMapper.INSTANCE.districtFromAddRequest(request);
         district = districtRepository.save(district);
 
-        return new SuccessResponse(DistrictMessages.DISTRICT_ADDED);
+        return district;
     }
 
     @Override
-    public Response update(UpdateDistrictRequest request) {
+    public District update(UpdateDistrictRequest request) {
         District district = DistrictMapper.INSTANCE.districtFromUpdateRequest(request);
         district = districtRepository.save(district);
 
-        return new SuccessResponse(DistrictMessages.DISTRICT_UPDATED);
+        return district;
     }
 
     @Override
-    public Response delete(Integer id) {
+    public String delete(Integer id) {
         //TODO: Refactor Exception and Message
         District district = districtRepository.findById(id).orElseThrow(() -> new RuntimeException(DistrictMessages.DISTRICT_NOT_FOUND));
         districtRepository.deleteById(district.getId());
 
-        return new SuccessResponse(DistrictMessages.DISTRICT_DELETED);
+        return DistrictMessages.DISTRICT_DELETED;
     }
 
     @Override
-    public DataResponse<List<GetAllDistrictResponse>> getAll() {
-        List<District> districtes = districtRepository.findAll();
-        List<GetAllDistrictResponse> response = DistrictMapper.INSTANCE.getAllDistrictResponseList(districtes);
-
-        return new SuccessDataResponse<>(response, DistrictMessages.DISTRICT_LISTED);
+    public List<District> getAll() {
+        return districtRepository.findAll();
     }
 
     @Override
-    public DataResponse<GetByIdDistrictResponse> getById(Integer id) {
+    public District getById(Integer id) {
         District district = districtRepository.findById(id).orElseThrow(() -> new RuntimeException(DistrictMessages.DISTRICT_NOT_FOUND));
-        GetByIdDistrictResponse response = DistrictMapper.INSTANCE.getByIdDistrictResponse(district);
 
-        return new SuccessDataResponse<>(response, DistrictMessages.DISTRICT_LISTED);
+
+        return district;
     }
 }

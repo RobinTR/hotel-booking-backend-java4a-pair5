@@ -24,59 +24,41 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentByCardServiceImpl implements PaymentByCardService {
     private final PaymentByCardRepository paymentByCardRepository;
-    private SecretKey secretKey;
 
     @Override
-    public Response add(AddPaymentByCardRequest request) {
+    public PaymentByCard add(AddPaymentByCardRequest request) {
         PaymentByCard paymentByCard = PaymentByCardMapper.INSTANCE.paymentByCardFromAddRequest(request);
 
-        secretKey = EncryptionUtil.generateAESKey();
-        String encryptedCardNumber = EncryptionUtil.encryptCardNumber(request.getCardNumber(), secretKey);
-        String encryptedCvv = EncryptionUtil.encryptCvv(request.getCvv(), secretKey);
-        paymentByCard.setCardNumber(encryptedCardNumber);
-        paymentByCard.setCvv(encryptedCvv);
+        paymentByCard = paymentByCardRepository.save(paymentByCard);
 
-        paymentByCardRepository.save(paymentByCard);
-
-        return new SuccessResponse(PaymentByCardMessages.PAYMENTBYCARD_ADDED);
+        return paymentByCard;
     }
 
     @Override
-    public Response update(UpdatePaymentByCardRequest request) {
+    public PaymentByCard update(UpdatePaymentByCardRequest request) {
         PaymentByCard paymentByCard = PaymentByCardMapper.INSTANCE.paymentByCardFromUpdateRequest(request);
+        paymentByCard = paymentByCardRepository.save(paymentByCard);
 
-        secretKey = EncryptionUtil.generateAESKey();
-        String encryptedCardNumber = EncryptionUtil.encryptCardNumber(request.getCardNumber(), secretKey);
-        String encryptedCvv = EncryptionUtil.encryptCvv(request.getCvv(), secretKey);
-        paymentByCard.setCardNumber(encryptedCardNumber);
-        paymentByCard.setCvv(encryptedCvv);
-
-        paymentByCardRepository.save(paymentByCard);
-
-        return new SuccessResponse(PaymentByCardMessages.PAYMENTBYCARD_UPDATED);
+        return paymentByCard;
     }
 
     @Override
-    public Response delete(Integer id) {
+    public String delete(Integer id) {
         PaymentByCard paymentByCard = paymentByCardRepository.findById(id).orElseThrow(() -> new RuntimeException(PaymentByCardMessages.PAYMENTBYCARD_NOT_FOUND));
-        paymentByCardRepository.deleteById(paymentByCard.getId());
+        paymentByCardRepository.delete(paymentByCard);
 
-        return new SuccessResponse(PaymentByCardMessages.PAYMENTBYCARD_DELETED);
+        return PaymentByCardMessages.PAYMENTBYCARD_DELETED;
     }
 
     @Override
-    public DataResponse<List<GetAllPaymentByCardResponse>> getAll() {
-        List<PaymentByCard> paymentByCards = paymentByCardRepository.findAll();
-        List<GetAllPaymentByCardResponse> response = PaymentByCardMapper.INSTANCE.getAllPaymentByCardResponseList(paymentByCards);
+    public List<PaymentByCard> getAll() {return paymentByCardRepository.findAll();
 
-        return new SuccessDataResponse<>(response, PaymentByCardMessages.PAYMENTBYCARD_LISTED);
     }
 
     @Override
-    public DataResponse<GetByIdPaymentByCardResponse> getById(Integer id) {
+    public PaymentByCard getById(Integer id) {
         PaymentByCard paymentByCard = paymentByCardRepository.findById(id).orElseThrow(() -> new RuntimeException(PaymentByCardMessages.PAYMENTBYCARD_NOT_FOUND));
-        GetByIdPaymentByCardResponse response = PaymentByCardMapper.INSTANCE.getByIdPaymentByCardResponse(paymentByCard);
 
-        return new SuccessDataResponse<>(response, PaymentByCardMessages.PAYMENTBYCARD_LISTED);
+        return paymentByCard;
     }
 }
