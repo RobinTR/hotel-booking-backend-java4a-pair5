@@ -2,7 +2,6 @@ package com.tobeto.hotel_booking_java4a_pair5.repositories;
 
 
 import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

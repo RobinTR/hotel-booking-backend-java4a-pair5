@@ -4,7 +4,6 @@ import com.tobeto.hotel_booking_java4a_pair5.core.filters.JwtAuthenticationFilte
 import com.tobeto.hotel_booking_java4a_pair5.entities.Role;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

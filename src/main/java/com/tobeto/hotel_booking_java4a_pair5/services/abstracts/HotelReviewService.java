@@ -1,22 +1,19 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.entities.HotelReview;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotelreview.AddHotelReviewRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotelreview.UpdateHotelReviewRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelreview.GetAllHotelReviewResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelreview.GetByIdHotelReviewResponse;
 
 import java.util.List;
 
 public interface HotelReviewService {
-    Response add(AddHotelReviewRequest request);
+    HotelReview add(AddHotelReviewRequest request);
 
-    Response update(UpdateHotelReviewRequest request);
+    HotelReview update(UpdateHotelReviewRequest request);
 
-    Response delete(Integer id);
+    String delete(Integer id);
 
-    DataResponse<List<GetAllHotelReviewResponse>> getAll();
+    List<HotelReview> getAll();
 
-    DataResponse<GetByIdHotelReviewResponse> getById(Integer id);
+    HotelReview getById(Integer id);
 }
