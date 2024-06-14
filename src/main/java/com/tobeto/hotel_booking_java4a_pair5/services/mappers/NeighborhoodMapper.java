@@ -1,8 +1,10 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.mappers;
 
+import com.tobeto.hotel_booking_java4a_pair5.entities.Country;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Neighborhood;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.neighborhood.AddNeighborhoodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.neighborhood.UpdateNeighborhoodRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.country.GetAllCountryResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.neighborhood.GetAllNeighborhoodResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.neighborhood.GetByIdNeighborhoodResponse;
 import org.mapstruct.Mapper;
@@ -15,19 +17,20 @@ import java.util.List;
 public interface NeighborhoodMapper {
     NeighborhoodMapper INSTANCE = Mappers.getMapper(NeighborhoodMapper.class);
 
-    @Mapping(target = "area.id", source = "areaId")
+
     Neighborhood neighborhoodFromAddRequest(AddNeighborhoodRequest request);
 
-    @Mapping(target = "area.id", source = "areaId")
+
     Neighborhood neighborhoodFromUpdateRequest(UpdateNeighborhoodRequest request);
 
-    @Mapping(target = "areaName", source = "area.name")
+
     GetAllNeighborhoodResponse getAllNeighborhoodResponseMap(Neighborhood neighborhood);
 
+    List<GetAllNeighborhoodResponse> getAllNeighborhoodResponseListFromNeighborhoods(List<Neighborhood> neighborhoods);
+
+
+    GetByIdNeighborhoodResponse getByIdNeighborhoodResponseFromNeighborhood(Neighborhood neighborhood);
+
     List<GetAllNeighborhoodResponse> getAllNeighborhoodResponseList(List<Neighborhood> neighborhoods);
-
-    @Mapping(target = "areaName", source = "area.name")
-    GetByIdNeighborhoodResponse getByIdNeighborhoodResponse(Neighborhood neighborhood);
-
 
 }

@@ -1,8 +1,11 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.mappers;
 
+import com.tobeto.hotel_booking_java4a_pair5.entities.Country;
 import com.tobeto.hotel_booking_java4a_pair5.entities.PaymentByCard;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentbycard.AddPaymentByCardRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentbycard.UpdatePaymentByCardRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.country.GetAllCountryResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.country.GetByIdCountryResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentbycard.GetAllPaymentByCardResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentbycard.GetByIdPaymentByCardResponse;
 import org.mapstruct.Mapper;
@@ -15,18 +18,19 @@ import java.util.List;
 public interface PaymentByCardMapper {
     PaymentByCardMapper INSTANCE = Mappers.getMapper(PaymentByCardMapper.class);
 
-    @Mapping(target = "paymentMethod.id", source = "paymentMethodId")
+
     PaymentByCard paymentByCardFromAddRequest(AddPaymentByCardRequest request);
 
-    @Mapping(target = "paymentMethod.id", source = "paymentMethodId")
+
     PaymentByCard paymentByCardFromUpdateRequest(UpdatePaymentByCardRequest request);
 
-    @Mapping(target = "paymentMethodName", source = "paymentMethod.name")
+
     GetAllPaymentByCardResponse getAllPaymentByCardResponseMap(PaymentByCard paymentByCard);
 
-    List<GetAllPaymentByCardResponse> getAllPaymentByCardResponseList(List<PaymentByCard> paymentByCards);
+    List<GetAllPaymentByCardResponse> getAllPaymentByCardResponseListFromPaymentByCards(List<PaymentByCard> paymentByCards);
 
-    @Mapping(target = "paymentMethodName", source = "paymentMethod.name")
-    GetByIdPaymentByCardResponse getByIdPaymentByCardResponse(PaymentByCard paymentByCard);
+    GetByIdPaymentByCardResponse getByIdPaymentByCardResponseFromPaymentByCard(PaymentByCard paymentByCard);
+
+    List<GetAllPaymentByCardResponse> getAllPaymentByCardResponseList(List<PaymentByCard> paymentByCards);
 
 }
