@@ -2,11 +2,16 @@ package com.tobeto.hotel_booking_java4a_pair5.controllers;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Area;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.AreaService;
+import com.tobeto.hotel_booking_java4a_pair5.services.constants.AreaMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.area.AddAreaRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.area.UpdateAreaRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.area.GetAllAreaResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.area.GetByIdAreaResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.mappers.AreaMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,26 +28,38 @@ public class AreasController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Response add(@RequestBody @Valid AddAreaRequest request) {
-        return areaService.add(request);
+        areaService.add(request);
+
+        return new SuccessResponse(AreaMessages.AREA_ADDED);
     }
 
     @PutMapping
     public Response update(@RequestBody @Valid UpdateAreaRequest request) {
-        return areaService.update(request);
+        areaService.update(request);
+
+        return new SuccessResponse(AreaMessages.AREA_UPDATED);
     }
 
     @DeleteMapping
     public Response delete(@RequestParam Integer id) {
-        return areaService.delete(id);
+        areaService.delete(id);
+
+        return new SuccessResponse(AreaMessages.AREA_DELETED);
     }
 
     @GetMapping
     public DataResponse<List<GetAllAreaResponse>> getAll() {
-        return areaService.getAll();
+        List<Area> areas = areaService.getAll();
+        List<GetAllAreaResponse> getAllAreaResponseList = AreaMapper.INSTANCE.getAllAreaResponseList(areas);
+
+        return new SuccessDataResponse<>(getAllAreaResponseList, AreaMessages.AREA_LISTED);
     }
 
     @GetMapping("/{getById}")
     public DataResponse<GetByIdAreaResponse> getById(@PathVariable Integer getById) {
-        return areaService.getById(getById);
+        Area area = areaService.getById(getById);
+        GetByIdAreaResponse getByIdAreaResponse = AreaMapper.INSTANCE.getByIdAreaResponse(area);
+
+        return new SuccessDataResponse<>(getByIdAreaResponse, AreaMessages.AREA_LISTED);
     }
 }
