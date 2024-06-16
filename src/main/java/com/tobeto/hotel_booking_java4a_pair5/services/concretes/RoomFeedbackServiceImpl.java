@@ -1,17 +1,12 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
+import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomFeedback;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomFeedbackRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomFeedbackService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.RoomFeedbackMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomfeedback.AddRoomFeedbackRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomfeedback.UpdateRoomFeedbackRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomfeedback.GetAllRoomFeedbackResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomfeedback.GetByIdRoomFeedbackResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomFeedbackMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,42 +19,39 @@ public class RoomFeedbackServiceImpl implements RoomFeedbackService {
     private final RoomFeedbackRepository roomFeedbackRepository;
 
     @Override
-    public Response add(AddRoomFeedbackRequest request) {
+    public RoomFeedback add(AddRoomFeedbackRequest request) {
         RoomFeedback roomFeedback = RoomFeedbackMapper.INSTANCE.roomFeedbackFromAddRequest(request);
         roomFeedback = roomFeedbackRepository.save(roomFeedback);
 
-        return new SuccessResponse(RoomFeedbackMessages.ROOMFEEDBACK_ADDED);
+        return roomFeedback;
     }
 
     @Override
-    public Response update(UpdateRoomFeedbackRequest request) {
+    public RoomFeedback update(UpdateRoomFeedbackRequest request) {
         RoomFeedback roomFeedback = RoomFeedbackMapper.INSTANCE.roomFeedbackFromUpdateRequest(request);
         roomFeedback = roomFeedbackRepository.save(roomFeedback);
 
-        return new SuccessResponse(RoomFeedbackMessages.ROOMFEEDBACK_UPDATED);
+        return roomFeedback;
     }
 
     @Override
-    public Response delete(Integer id) {
-        RoomFeedback roomFeedback = roomFeedbackRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomFeedbackMessages.ROOMFEEDBACK_NOT_FOUND));
+    public String delete(Integer id) {
+        RoomFeedback roomFeedback = roomFeedbackRepository.findById(id).orElseThrow(() -> new BusinessException(RoomFeedbackMessages.ROOMFEEDBACK_NOT_FOUND));
         roomFeedbackRepository.delete(roomFeedback);
 
-        return new SuccessResponse(RoomFeedbackMessages.ROOMFEEDBACK_DELETED);
+        return RoomFeedbackMessages.ROOMFEEDBACK_DELETED;
     }
 
     @Override
-    public DataResponse<List<GetAllRoomFeedbackResponse>> getAll() {
-        List<RoomFeedback> roomFeedbacks = roomFeedbackRepository.findAll();
-        List<GetAllRoomFeedbackResponse> response = RoomFeedbackMapper.INSTANCE.getAllRoomFeedbackResponseListFromRoomFeedbacks(roomFeedbacks);
+    public List<RoomFeedback> getAll() {
+        return roomFeedbackRepository.findAll();
 
-        return new SuccessDataResponse<>(response, RoomFeedbackMessages.ROOMFEEDBACK_LISTED);
     }
 
     @Override
-    public DataResponse<GetByIdRoomFeedbackResponse> getById(Integer id) {
-        RoomFeedback roomFeedback = roomFeedbackRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomFeedbackMessages.ROOMFEEDBACK_NOT_FOUND));
-        GetByIdRoomFeedbackResponse response = RoomFeedbackMapper.INSTANCE.getByIdRoomFeedbackResponseFromRoomFeedback(roomFeedback);
+    public RoomFeedback getById(Integer id) {
+        RoomFeedback roomFeedback = roomFeedbackRepository.findById(id).orElseThrow(() -> new BusinessException(RoomFeedbackMessages.ROOMFEEDBACK_NOT_FOUND));
 
-        return new SuccessDataResponse<>(response, RoomFeedbackMessages.ROOMFEEDBACK_LISTED);
+        return roomFeedback;
     }
 }

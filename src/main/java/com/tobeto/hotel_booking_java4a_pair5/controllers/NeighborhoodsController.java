@@ -32,6 +32,7 @@ public class NeighborhoodsController {
 
         return new SuccessResponse(NeighborhoodMessages.NEIGHBORHOOD_ADDED);
     }
+
     @PutMapping
     public Response update(@RequestBody @Valid UpdateNeighborhoodRequest request) {
         neighborhoodService.update(request);

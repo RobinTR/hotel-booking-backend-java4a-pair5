@@ -1,5 +1,6 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
+import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomBooked;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomBookedRepository;
@@ -36,7 +37,7 @@ public class RoomBookedServiceImpl implements RoomBookedService {
 
     @Override
     public String delete(Integer id) {
-        RoomBooked roomBooked = roomBookedRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomBookedMessages.ROOMBOOKED_NOT_FOUND));
+        RoomBooked roomBooked = roomBookedRepository.findById(id).orElseThrow(() -> new BusinessException(RoomBookedMessages.ROOMBOOKED_NOT_FOUND));
         roomBookedRepository.delete(roomBooked);
 
         return RoomBookedMessages.ROOMBOOKED_DELETED;
@@ -49,7 +50,7 @@ public class RoomBookedServiceImpl implements RoomBookedService {
 
     @Override
     public RoomBooked getById(Integer id) {
-        RoomBooked roomBooked = roomBookedRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomBookedMessages.ROOMBOOKED_NOT_FOUND));
+        RoomBooked roomBooked = roomBookedRepository.findById(id).orElseThrow(() -> new BusinessException(RoomBookedMessages.ROOMBOOKED_NOT_FOUND));
 
         return roomBooked;
     }

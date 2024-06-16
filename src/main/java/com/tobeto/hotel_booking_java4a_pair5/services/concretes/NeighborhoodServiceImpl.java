@@ -1,18 +1,12 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Neighborhood;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.NeighborhoodRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.NeighborhoodService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.NeighborhoodMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.neighborhood.AddNeighborhoodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.neighborhood.UpdateNeighborhoodRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.neighborhood.GetAllNeighborhoodResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.neighborhood.GetByIdNeighborhoodResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.NeighborhoodMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
