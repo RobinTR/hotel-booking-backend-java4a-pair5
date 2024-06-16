@@ -5,18 +5,13 @@ import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Respon
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.PaymentByCard;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.PaymentByCardService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.PaymentByCardMessages;
-import com.tobeto.hotel_booking_java4a_pair5.services.constants.RoomMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentbycard.AddPaymentByCardRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentbycard.UpdatePaymentByCardRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentbycard.GetAllPaymentByCardResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.paymentbycard.GetByIdPaymentByCardResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetAllRoomResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetByIdRoomResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.PaymentByCardMapper;
-import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -60,10 +55,11 @@ public class PaymentByCardsController {
         return new SuccessDataResponse<>(getAllPaymentByCardResponseList, PaymentByCardMessages.PAYMENTBYCARD_LISTED);
     }
 
-        @GetMapping("/{getById}")
-        public DataResponse<GetByIdPaymentByCardResponse> getById(@PathVariable Integer getById){
-            PaymentByCard paymentByCard = paymentByCardService.getById(getById);
-            GetByIdPaymentByCardResponse getByIdPaymentByCardResponse = PaymentByCardMapper.INSTANCE.getByIdPaymentByCardResponseFromPaymentByCard(paymentByCard);
+    @GetMapping("/{getById}")
+    public DataResponse<GetByIdPaymentByCardResponse> getById(@PathVariable Integer getById) {
+        PaymentByCard paymentByCard = paymentByCardService.getById(getById);
+        GetByIdPaymentByCardResponse getByIdPaymentByCardResponse = PaymentByCardMapper.INSTANCE.getByIdPaymentByCardResponseFromPaymentByCard(paymentByCard);
 
-            return new SuccessDataResponse<>(getByIdPaymentByCardResponse, PaymentByCardMessages.PAYMENTBYCARD_LISTED);
-        }}
+        return new SuccessDataResponse<>(getByIdPaymentByCardResponse, PaymentByCardMessages.PAYMENTBYCARD_LISTED);
+    }
+}

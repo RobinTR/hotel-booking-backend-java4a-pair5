@@ -5,18 +5,13 @@ import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Respon
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.District;
-import com.tobeto.hotel_booking_java4a_pair5.entities.RoomBooked;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.DistrictService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.DistrictMessages;
-import com.tobeto.hotel_booking_java4a_pair5.services.constants.RoomBookedMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.district.AddDistrictRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.district.UpdateDistrictRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.district.GetAllDistrictResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.district.GetByIdDistrictResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roombooked.GetAllRoomBookedResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roombooked.GetByIdRoomBookedResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.DistrictMapper;
-import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomBookedMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,7 +35,7 @@ public class DistrictsController {
 
     @PutMapping
     public Response update(@RequestBody @Valid UpdateDistrictRequest request) {
-       districtService.update(request);
+        districtService.update(request);
 
         return new SuccessResponse(DistrictMessages.DISTRICT_UPDATED);
     }
@@ -62,7 +57,7 @@ public class DistrictsController {
 
     @GetMapping("/{getById}")
     public DataResponse<GetByIdDistrictResponse> getById(@PathVariable Integer getById) {
-         districtService.getById(getById);
+        districtService.getById(getById);
 
         District district = districtService.getById(getById);
         GetByIdDistrictResponse response = DistrictMapper.INSTANCE.getByIdDistrictResponseFromDistrict(district);

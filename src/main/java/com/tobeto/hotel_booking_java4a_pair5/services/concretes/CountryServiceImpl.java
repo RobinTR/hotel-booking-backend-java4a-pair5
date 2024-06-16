@@ -1,17 +1,11 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Country;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.CountryRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.CountryService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.CountryMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.country.AddCountryRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.country.UpdateCountryRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.country.GetAllCountryResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.country.GetByIdCountryResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.CountryMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,7 +43,9 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public List<Country> getAll() { return countryRepository.findAll(); }
+    public List<Country> getAll() {
+        return countryRepository.findAll();
+    }
 
     @Override
     public Country getById(Integer id) {

@@ -40,6 +40,7 @@ public class RoomServiceImpl implements RoomService {
 
         return RoomMessages.ROOM_DELETED;
     }
+
     @Override
     public List<Room> getAll() {
         return roomRepository.findAll();

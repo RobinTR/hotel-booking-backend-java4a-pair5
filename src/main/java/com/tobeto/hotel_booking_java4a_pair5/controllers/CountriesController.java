@@ -5,18 +5,13 @@ import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Respon
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Country;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.CountryService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.CountryMessages;
-import com.tobeto.hotel_booking_java4a_pair5.services.constants.RoomMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.country.AddCountryRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.country.UpdateCountryRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.country.GetAllCountryResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.country.GetByIdCountryResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetAllRoomResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetByIdRoomResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.CountryMapper;
-import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,7 +42,7 @@ public class CountriesController {
 
     @DeleteMapping
     public Response delete(@RequestParam Integer id) {
-         countryService.delete(id);
+        countryService.delete(id);
 
         return new SuccessResponse(CountryMessages.COUNTRY_DELETED);
     }
