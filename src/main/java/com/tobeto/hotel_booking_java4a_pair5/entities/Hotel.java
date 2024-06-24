@@ -62,4 +62,7 @@ public class Hotel extends BaseEntity {
 
     @OneToMany(mappedBy = "hotel")
     private List<HotelReview> hotelReviews;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<HotelImage> hotelImages;
 }

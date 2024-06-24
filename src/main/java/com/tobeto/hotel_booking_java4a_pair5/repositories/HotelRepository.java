@@ -1,6 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.repositories;
 
 import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -43,4 +44,10 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
             "INNER JOIN RoomType AS rt ON r.roomType.id = r.id " +
             "WHERE r.cost BETWEEN :minPrice AND :maxPrice")
     List<Hotel> searchByPrice(double minPrice, double maxPrice);
+
+    @Query("SELECT h FROM Hotel h " +
+            "LEFT JOIN h.rooms r " +
+            "LEFT JOIN r.roomType rt " +
+            "WHERE h.id = :hotelId AND r.isAvailable = true")
+    Hotel findHotelWithAvailableRooms(Integer hotelId);
 }

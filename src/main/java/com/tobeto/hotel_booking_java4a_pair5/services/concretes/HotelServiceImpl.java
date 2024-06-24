@@ -7,8 +7,11 @@ import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.HotelMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHotelRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.UpdateHotelRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,5 +76,12 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public List<Hotel> searchByPrice(double minPrice, double maxPrice) {
         return hotelRepository.searchByPrice(minPrice, maxPrice);
+    }
+
+    @Override
+    public Hotel findHotelWithAvailableRooms(Integer hotelId) {
+        Hotel hotel = hotelRepository.findHotelWithAvailableRooms(hotelId);
+
+        return hotel;
     }
 }

@@ -4,6 +4,7 @@ import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.room.AddRoomRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.room.UpdateRoomRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetAllRoomResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetByIdRoomForHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetByIdRoomResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -36,4 +37,8 @@ public interface RoomMapper {
     @Mapping(target = "hotelId", source = "hotel.id")
     @Mapping(target = "roomTypeId", source = "roomType.id")
     UpdateRoomRequest updateRoomRequestFromRoom(Room room);
+
+    GetByIdRoomForHotelResponse getByIdRoomForHotelResponseFromRoomMap(Room room);
+
+    List<GetByIdRoomForHotelResponse> getByIdRoomForHotelResponseFromRoomList(List<Room> rooms);
 }

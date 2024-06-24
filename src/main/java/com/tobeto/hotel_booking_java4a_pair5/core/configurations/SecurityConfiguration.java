@@ -31,7 +31,7 @@ public class SecurityConfiguration {
             "/configuration/security",
             "/swagger-ui/**",
             "/webjars/**",
-            "/swagger-ui.html",
+            "/swagger-ui.html"
     };
 
     private static final String[] GET_WHITE_LIST_URL = {
@@ -136,7 +136,9 @@ public class SecurityConfiguration {
     };
     private static final String[] DELETE_MANAGER_ADMIN = {
             "/api/hotels",
-            "/api/bookings"
+            "/api/bookings",
+            "/api/roomimages/**",
+            "/api/hotelimages/**"
     };
     private static final String[] DELETE_WHITE_LIST_URL = {
             "/api/users/address",
