@@ -9,11 +9,16 @@ import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.HotelMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHotelRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.UpdateHotelRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.FindHotelWithAvailableRoomsResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetByIdHotelResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetByIdRoomForHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelMapper;
+import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,13 +53,24 @@ public class HotelsController {
         return new SuccessResponse(HotelMessages.HOTEL_DELETED);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public DataResponse<List<GetAllHotelResponse>> getAll() {
         List<Hotel> hotels = hotelService.getAll();
         List<GetAllHotelResponse> hotelResponseList = HotelMapper.INSTANCE.getAllHotelResponseList(hotels);
 
         return new SuccessDataResponse<>(hotelResponseList, HotelMessages.HOTEL_LISTED);
+    }
 
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/findHotelWithAvailableRooms")
+    public DataResponse<FindHotelWithAvailableRoomsResponse> findHotelWithAvailableRooms(@RequestParam Integer hotelId) {
+        Hotel hotel = hotelService.findHotelWithAvailableRooms(hotelId);
+        List<GetByIdRoomForHotelResponse> getByIdRoomForHotelResponseList = RoomMapper.INSTANCE.getByIdRoomForHotelResponseFromRoomList(hotel.getRooms());
+        FindHotelWithAvailableRoomsResponse findHotelWithAvailableRoomsResponse = HotelMapper.INSTANCE.findHotelResponseFromHotel(hotel);
+        findHotelWithAvailableRoomsResponse.setRooms(getByIdRoomForHotelResponseList);
+
+        return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponse, HotelMessages.HOTEL_LISTED);
     }
 
     @GetMapping("/{getById}")
