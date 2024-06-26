@@ -30,6 +30,8 @@ public interface HotelMapper {
     @Mapping(target = "addressName", source = "address.fullAddress")
     GetByIdHotelResponse getByIdHotelResponse(Hotel hotel);
 
+    @Mapping(target = "addressName", source = "address.fullAddress")
+    FindHotelWithAvailableRoomsResponse findHotelResponseFromHotelResponse(Hotel hotel);
 
-    FindHotelWithAvailableRoomsResponse findHotelResponseFromHotel(Hotel hotel);
+    List<FindHotelWithAvailableRoomsResponse> findHotelResponseFromHotelResponseList(List<Hotel> hotels);
 }
