@@ -29,6 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/hotels")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class HotelsController {
     private HotelService hotelService;
 
@@ -38,7 +39,6 @@ public class HotelsController {
         hotelService.add(request);
 
         return new SuccessResponse(HotelMessages.HOTEL_ADDED);
-
     }
 
     @PutMapping
@@ -55,7 +55,6 @@ public class HotelsController {
         return new SuccessResponse(HotelMessages.HOTEL_DELETED);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public DataResponse<List<FindHotelWithAvailableRoomsResponse>> getAll() {
         List<Hotel> hotels = hotelService.getAll();
@@ -77,7 +76,6 @@ public class HotelsController {
         return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponseList, HotelMessages.HOTEL_LISTED);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/findHotelWithAvailableRooms")
     public DataResponse<FindHotelWithAvailableRoomsResponse> findHotelWithAvailableRooms(@RequestParam Integer hotelId) {
         Hotel hotel = hotelService.findHotelWithAvailableRooms(hotelId);
@@ -107,7 +105,6 @@ public class HotelsController {
         List<GetAllHotelResponse> hotelResponseList = HotelMapper.INSTANCE.getAllHotelResponseList(hotels);
 
         return new SuccessDataResponse<>(hotelResponseList, HotelMessages.HOTEL_LISTED);
-
     }
 
     @GetMapping("/searchByLocation")
@@ -116,7 +113,6 @@ public class HotelsController {
         List<GetAllHotelResponse> hotelResponseList = HotelMapper.INSTANCE.getAllHotelResponseList(hotels);
 
         return new SuccessDataResponse<>(hotelResponseList, HotelMessages.HOTEL_LISTED);
-
     }
 
     @GetMapping("/searchByStarRating")
@@ -125,7 +121,6 @@ public class HotelsController {
         List<GetAllHotelResponse> hotelResponseList = HotelMapper.INSTANCE.getAllHotelResponseList(hotels);
 
         return new SuccessDataResponse<>(hotelResponseList, HotelMessages.HOTEL_LISTED);
-
     }
 
     @GetMapping("/searchByPrice")
@@ -134,6 +129,5 @@ public class HotelsController {
         List<GetAllHotelResponse> hotelResponseList = HotelMapper.INSTANCE.getAllHotelResponseList(hotels);
 
         return new SuccessDataResponse<>(hotelResponseList, HotelMessages.HOTEL_LISTED);
-
     }
 }
