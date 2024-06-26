@@ -18,13 +18,5 @@ public class UpdateRoomTypeRequest {
 
     private int capacity;
 
-    private boolean smokeFriendly;
-
-    private boolean petFriendly;
-
-    private boolean wifi;
-
-    private boolean food;
-
     private boolean isAllInclusive;
 }

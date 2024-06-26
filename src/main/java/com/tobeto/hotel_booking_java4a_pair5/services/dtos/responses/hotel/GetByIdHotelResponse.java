@@ -1,9 +1,14 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel;
 
+import com.tobeto.hotel_booking_java4a_pair5.entities.HotelFeature;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelfeature.GetAllHotelFeatureResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetByIdRoomForHotelResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,11 +16,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GetByIdHotelResponse {
     private Integer id;
+    private List<GetByIdRoomForHotelResponse> rooms;
+    private List<GetAllHotelFeatureResponse> hotelFeatures;
     private String addressName;
-    private double roomCost;
-    private String roomTypeName;
-    private String roomTypeDescription;
-    private int roomTypeCapacity;
     private String name;
     private String contactNumber;
     private String email;

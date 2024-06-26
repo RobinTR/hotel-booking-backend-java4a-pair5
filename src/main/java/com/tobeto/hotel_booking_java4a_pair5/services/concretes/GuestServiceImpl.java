@@ -36,7 +36,7 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     public String delete(Integer id) {
-        Guest guest = guestRepository.findById(id).orElseThrow(() -> new BusinessException(GuestMessages.GUEST_DELETED));
+        Guest guest = guestRepository.findById(id).orElseThrow(() -> new BusinessException(GuestMessages.GUEST_NOT_FOUND));
         guestRepository.delete(guest);
 
         return GuestMessages.GUEST_DELETED;
