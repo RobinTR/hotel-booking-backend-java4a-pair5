@@ -1,10 +1,10 @@
 package com.tobeto.hotel_booking_java4a_pair5.repositories;
 
 import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
@@ -50,4 +50,18 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
             "LEFT JOIN r.roomType rt " +
             "WHERE h.id = :hotelId AND r.isAvailable = true")
     Hotel findHotelWithAvailableRooms(Integer hotelId);
+
+    @Query("SELECT h FROM Hotel h " +
+            "LEFT JOIN h.bookings b " +
+            "LEFT JOIN h.rooms r " +
+            "WHERE (b.startDate <= :endDate AND b.endDate >= :startDate " +
+            "AND r.isAvailable = true)")
+    Hotel searchByBookingDateHotels(LocalDate startDate, LocalDate endDate);
+
+    @Query("SELECT h FROM Hotel h " +
+            "LEFT JOIN h.bookings b " +
+            "LEFT JOIN h.rooms r " +
+            "LEFT JOIN r.roomType rt " +
+            "WHERE rt.capacity = :person")
+    Hotel searchByRoomCapacityHotels(int person);
 }

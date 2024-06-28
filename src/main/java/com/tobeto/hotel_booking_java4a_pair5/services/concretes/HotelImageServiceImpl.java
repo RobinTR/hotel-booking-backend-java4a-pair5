@@ -3,24 +3,20 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.cloudinary.CloudinaryImageHelperUtil;
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.cloudinary.ImageModel;
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
-import com.tobeto.hotel_booking_java4a_pair5.entities.*;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
+import com.tobeto.hotel_booking_java4a_pair5.entities.HotelImage;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Image;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelImageRepository;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.ImageRepository;
-import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomImageRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelImageService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.ImageService;
-import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.ImageMessages;
-import com.tobeto.hotel_booking_java4a_pair5.services.mappers.ImageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

@@ -7,13 +7,11 @@ import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.HotelMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHotelRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.UpdateHotelRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -82,6 +80,18 @@ public class HotelServiceImpl implements HotelService {
     public Hotel findHotelWithAvailableRooms(Integer hotelId) {
         Hotel hotel = hotelRepository.findHotelWithAvailableRooms(hotelId);
 
+        return hotel;
+    }
+
+    @Override
+    public Hotel searchByBookingDateHotelsResponse(LocalDate startDate, LocalDate endDate) {
+        Hotel hotel = hotelRepository.searchByBookingDateHotels(startDate, endDate);
+        return hotel;
+    }
+
+    @Override
+    public Hotel searchByRoomCapacityHotels(int person) {
+        Hotel hotel = hotelRepository.searchByRoomCapacityHotels(person);
         return hotel;
     }
 }
