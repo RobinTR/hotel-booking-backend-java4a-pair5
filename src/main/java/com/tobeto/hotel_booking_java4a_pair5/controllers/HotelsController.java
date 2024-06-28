@@ -4,8 +4,7 @@ import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataRe
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
-import com.tobeto.hotel_booking_java4a_pair5.entities.HotelFeature;
+import com.tobeto.hotel_booking_java4a_pair5.entities.*;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.HotelMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHotelRequest;
@@ -13,11 +12,12 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.Update
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.FindHotelWithAvailableRoomsResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetByIdHotelResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelfeature.GetAllHotelFeaturesByHotelId;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelfeature.GetAllHotelFeaturesByHotelIdResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.image.GetImageUrlsOfHotelResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.image.GetImageUrlsOfRoomResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetByIdRoomForHotelResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelFeatureMapper;
-import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelMapper;
-import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomMapper;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtypefeature.GetAllRoomTypeFeaturesByRoomTypeIdResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.mappers.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -61,14 +61,35 @@ public class HotelsController {
         List<FindHotelWithAvailableRoomsResponse> findHotelWithAvailableRoomsResponseList = new ArrayList<>();
 
         for (Hotel hotel : hotels) {
+            //Map Struct Auto Mapping
             FindHotelWithAvailableRoomsResponse findHotelWithAvailableRoomsResponse = HotelMapper.INSTANCE.findHotelResponseFromHotelResponse(hotel);
 
+            //Hotel Features Manual&Auto Mapping
             List<HotelFeature> hotelFeatures = hotel.getHotelFeatures();
-            List<GetAllHotelFeaturesByHotelId> getAllHotelFeaturesByHotelIdList = HotelFeatureMapper.INSTANCE.getAllHotelFeaturesByHotelIdFromHotelFeatureList(hotelFeatures);
-            findHotelWithAvailableRoomsResponse.setHotelFeatures(getAllHotelFeaturesByHotelIdList);
+            List<GetAllHotelFeaturesByHotelIdResponse> getAllHotelFeaturesByHotelIdResponseList = HotelFeatureMapper.INSTANCE.getAllHotelFeaturesByHotelIdFromHotelFeatureList(hotelFeatures);
+            findHotelWithAvailableRoomsResponse.setHotelFeatures(getAllHotelFeaturesByHotelIdResponseList);
 
+            //Rooms Manual&Auto Mapping
             List<GetByIdRoomForHotelResponse> getByIdRoomForHotelResponseList = RoomMapper.INSTANCE.getByIdRoomForHotelResponseFromRoomList(hotel.getRooms());
+
+            for (int i = 0; i < hotel.getRooms().size(); i++) {
+                //Room Images Manual&Auto Mapping
+                List<RoomImage> roomImages = hotel.getRooms().get(i).getRoomImages();
+                List<GetImageUrlsOfRoomResponse> getImageUrlsOfRoomResponseList = RoomImageMapper.INSTANCE.getImagesUrlOfHotelResponseListFromHotelImages(roomImages);
+                getByIdRoomForHotelResponseList.get(i).setImageUrls(getImageUrlsOfRoomResponseList);
+
+                //Room Type Features Manual&Auto Mapping
+                List<RoomTypeFeature> features = hotel.getRooms().get(i).getRoomType().getRoomTypeFeatures();
+                List<GetAllRoomTypeFeaturesByRoomTypeIdResponse> featuresResponse = RoomTypeFeatureMapper.INSTANCE.GetAllRoomTypeFeaturesByRoomTypeIdResponseList(features);
+                getByIdRoomForHotelResponseList.get(i).getRoomType().setFeatures(featuresResponse);
+            }
+
             findHotelWithAvailableRoomsResponse.setRooms(getByIdRoomForHotelResponseList);
+
+            //Images Manual&Auto Mapping
+            List<HotelImage> hotelImages = hotel.getHotelImages();
+            List<GetImageUrlsOfHotelResponse> urls = HotelImageMapper.INSTANCE.getImagesUrlOfHotelResponseListFromHotelImages(hotelImages);
+            findHotelWithAvailableRoomsResponse.setHotelImageUrls(urls);
 
             findHotelWithAvailableRoomsResponseList.add(findHotelWithAvailableRoomsResponse);
         }
@@ -76,20 +97,22 @@ public class HotelsController {
         return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponseList, HotelMessages.HOTEL_LISTED);
     }
 
+    /*
     @GetMapping("/findHotelWithAvailableRooms")
     public DataResponse<FindHotelWithAvailableRoomsResponse> findHotelWithAvailableRooms(@RequestParam Integer hotelId) {
         Hotel hotel = hotelService.findHotelWithAvailableRooms(hotelId);
         FindHotelWithAvailableRoomsResponse findHotelWithAvailableRoomsResponse = HotelMapper.INSTANCE.findHotelResponseFromHotelResponse(hotel);
 
         List<HotelFeature> hotelFeatures = hotel.getHotelFeatures();
-        List<GetAllHotelFeaturesByHotelId> getAllHotelFeaturesByHotelIdList = HotelFeatureMapper.INSTANCE.getAllHotelFeaturesByHotelIdFromHotelFeatureList(hotelFeatures);
-        findHotelWithAvailableRoomsResponse.setHotelFeatures(getAllHotelFeaturesByHotelIdList);
+        List<GetAllHotelFeaturesByHotelIdResponse> getAllHotelFeaturesByHotelIdResponseList = HotelFeatureMapper.INSTANCE.getAllHotelFeaturesByHotelIdFromHotelFeatureList(hotelFeatures);
+        findHotelWithAvailableRoomsResponse.setHotelFeatures(getAllHotelFeaturesByHotelIdResponseList);
 
         List<GetByIdRoomForHotelResponse> getByIdRoomForHotelResponseList = RoomMapper.INSTANCE.getByIdRoomForHotelResponseFromRoomList(hotel.getRooms());
         findHotelWithAvailableRoomsResponse.setRooms(getByIdRoomForHotelResponseList);
 
         return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponse, HotelMessages.HOTEL_LISTED);
     }
+    */
 
     @GetMapping("/{getById}")
     public DataResponse<GetByIdHotelResponse> getById(@PathVariable Integer getById) {
