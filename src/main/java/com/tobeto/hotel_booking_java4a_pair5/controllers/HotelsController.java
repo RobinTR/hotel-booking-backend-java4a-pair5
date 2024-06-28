@@ -14,7 +14,6 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.FindH
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetByIdHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.SearchByBookingDateHotelsResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelfeature.GetAllHotelFeaturesByHotelId;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelfeature.GetAllHotelFeaturesByHotelIdResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.image.GetImageUrlsOfHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.image.GetImageUrlsOfRoomResponse;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/hotels")
@@ -101,23 +101,6 @@ public class HotelsController {
         return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponseList, HotelMessages.HOTEL_LISTED);
     }
 
-    /*
-    @GetMapping("/findHotelWithAvailableRooms")
-    public DataResponse<FindHotelWithAvailableRoomsResponse> findHotelWithAvailableRooms(@RequestParam Integer hotelId) {
-        Hotel hotel = hotelService.findHotelWithAvailableRooms(hotelId);
-        FindHotelWithAvailableRoomsResponse findHotelWithAvailableRoomsResponse = HotelMapper.INSTANCE.findHotelResponseFromHotelResponse(hotel);
-
-        List<HotelFeature> hotelFeatures = hotel.getHotelFeatures();
-        List<GetAllHotelFeaturesByHotelIdResponse> getAllHotelFeaturesByHotelIdResponseList = HotelFeatureMapper.INSTANCE.getAllHotelFeaturesByHotelIdFromHotelFeatureList(hotelFeatures);
-        findHotelWithAvailableRoomsResponse.setHotelFeatures(getAllHotelFeaturesByHotelIdResponseList);
-
-        List<GetByIdRoomForHotelResponse> getByIdRoomForHotelResponseList = RoomMapper.INSTANCE.getByIdRoomForHotelResponseFromRoomList(hotel.getRooms());
-        findHotelWithAvailableRoomsResponse.setRooms(getByIdRoomForHotelResponseList);
-
-        return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponse, HotelMessages.HOTEL_LISTED);
-    }
-    */
-
     @GetMapping("/{getById}")
     public DataResponse<GetByIdHotelResponse> getById(@PathVariable Integer getById) {
         Hotel hotel = hotelService.getById(getById);
@@ -159,15 +142,24 @@ public class HotelsController {
     }
 
     @GetMapping("/searchByRoomCapacityHotels")
-    public DataResponse<FindHotelWithAvailableRoomsResponse> searchByRoomCapacityHotels(@RequestParam int person) {
-        Hotel hotel = hotelService.searchByRoomCapacityHotels(person);
-        FindHotelWithAvailableRoomsResponse findHotelWithAvailableRoomsResponse = HotelMapper.INSTANCE.findHotelResponseFromHotelResponse(hotel);
+    public DataResponse<List<FindHotelWithAvailableRoomsResponse>> searchByRoomCapacityHotels(@RequestParam int person) {
+        List<Hotel> hotels = hotelService.searchByRoomCapacityHotels(person);
+        List<FindHotelWithAvailableRoomsResponse> findHotelWithAvailableRoomsResponseList = new ArrayList<>();
 
-        List<Room> rooms = hotel.getRooms();
-        List<GetByIdRoomForHotelResponse> getByIdRoomForHotelResponseList = RoomMapper.INSTANCE.getByIdRoomForHotelResponseFromRoomList(hotel.getRooms());
-        findHotelWithAvailableRoomsResponse.setRooms(getByIdRoomForHotelResponseList);
+        for (Hotel hotel : hotels) {
+            FindHotelWithAvailableRoomsResponse findHotelWithAvailableRoomsResponse = HotelMapper.INSTANCE.findHotelResponseFromHotelResponse(hotel);
 
-        return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponse, HotelMessages.HOTEL_LISTED);
+            List<GetByIdRoomForHotelResponse> getByIdRoomForHotelResponseList = RoomMapper.INSTANCE.getByIdRoomForHotelResponseFromRoomList(
+                    hotel.getRooms().stream()
+                            .filter(room -> room.getRoomType().getCapacity() == person)
+                            .collect(Collectors.toList())
+            );
+
+            findHotelWithAvailableRoomsResponse.setRooms(getByIdRoomForHotelResponseList);
+            findHotelWithAvailableRoomsResponseList.add(findHotelWithAvailableRoomsResponse);
+        }
+
+        return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponseList, HotelMessages.HOTEL_LISTED);
     }
 
     @GetMapping("/searchByDate")
