@@ -4,6 +4,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.mappers;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.AddBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.UpdateBookingRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingDateResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetByIdBookingResponse;
 import org.mapstruct.Mapper;
@@ -37,4 +38,9 @@ public interface BookingMapper {
     @Mapping(target = "guestName", expression = "java(booking.getGuest().getFirstName() + \"\" + booking.getGuest().getLastName())")
     @Mapping(target = "paymentMethodName", source = "paymentMethod.name")
     GetByIdBookingResponse getByIdBookingResponse(Booking booking);
+
+    @Mapping(target = "hotelId", source = "hotel.id")
+    GetAllBookingDateResponse getAllBookingDateResponseMap(Booking booking);
+
+    List<GetAllBookingDateResponse> getAllBookingDateResponseListFromBookings(List<Booking> bookings);
 }

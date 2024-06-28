@@ -1,7 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtype;
 
-import com.tobeto.hotel_booking_java4a_pair5.entities.Feature;
-import com.tobeto.hotel_booking_java4a_pair5.entities.RoomTypeFeature;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtypefeature.GetAllRoomTypeFeatureResponse;
 import lombok.Getter;
 import lombok.Setter;

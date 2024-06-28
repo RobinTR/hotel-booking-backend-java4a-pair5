@@ -4,17 +4,22 @@ import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataRe
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
 import com.tobeto.hotel_booking_java4a_pair5.entities.HotelFeature;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.HotelMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHotelRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.UpdateHotelRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingDateResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.FindHotelWithAvailableRoomsResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetByIdHotelResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.SearchByBookingDateHotelsResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelfeature.GetAllHotelFeaturesByHotelId;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.room.GetByIdRoomForHotelResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.mappers.BookingMapper;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelFeatureMapper;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelMapper;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomMapper;
@@ -23,6 +28,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +99,34 @@ public class HotelsController {
         return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponse, HotelMessages.HOTEL_LISTED);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/searchByRoomCapacityHotels")
+    public DataResponse<FindHotelWithAvailableRoomsResponse> searchByRoomCapacityHotels(@RequestParam int person) {
+        Hotel hotel = hotelService.searchByRoomCapacityHotels(person);
+        FindHotelWithAvailableRoomsResponse findHotelWithAvailableRoomsResponse = HotelMapper.INSTANCE.findHotelResponseFromHotelResponse(hotel);
+
+        List<Room> rooms = hotel.getRooms();
+        List<GetByIdRoomForHotelResponse> getByIdRoomForHotelResponseList = RoomMapper.INSTANCE.getByIdRoomForHotelResponseFromRoomList(hotel.getRooms());
+        findHotelWithAvailableRoomsResponse.setRooms(getByIdRoomForHotelResponseList);
+
+        return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponse, HotelMessages.HOTEL_LISTED);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/searchByDate")
+    public DataResponse<SearchByBookingDateHotelsResponse> searchByDate(@RequestParam LocalDate startDate, LocalDate endDate) {
+        Hotel hotel = hotelService.searchByBookingDateHotelsResponse(startDate, endDate);
+        SearchByBookingDateHotelsResponse searchByBookingDateHotelsResponse = HotelMapper.INSTANCE.searchByBookingDateFromHotelResponse(hotel);
+
+        List<Booking> bookings = hotel.getBookings();
+        List<GetAllBookingDateResponse> getAllBookingDateResponseList = BookingMapper.INSTANCE.getAllBookingDateResponseListFromBookings(bookings);
+        searchByBookingDateHotelsResponse.setBooking(getAllBookingDateResponseList);
+
+
+        return new SuccessDataResponse<>(searchByBookingDateHotelsResponse, HotelMessages.HOTEL_LISTED);
+
+    }
+
     @GetMapping("/{getById}")
     public DataResponse<GetByIdHotelResponse> getById(@PathVariable Integer getById) {
         Hotel hotel = hotelService.getById(getById);
@@ -110,6 +144,7 @@ public class HotelsController {
 
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/searchByLocation")
     public DataResponse<List<GetAllHotelResponse>> searchByLocation(@RequestParam String location) {
         List<Hotel> hotels = hotelService.searchByLocation(location);

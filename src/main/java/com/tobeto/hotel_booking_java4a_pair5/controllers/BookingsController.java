@@ -65,6 +65,7 @@ public class BookingsController {
         return new SuccessDataResponse<>(getByIdBookingResponse, BookingMessages.BOOKING_LISTED);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/searchByDate")
     public DataResponse<List<GetAllBookingResponse>> searchByDate(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
         List<Booking> bookings = bookingService.searchByDate(startDate, endDate);
