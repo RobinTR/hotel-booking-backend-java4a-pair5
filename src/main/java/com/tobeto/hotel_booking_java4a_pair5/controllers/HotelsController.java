@@ -9,9 +9,12 @@ import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.HotelMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHotelRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.UpdateHotelRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingDateResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.FindHotelWithAvailableRoomsResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetByIdHotelResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.SearchByBookingDateHotelsResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelfeature.GetAllHotelFeaturesByHotelId;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotelfeature.GetAllHotelFeaturesByHotelIdResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.image.GetImageUrlsOfHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.image.GetImageUrlsOfRoomResponse;
@@ -23,6 +26,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,5 +156,29 @@ public class HotelsController {
         List<GetAllHotelResponse> hotelResponseList = HotelMapper.INSTANCE.getAllHotelResponseList(hotels);
 
         return new SuccessDataResponse<>(hotelResponseList, HotelMessages.HOTEL_LISTED);
+    }
+
+    @GetMapping("/searchByRoomCapacityHotels")
+    public DataResponse<FindHotelWithAvailableRoomsResponse> searchByRoomCapacityHotels(@RequestParam int person) {
+        Hotel hotel = hotelService.searchByRoomCapacityHotels(person);
+        FindHotelWithAvailableRoomsResponse findHotelWithAvailableRoomsResponse = HotelMapper.INSTANCE.findHotelResponseFromHotelResponse(hotel);
+
+        List<Room> rooms = hotel.getRooms();
+        List<GetByIdRoomForHotelResponse> getByIdRoomForHotelResponseList = RoomMapper.INSTANCE.getByIdRoomForHotelResponseFromRoomList(hotel.getRooms());
+        findHotelWithAvailableRoomsResponse.setRooms(getByIdRoomForHotelResponseList);
+
+        return new SuccessDataResponse<>(findHotelWithAvailableRoomsResponse, HotelMessages.HOTEL_LISTED);
+    }
+
+    @GetMapping("/searchByDate")
+    public DataResponse<SearchByBookingDateHotelsResponse> searchByDate(@RequestParam LocalDate startDate, LocalDate endDate) {
+        Hotel hotel = hotelService.searchByBookingDateHotelsResponse(startDate, endDate);
+        SearchByBookingDateHotelsResponse searchByBookingDateHotelsResponse = HotelMapper.INSTANCE.searchByBookingDateFromHotelResponse(hotel);
+
+        List<Booking> bookings = hotel.getBookings();
+        List<GetAllBookingDateResponse> getAllBookingDateResponseList = BookingMapper.INSTANCE.getAllBookingDateResponseListFromBookings(bookings);
+        searchByBookingDateHotelsResponse.setBooking(getAllBookingDateResponseList);
+
+        return new SuccessDataResponse<>(searchByBookingDateHotelsResponse, HotelMessages.HOTEL_LISTED);
     }
 }

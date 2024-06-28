@@ -13,6 +13,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "FROM Booking AS b " +
             "INNER JOIN b.roomBooked AS rb " +
             "INNER JOIN rb.room AS r " +
+            "INNER JOIN b.hotel AS h " +
             "WHERE (b.startDate <= :endDate AND b.endDate >= :startDate " +
             "AND r.isAvailable = true)")
     List<Booking> searchByDate(LocalDate startDate, LocalDate endDate);

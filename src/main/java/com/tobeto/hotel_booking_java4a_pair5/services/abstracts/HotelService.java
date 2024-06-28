@@ -3,9 +3,8 @@ package com.tobeto.hotel_booking_java4a_pair5.services.abstracts;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHotelRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.UpdateHotelRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
-import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface HotelService {
@@ -28,4 +27,8 @@ public interface HotelService {
     List<Hotel> searchByPrice(double minPrice, double maxPrice);
 
     Hotel findHotelWithAvailableRooms(Integer hotelId);
+
+    Hotel searchByBookingDateHotelsResponse(LocalDate startDate, LocalDate endDate);
+
+    Hotel searchByRoomCapacityHotels(int person);
 }

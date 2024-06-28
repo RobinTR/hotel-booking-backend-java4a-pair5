@@ -6,6 +6,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.Update
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.FindHotelWithAvailableRoomsResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetAllHotelResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.GetByIdHotelResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.hotel.SearchByBookingDateHotelsResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -34,4 +35,11 @@ public interface HotelMapper {
     FindHotelWithAvailableRoomsResponse findHotelResponseFromHotelResponse(Hotel hotel);
 
     List<FindHotelWithAvailableRoomsResponse> findHotelResponseFromHotelResponseList(List<Hotel> hotels);
+
+    @Mapping(target = "addressName", source = "address.fullAddress")
+    SearchByBookingDateHotelsResponse searchByBookingDateFromHotelResponse(Hotel hotel);
+
+    List<SearchByBookingDateHotelsResponse> searchByBookingDateFromHotelResponseList(List<Hotel> hotels);
+
+    List<FindHotelWithAvailableRoomsResponse> searchByRoomCapacityHotelsList(List<Hotel> hotels);
 }
