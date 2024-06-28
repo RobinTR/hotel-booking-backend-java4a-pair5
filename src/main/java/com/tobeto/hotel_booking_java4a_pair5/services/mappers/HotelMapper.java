@@ -38,8 +38,4 @@ public interface HotelMapper {
 
     @Mapping(target = "addressName", source = "address.fullAddress")
     SearchByBookingDateHotelsResponse searchByBookingDateFromHotelResponse(Hotel hotel);
-
-    List<SearchByBookingDateHotelsResponse> searchByBookingDateFromHotelResponseList(List<Hotel> hotels);
-
-    List<FindHotelWithAvailableRoomsResponse> searchByRoomCapacityHotelsList(List<Hotel> hotels);
 }

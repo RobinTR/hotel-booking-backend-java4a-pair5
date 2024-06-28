@@ -90,8 +90,8 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public Hotel searchByRoomCapacityHotels(int person) {
-        Hotel hotel = hotelRepository.searchByRoomCapacityHotels(person);
-        return hotel;
+    public List<Hotel> searchByRoomCapacityHotels(int person) {
+        List<Hotel> hotels = hotelRepository.searchByRoomCapacityHotels(person);
+        return hotels;
     }
 }

@@ -58,10 +58,8 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
             "AND r.isAvailable = true)")
     Hotel searchByBookingDateHotels(LocalDate startDate, LocalDate endDate);
 
-    @Query("SELECT h FROM Hotel h " +
-            "LEFT JOIN h.bookings b " +
-            "LEFT JOIN h.rooms r " +
-            "LEFT JOIN r.roomType rt " +
-            "WHERE rt.capacity = :person")
-    Hotel searchByRoomCapacityHotels(int person);
+    @Query("SELECT DISTINCT h FROM Hotel h " +
+            "INNER JOIN h.rooms r " +
+            "WHERE r.roomType.capacity = :person")
+    List<Hotel> searchByRoomCapacityHotels(int person);
 }
