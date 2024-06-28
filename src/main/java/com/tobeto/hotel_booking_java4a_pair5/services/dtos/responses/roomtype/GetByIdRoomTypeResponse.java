@@ -1,6 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtype;
 
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtypefeature.GetAllRoomTypeFeatureResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtypefeature.GetAllRoomTypeFeaturesByRoomTypeIdResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,6 @@ public class GetByIdRoomTypeResponse {
     private String name;
     private String description;
     private int capacity;
-    private List<GetAllRoomTypeFeatureResponse> features;
+    private List<GetAllRoomTypeFeaturesByRoomTypeIdResponse> features;
     private boolean isAllInclusive;
 }

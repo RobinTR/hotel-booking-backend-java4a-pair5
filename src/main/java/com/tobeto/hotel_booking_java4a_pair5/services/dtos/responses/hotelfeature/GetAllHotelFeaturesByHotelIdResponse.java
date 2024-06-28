@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GetAllHotelFeaturesByHotelId {
+public class GetAllHotelFeaturesByHotelIdResponse {
     private String featureName;
     private boolean isAvailable;
 }

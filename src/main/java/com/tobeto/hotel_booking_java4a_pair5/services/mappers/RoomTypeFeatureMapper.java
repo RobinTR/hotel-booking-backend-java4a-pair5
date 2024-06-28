@@ -4,6 +4,7 @@ import com.tobeto.hotel_booking_java4a_pair5.entities.RoomTypeFeature;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomtypefeature.AddRoomTypeFeatureRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomtypefeature.UpdateRoomTypeFeatureRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtypefeature.GetAllRoomTypeFeatureResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtypefeature.GetAllRoomTypeFeaturesByRoomTypeIdResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtypefeature.GetByIdRoomTypeFeatureResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -32,4 +33,9 @@ public interface RoomTypeFeatureMapper {
     GetAllRoomTypeFeatureResponse getAllResponseMap(RoomTypeFeature roomTypeFeature);
 
     List<GetAllRoomTypeFeatureResponse> getAllResponseFromRoomTypeFeatureList(List<RoomTypeFeature> roomTypeFeature);
+
+    @Mapping(target = "featureName", source = "feature.name")
+    GetAllRoomTypeFeaturesByRoomTypeIdResponse GetAllRoomTypeFeaturesByRoomTypeIdResponseMap(RoomTypeFeature roomTypeFeature);
+
+    List<GetAllRoomTypeFeaturesByRoomTypeIdResponse> GetAllRoomTypeFeaturesByRoomTypeIdResponseList(List<RoomTypeFeature> roomTypeFeatures);
 }
