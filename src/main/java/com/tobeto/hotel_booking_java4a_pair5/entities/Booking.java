@@ -58,4 +58,7 @@ public class Booking extends BaseEntity {
 
     @OneToMany(mappedBy = "booking")
     private List<RoomFeedback> roomFeedbacks;
+
+    @OneToMany(mappedBy = "booking")
+    private List<CitizenOfBooking> citizenOfBookings;
 }
