@@ -201,4 +201,32 @@ public class HotelsController {
 
         return new SuccessDataResponse<>(response, HotelMessages.HOTEL_LISTED);
     }
+
+    @GetMapping("/searchAllHotelsWithFilters")
+    public DataResponse<List<FindHotelWithAvailableRoomsResponse>> searchByRoomFilters(@RequestParam(required = false) String location,
+                                                                                       @RequestParam(required = false) LocalDate startDate,
+                                                                                       @RequestParam(required = false) LocalDate endDate,
+                                                                                       @RequestParam(required = false) Integer roomCapacity) {
+        List<Hotel> hotels = hotelService.searchAllHotelsWithFilters(location, startDate, endDate, roomCapacity);
+        List<FindHotelWithAvailableRoomsResponse> response = HotelMapper.INSTANCE.findHotelResponseFromHotelResponseList(hotels);
+
+        for (int i = 0; i < hotels.size(); i++) {
+            List<GetAllHotelFeaturesByHotelIdResponse> hotelFeatures = HotelFeatureMapper.INSTANCE.getAllHotelFeaturesByHotelIdFromHotelFeatureList(hotels.get(i).getHotelFeatures());
+            List<GetImageUrlsOfHotelResponse> imageUrlsOfHotelResponseList = HotelImageMapper.INSTANCE.getImagesUrlOfHotelResponseListFromHotelImages(hotels.get(i).getHotelImages());
+            response.get(i).setHotelFeatures(hotelFeatures);
+            response.get(i).setHotelImageUrls(imageUrlsOfHotelResponseList);
+
+            for (int j = 0; j < response.get(i).getRooms().size(); j++) {
+                List<RoomImage> roomImages = hotels.get(i).getRooms().get(j).getRoomImages();
+                List<GetImageUrlsOfRoomResponse> getImageUrlsOfRoomResponseList = RoomImageMapper.INSTANCE.getImagesUrlOfHotelResponseListFromHotelImages(roomImages);
+                response.get(i).getRooms().get(j).setImageUrls(getImageUrlsOfRoomResponseList);
+
+                List<RoomFeature> roomFeatures = hotels.get(i).getRooms().get(j).getRoomFeatures();
+                List<GetAllRoomFeaturesByRoomIdResponse> getAllRoomFeaturesByRoomIdResponseList = RoomFeatureMapper.INSTANCE.GetAllRoomFeaturesByRoomIdResponseList(roomFeatures);
+                response.get(i).getRooms().get(j).setFeatures(getAllRoomFeaturesByRoomIdResponseList);
+            }
+        }
+
+        return new SuccessDataResponse<>(response, HotelMessages.HOTEL_LISTED);
+    }
 }

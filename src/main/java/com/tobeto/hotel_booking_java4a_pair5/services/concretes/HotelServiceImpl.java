@@ -1,7 +1,6 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelRepository;
@@ -12,15 +11,12 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.Update
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -111,6 +107,31 @@ public class HotelServiceImpl implements HotelService {
         Specification<Hotel> spec = Specification.where(HotelSpecification.hasHotelId(hotelId))
                 .and(HotelSpecification.hasRoomCapacity(roomCapacity))
                 .and(HotelSpecification.hasDateRange(startDate, endDate))
+                .and(HotelSpecification.hasAvailableRooms());
+        List<Hotel> hotels = hotelRepository.findAll(spec);
+
+        if (roomCapacity != null) {
+            for (Hotel hotel : hotels) {
+                List<Room> rooms = new ArrayList<>();
+
+                for (Room room : hotel.getRooms()) {
+                    if (room.getRoomType().getCapacity() == roomCapacity) {
+                        rooms.add(room);
+                    }
+                }
+
+                hotel.setRooms(rooms);
+            }
+        }
+        return hotels;
+    }
+
+    @Override
+    public List<Hotel> searchAllHotelsWithFilters(String location, LocalDate startDate, LocalDate endDate, Integer roomCapacity) {
+        Specification<Hotel> spec = Specification.where(null);
+        spec.and(HotelSpecification.hasRoomCapacity(roomCapacity))
+                .and(HotelSpecification.hasDateRange(startDate, endDate))
+                .and(HotelSpecification.hasLocation(location))
                 .and(HotelSpecification.hasAvailableRooms());
         List<Hotel> hotels = hotelRepository.findAll(spec);
 
