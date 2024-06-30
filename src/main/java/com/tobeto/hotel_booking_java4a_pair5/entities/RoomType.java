@@ -30,12 +30,6 @@ public class RoomType extends BaseEntity {
     @Column(name = "capacity")
     private int capacity;
 
-    @Column(name = "is_all_inclusive", columnDefinition = "boolean default false")
-    private boolean isAllInclusive;
-
     @OneToMany(mappedBy = "roomType")
     private List<Room> rooms;
-
-    @OneToMany(mappedBy = "roomType")
-    private List<RoomTypeFeature> roomTypeFeatures;
 }

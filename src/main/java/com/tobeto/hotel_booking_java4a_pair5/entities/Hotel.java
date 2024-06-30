@@ -66,6 +66,6 @@ public class Hotel extends BaseEntity {
     @OneToMany(mappedBy = "hotel")
     private List<HotelImage> hotelImages;
 
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER)
     private List<HotelFeature> hotelFeatures;
 }

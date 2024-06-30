@@ -24,8 +24,5 @@ public class District extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "district")
-    private List<Address> addresses;
-
-    @OneToMany(mappedBy = "district")
     private List<Area> areas;
 }
