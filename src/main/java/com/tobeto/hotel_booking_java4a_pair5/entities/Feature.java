@@ -23,7 +23,7 @@ public class Feature extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "feature")
-    private List<RoomTypeFeature> roomTypeFeatures;
+    private List<RoomFeature> roomFeatures;
 
     @OneToMany(mappedBy = "feature")
     private List<HotelFeature> hotelFeatures;

@@ -7,16 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "room_types_features")
+@Table(name = "room_features")
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoomTypeFeature extends BaseEntity {
+public class RoomFeature extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "room_type_id")
-    private RoomType roomType;
+    @JoinColumn(name = "room_id")
+    private Room room;
 
     @ManyToOne
     @JoinColumn(name = "feature_id")

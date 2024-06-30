@@ -32,8 +32,5 @@ public class Country extends BaseEntity {
     private String phoneCode;
 
     @OneToMany(mappedBy = "country")
-    private List<Address> adresses;
-
-    @OneToMany(mappedBy = "country")
     private List<City> cities;
 }

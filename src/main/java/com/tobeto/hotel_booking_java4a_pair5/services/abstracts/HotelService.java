@@ -31,4 +31,6 @@ public interface HotelService {
     Hotel searchByBookingDateHotelsResponse(LocalDate startDate, LocalDate endDate);
 
     List<Hotel> searchByRoomCapacityHotels(int person);
+
+    List<Hotel> searchHotelByRoomWithFilters(Integer hotelId, LocalDate startDate, LocalDate endDate, Integer roomCapacity);
 }

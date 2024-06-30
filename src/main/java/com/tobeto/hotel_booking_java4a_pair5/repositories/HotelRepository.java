@@ -1,13 +1,17 @@
 package com.tobeto.hotel_booking_java4a_pair5.repositories;
 
+import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface HotelRepository extends JpaRepository<Hotel, Integer> {
+public interface HotelRepository extends JpaRepository<Hotel, Integer>, JpaSpecificationExecutor<Hotel> {
     @Query(value = "SELECT h " +
             "FROM Hotel AS h " +
             "INNER JOIN h.address AS a " +
@@ -19,14 +23,13 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     @Query(value = "SELECT h " +
             "FROM Hotel AS h " +
             "INNER JOIN h.address AS a ON h.address.id = a.id " +
-            "INNER JOIN h.address.country AS c ON a.country.id=c.id " +
-            "INNER JOIN h.address.city AS ci ON a.city.id=ci.id " +
-            "INNER JOIN h.address.district AS d ON a.district.id=d.id " +
             "INNER JOIN Room AS r ON h.id = r.hotel.id " +
             "INNER JOIN RoomType AS rt ON r.roomType.id = r.id " +
-            "WHERE LOWER(c.name) LIKE LOWER(:name) or " +
-            "LOWER(ci.name) LIKE LOWER(:name) or " +
-            "LOWER(d.name) LIKE LOWER(:name)  ")
+            "WHERE LOWER(a.neighborhood.name) LIKE LOWER(:name) OR " +
+            "LOWER(a.neighborhood.area.name) LIKE LOWER(:name) OR " +
+            "LOWER(a.neighborhood.area.district.name) LIKE LOWER(:name) OR " +
+            "LOWER(a.neighborhood.area.district.city.name) LIKE LOWER(:name) OR " +
+            "LOWER(a.neighborhood.area.district.city.country.name) LIKE LOWER(:name)")
     List<Hotel> searchByLocation(String name);
 
     @Query(value = "SELECT h " +

@@ -18,22 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Address extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "country_id")
-    private Country country;
-
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    private City city;
-
-    @ManyToOne
-    @JoinColumn(name = "district_id")
-    private District district;
-
-    @ManyToOne
-    @JoinColumn(name = "area_id")
-    private Area area;
-
-    @ManyToOne
     @JoinColumn(name = "neighborhood_id")
     private Neighborhood neighborhood;
 
