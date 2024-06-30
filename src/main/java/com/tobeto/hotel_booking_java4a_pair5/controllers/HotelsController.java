@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -180,7 +179,7 @@ public class HotelsController {
                                                    @RequestParam(required = false) LocalDate startDate,
                                                    @RequestParam(required = false) LocalDate endDate,
                                                    @RequestParam(required = false) Integer roomCapacity) {
-        List<Hotel> hotels = hotelService.findAllHotelsWithFilterss(hotelId, startDate, endDate, roomCapacity);
+        List<Hotel> hotels = hotelService.searchHotelByRoomWithFilters(hotelId, startDate, endDate, roomCapacity);
         List<FindHotelWithAvailableRoomsResponse> response = HotelMapper.INSTANCE.findHotelResponseFromHotelResponseList(hotels);
 
         for (int i = 0; i < hotels.size(); i++) {
