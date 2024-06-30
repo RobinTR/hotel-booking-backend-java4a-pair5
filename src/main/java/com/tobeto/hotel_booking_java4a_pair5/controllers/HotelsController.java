@@ -203,7 +203,7 @@ public class HotelsController {
     }
 
     @GetMapping("/searchAllHotelsWithFilters")
-    public DataResponse<List<FindHotelWithAvailableRoomsResponse>> searchByRoomFilters(@RequestParam(required = false) String location,
+    public DataResponse<List<FindHotelWithAvailableRoomsResponse>> searchAllHotelsWithFilters(@RequestParam(required = false) String location,
                                                                                        @RequestParam(required = false) LocalDate startDate,
                                                                                        @RequestParam(required = false) LocalDate endDate,
                                                                                        @RequestParam(required = false) Integer roomCapacity) {
