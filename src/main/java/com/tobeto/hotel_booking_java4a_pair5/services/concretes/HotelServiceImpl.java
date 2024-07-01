@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -162,12 +163,13 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Hotel> searchAllHotelsWithFilters(String location, LocalDate startDate, LocalDate endDate, Integer roomCapacity,Double minPrice,Double maxPrice) {
+    public List<Hotel> searchAllHotelsWithFilters(String location, LocalDate startDate, LocalDate endDate, Integer roomCapacity,Double minPrice,Double maxPrice,List<Long> featureIds) {
+        featureIds = Arrays.asList(1L, 2L, 3L,4L,5L);
         Specification<Hotel> spec = Specification.where(null);
         spec.and(HotelSpecification.hasRoomCapacity(roomCapacity))
                 .and(HotelSpecification.hasLocation(location))
                 .and(HotelSpecification.hasAvailableRooms(startDate, endDate))
-                .and(HotelSpecification.hasHotelFeatures());
+                .and(HotelSpecification.hasHotelFeatures(featureIds));
         
         if (minPrice != null && maxPrice != null) {
             spec = spec.and(HotelSpecification.hasHotelPrice(minPrice, maxPrice));
