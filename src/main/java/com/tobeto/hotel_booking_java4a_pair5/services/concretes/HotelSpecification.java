@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class HotelSpecification {
 
@@ -84,11 +85,16 @@ public class HotelSpecification {
             );
         };
     }
-    public static Specification<Hotel> hasHotelFeatures() {
+    public static Specification<Hotel> hasHotelFeatures(List<Long> featureIds) {
         return (root, query, cb) -> {
-            Join<Object, Object> hotelFeaturesJoin = root.join("hotelFeatures", JoinType.LEFT);
-            Join<Object, Object> featureJoin = hotelFeaturesJoin.join("features", JoinType.LEFT);
-            return cb.isNotNull(featureJoin.get("id"));
+            // Hotel ile HotelFeature ilişkisini join ediyoruz
+            Join<Hotel, HotelFeature> hotelFeaturesJoin = root.join("hotelFeatures", JoinType.INNER);
+            // HotelFeature ile Feature ilişkisini join ediyoruz
+            Join<HotelFeature, Feature> featureJoin = hotelFeaturesJoin.join("feature", JoinType.INNER);
+            // Feature id'leri üzerinden filtreleme yapıyoruz
+            Predicate featurePredicate = featureJoin.get("id").in(featureIds);
+
+            return featurePredicate;
         };
     }
 
