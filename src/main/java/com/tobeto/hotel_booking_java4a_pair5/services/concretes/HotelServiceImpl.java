@@ -163,8 +163,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Hotel> searchAllHotelsWithFilters(String location, LocalDate startDate, LocalDate endDate, Integer roomCapacity,Double minPrice,Double maxPrice,List<Long> featureIds) {
-        featureIds = Arrays.asList(1L, 2L, 3L,4L,5L);
+    public List<Hotel> searchAllHotelsWithFilters(String location, LocalDate startDate, LocalDate endDate, Integer roomCapacity,Double minPrice,Double maxPrice,List<Integer> featureIds) {
         Specification<Hotel> spec = Specification.where(null);
         spec.and(HotelSpecification.hasRoomCapacity(roomCapacity))
                 .and(HotelSpecification.hasLocation(location))
@@ -175,6 +174,16 @@ public class HotelServiceImpl implements HotelService {
             spec = spec.and(HotelSpecification.hasHotelPrice(minPrice, maxPrice));
         }
         List<Hotel> hotels = hotelRepository.findAll(spec);
+
+        if (featureIds != null) {
+            for (Hotel hotel : hotels) {
+                List<HotelFeature> filteredFeatures = hotel.getHotelFeatures().stream()
+                        .filter(hf -> featureIds.contains(hf.getId()))
+                        .collect(Collectors.toList());
+
+                hotel.setHotelFeatures(filteredFeatures);
+            }
+        }
 
         if (roomCapacity != null) {
             for (Hotel hotel : hotels) {
