@@ -19,6 +19,4 @@ public class UpdateRoomRequest {
     private int number;
 
     private double cost;
-
-    private boolean isAvailable;
 }

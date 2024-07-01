@@ -18,5 +18,4 @@ public class GetByIdRoomForHotelResponse {
     private List<GetImageUrlsOfRoomResponse> imageUrls;
     private int number;
     private double cost;
-    private boolean isAvailable;
 }

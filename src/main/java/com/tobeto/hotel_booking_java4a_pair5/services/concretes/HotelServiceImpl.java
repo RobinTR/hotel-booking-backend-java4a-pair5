@@ -1,8 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
+import com.tobeto.hotel_booking_java4a_pair5.entities.*;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.HotelMessages;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -106,33 +106,68 @@ public class HotelServiceImpl implements HotelService {
     public List<Hotel> searchHotelByRoomWithFilters(Integer hotelId, LocalDate startDate, LocalDate endDate, Integer roomCapacity) {
         Specification<Hotel> spec = Specification.where(HotelSpecification.hasHotelId(hotelId))
                 .and(HotelSpecification.hasRoomCapacity(roomCapacity))
-                .and(HotelSpecification.hasDateRange(startDate, endDate))
-                .and(HotelSpecification.hasAvailableRooms());
+                .and(HotelSpecification.hasAvailableRooms(startDate, endDate));
         List<Hotel> hotels = hotelRepository.findAll(spec);
 
+        // Filter rooms by capacity if roomCapacity is provided
         if (roomCapacity != null) {
-            for (Hotel hotel : hotels) {
-                List<Room> rooms = new ArrayList<>();
-
-                for (Room room : hotel.getRooms()) {
-                    if (room.getRoomType().getCapacity() == roomCapacity) {
-                        rooms.add(room);
-                    }
-                }
-
-                hotel.setRooms(rooms);
-            }
+            hotels.forEach(hotel -> {
+                List<Room> filteredRooms = hotel.getRooms().stream()
+                        .filter(room -> room.getRoomType().getCapacity() == roomCapacity)
+                        .collect(Collectors.toList());
+                hotel.setRooms(filteredRooms);
+            });
         }
+
+        // Filter bookings by date range and availability if startDate and endDate are provided
+        if (startDate != null && endDate != null) {
+            hotels.forEach(hotel -> {
+                List<Booking> filteredBookings = hotel.getBookings().stream()
+                        .filter(booking -> {
+                            // Check if the booking is within the given date range
+                            boolean isWithinDateRange = booking.getStartDate().isBefore(endDate.plusDays(1))
+                                    && booking.getEndDate().isAfter(startDate.minusDays(1));
+
+                            // Include booking if it meets the date criteria and has an approved or pending status
+                            return isWithinDateRange &&
+                                    (booking.getReservationStatus() == ReservationStatus.APPROVED || booking.getReservationStatus() == ReservationStatus.PENDING);
+                        })
+                        .collect(Collectors.toList());
+                hotel.setBookings(filteredBookings);
+            });
+        }
+
+        // After filtering bookings, ensure to filter out rooms that are booked within the given date range with APPROVED or PENDING status
+        if (startDate != null && endDate != null) {
+            hotels.forEach(hotel -> {
+                List<Room> availableRooms = hotel.getRooms().stream()
+                        .filter(room -> {
+                            boolean isRoomAvailable = hotel.getBookings().stream()
+                                    .noneMatch(booking -> {
+                                        boolean isWithinDateRange = booking.getStartDate().isBefore(endDate.plusDays(1))
+                                                && booking.getEndDate().isAfter(startDate.minusDays(1));
+                                        return isWithinDateRange &&
+                                                (booking.getReservationStatus() == ReservationStatus.APPROVED || booking.getReservationStatus() == ReservationStatus.PENDING) &&
+                                                booking.getRoomBooked().stream()
+                                                        .anyMatch(roomBooked -> roomBooked.getRoom().getId().equals(room.getId()));
+                                    });
+                            return isRoomAvailable;
+                        })
+                        .collect(Collectors.toList());
+                hotel.setRooms(availableRooms);
+            });
+        }
+
         return hotels;
     }
+
 
     @Override
     public List<Hotel> searchAllHotelsWithFilters(String location, LocalDate startDate, LocalDate endDate, Integer roomCapacity) {
         Specification<Hotel> spec = Specification.where(null);
         spec.and(HotelSpecification.hasRoomCapacity(roomCapacity))
-                .and(HotelSpecification.hasDateRange(startDate, endDate))
                 .and(HotelSpecification.hasLocation(location))
-                .and(HotelSpecification.hasAvailableRooms());
+                .and(HotelSpecification.hasAvailableRooms(startDate, endDate));
         List<Hotel> hotels = hotelRepository.findAll(spec);
 
         if (roomCapacity != null) {

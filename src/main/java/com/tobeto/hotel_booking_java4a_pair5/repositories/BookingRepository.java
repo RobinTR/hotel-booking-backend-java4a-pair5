@@ -15,7 +15,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "INNER JOIN rb.room AS r " +
             "INNER JOIN b.hotel AS h " +
             "WHERE (b.startDate <= :endDate AND b.endDate >= :startDate " +
-            "AND r.isAvailable = true)")
+            "AND b.reservationStatus = 'ABORTED' OR b.reservationStatus = 'COMPLETED')")
     List<Booking> searchByDate(LocalDate startDate, LocalDate endDate);
 
     @Query(value = "SELECT b " +
@@ -24,6 +24,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "INNER JOIN Room AS r ON rb.room.id = r.id " +
             "INNER JOIN RoomType AS rt ON r.roomType.id = rt.id " +
             "WHERE rt.id = :roomTypeId " +
-            "AND r.isAvailable = TRUE")
+            "AND b.reservationStatus = 'ABORTED' OR b.reservationStatus = 'COMPLETED'")
     List<Booking> searchByRoomType(Integer roomTypeId);
 }
