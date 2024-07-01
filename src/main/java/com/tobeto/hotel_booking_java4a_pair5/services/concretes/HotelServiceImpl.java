@@ -167,7 +167,7 @@ public class HotelServiceImpl implements HotelService {
         spec.and(HotelSpecification.hasRoomCapacity(roomCapacity))
                 .and(HotelSpecification.hasLocation(location))
                 .and(HotelSpecification.hasAvailableRooms(startDate, endDate))
-                .and(HotelSpecification.hasHotelFeatures())
+                .and(HotelSpecification.hasHotelFeatures());
         ;
         if (minPrice != null && maxPrice != null) {
             spec = spec.and(HotelSpecification.hasHotelPrice(minPrice, maxPrice));
