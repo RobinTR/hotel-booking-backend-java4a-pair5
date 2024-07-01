@@ -172,9 +172,6 @@ public class HotelServiceImpl implements HotelService {
         if (minPrice != null && maxPrice != null) {
             spec = spec.and(HotelSpecification.hasHotelPrice(minPrice, maxPrice));
         }
-
-                .and(HotelSpecification.hasAvailableRooms(startDate, endDate));
-
         List<Hotel> hotels = hotelRepository.findAll(spec);
 
         if (roomCapacity != null) {
