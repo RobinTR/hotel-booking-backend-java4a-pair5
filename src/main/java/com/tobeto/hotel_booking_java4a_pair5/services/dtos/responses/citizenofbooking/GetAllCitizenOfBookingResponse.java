@@ -10,6 +10,5 @@ import java.time.LocalDate;
 public class GetAllCitizenOfBookingResponse {
     private String firstName;
     private String lastName;
-    private String phone;
     private LocalDate birthDate;
 }

@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking;
 
 
 import com.tobeto.hotel_booking_java4a_pair5.entities.Citizen;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.citizen.AddCitizenRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public class AddBookingRequest {
     @NotNull(message = "You must enter a guest id.")
     private Integer guestId;
 
-    private List<Citizen> citizens;
+    private List<AddCitizenRequest> citizens;
 
     private List<Integer> roomIds;
 
