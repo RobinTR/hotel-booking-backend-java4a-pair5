@@ -29,9 +29,6 @@ public class Citizen extends BaseEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "phone")
-    private String phone;
-
     @Column(name = "birth_date")
     private LocalDate birthDate;
 

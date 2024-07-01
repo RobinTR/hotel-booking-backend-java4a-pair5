@@ -11,6 +11,5 @@ public class UpdateCitizenRequest {
     private Integer id;
     private String firstName;
     private String lastName;
-    private String phone;
     private LocalDate birthDate;
 }

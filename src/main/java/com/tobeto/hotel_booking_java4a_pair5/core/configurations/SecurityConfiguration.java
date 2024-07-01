@@ -31,7 +31,8 @@ public class SecurityConfiguration {
             "/configuration/security",
             "/swagger-ui/**",
             "/webjars/**",
-            "/swagger-ui.html"
+            "/swagger-ui.html",
+            "/api/bookings/**"
     };
 
     private static final String[] GET_WHITE_LIST_URL = {
@@ -88,7 +89,7 @@ public class SecurityConfiguration {
             "/api/roombooked",
             "/api/paymentbycards",
             "/api/hotelreviews",
-            "/api/bookings",
+            //"/api/bookings",
             "/api/addresses"
     };
     private static final String[] POST_MANAGER_ADMIN = {
