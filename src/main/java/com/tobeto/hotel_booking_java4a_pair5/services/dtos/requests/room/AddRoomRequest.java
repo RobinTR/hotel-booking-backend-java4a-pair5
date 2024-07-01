@@ -16,6 +16,4 @@ public class AddRoomRequest {
     private int number;
 
     private double cost;
-
-    private boolean isAvailable;
 }

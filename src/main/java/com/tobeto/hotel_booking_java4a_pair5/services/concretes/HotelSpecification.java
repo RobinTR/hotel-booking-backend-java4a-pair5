@@ -3,6 +3,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 import com.tobeto.hotel_booking_java4a_pair5.entities.*;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -23,23 +24,44 @@ public class HotelSpecification {
         };
     }
 
-    public static Specification<Hotel> hasDateRange(LocalDate startDate, LocalDate endDate) {
-        return (root, query, cb) -> {
-            if (startDate != null && endDate != null) {
-                Join<Object, Object> bookingJoin = root.join("bookings", JoinType.LEFT);
-                return cb.and(
-                        cb.lessThanOrEqualTo(bookingJoin.get("startDate"), endDate),
-                        cb.greaterThanOrEqualTo(bookingJoin.get("endDate"), startDate)
-                );
-            }
-            return cb.conjunction();
-        };
-    }
-
-    public static Specification<Hotel> hasAvailableRooms() {
+    public static Specification<Hotel> hasAvailableRooms(LocalDate startDate, LocalDate endDate) {
         return (root, query, cb) -> {
             Join<Object, Object> roomJoin = root.join("rooms", JoinType.LEFT);
-            return cb.isTrue(roomJoin.get("isAvailable"));
+            Join<Object, Object> roomBookedJoin = roomJoin.join("roomBooked", JoinType.LEFT);
+            Join<Object, Object> bookingJoin = roomBookedJoin.join("booking", JoinType.LEFT);
+
+            if (startDate != null && endDate != null) {
+                // Condition to check if the booking is within the given date range and has APPROVED or PENDING status
+                Predicate isBookedWithinDateRange = cb.and(
+                        cb.or(
+                                cb.equal(bookingJoin.get("reservationStatus"), ReservationStatus.APPROVED),
+                                cb.equal(bookingJoin.get("reservationStatus"), ReservationStatus.PENDING)
+                        ),
+                        cb.or(
+                                cb.and(
+                                        cb.lessThanOrEqualTo(bookingJoin.get("startDate"), endDate),
+                                        cb.greaterThanOrEqualTo(bookingJoin.get("startDate"), startDate)
+                                ),
+                                cb.and(
+                                        cb.lessThanOrEqualTo(bookingJoin.get("endDate"), endDate),
+                                        cb.greaterThanOrEqualTo(bookingJoin.get("endDate"), startDate)
+                                ),
+                                cb.and(
+                                        cb.lessThanOrEqualTo(bookingJoin.get("startDate"), startDate),
+                                        cb.greaterThanOrEqualTo(bookingJoin.get("endDate"), endDate)
+                                )
+                        )
+                );
+
+                // The room is available if there are no bookings in the specified date range with APPROVED or PENDING status
+                return cb.or(
+                        cb.isNull(roomBookedJoin.get("booking")),  // Room has no booking
+                        cb.not(isBookedWithinDateRange)  // Room is not booked within the specified date range
+                );
+            } else {
+                // If no date range is provided, consider all rooms available
+                return cb.isTrue(cb.literal(true));
+            }
         };
     }
 
