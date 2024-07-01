@@ -85,7 +85,7 @@ public class HotelSpecification {
             );
         };
     }
-    public static Specification<Hotel> hasHotelFeatures(List<Long> featureIds) {
+    public static Specification<Hotel> hasHotelFeatures(List<Integer> featureIds) {
         return (root, query, cb) -> {
             // Hotel ile HotelFeature ilişkisini join ediyoruz
             Join<Hotel, HotelFeature> hotelFeaturesJoin = root.join("hotelFeatures", JoinType.INNER);
