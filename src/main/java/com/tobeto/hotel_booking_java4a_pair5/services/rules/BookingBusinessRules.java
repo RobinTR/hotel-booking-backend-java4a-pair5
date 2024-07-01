@@ -25,7 +25,6 @@ public class BookingBusinessRules {
     private final BookingRepository bookingRepository;
     private final RoomService roomService;
     private final RoomBookedService roomBookedService;
-    private final RoomBusinessRules roomBusinessRules;
 
     public double reserveRoomAndCalculatePrice(Integer id) {
         double totalPrice = 0;
@@ -39,9 +38,9 @@ public class BookingBusinessRules {
 
         for (RoomBooked roomBooked : roomBookedList) {
             Room room = roomService.getById(roomBooked.getRoom().getId());
-            roomBusinessRules.isRoomAvailable(room.getId());
+            //roomBusinessRules.isRoomAvailable(room.getId());
             UpdateRoomRequest updateRoomRequest = RoomMapper.INSTANCE.updateRoomRequestFromRoom(room);
-            updateRoomRequest.setAvailable(false);
+            //updateRoomRequest.setAvailable(false);
             roomService.update(updateRoomRequest);
 
             totalPrice += room.getCost() * totalDaysBooked;
@@ -58,20 +57,10 @@ public class BookingBusinessRules {
 
     public void changeReservationStatus(Booking booking, ReservationStatus reservationStatus) {
         if (reservationStatus.equals(ReservationStatus.APPROVED)) {
-            List<RoomBooked> roomBookedList = roomBookedService.findByBooking(booking);
-            setRoomAvailable(roomBookedList, false);
-
             booking.setReservationStatus(ReservationStatus.APPROVED);
-
         } else if (reservationStatus.equals(ReservationStatus.ABORTED)) {
-            List<RoomBooked> roomBookedList = roomBookedService.findByBooking(booking);
-            setRoomAvailable(roomBookedList, true);
-
             booking.setReservationStatus(ReservationStatus.ABORTED);
         } else if (reservationStatus.equals(ReservationStatus.COMPLETED)) {
-            List<RoomBooked> roomBookedList = roomBookedService.findByBooking(booking);
-            setRoomAvailable(roomBookedList, true);
-
             booking.setReservationStatus(ReservationStatus.COMPLETED);
         }
     }
@@ -81,11 +70,8 @@ public class BookingBusinessRules {
     }
 
     public void changeCheckOutDate(Booking booking) {
-        List<RoomBooked> roomBookedList = roomBookedService.findByBooking(booking);
-
         booking.setCheckOutDate(LocalDateTime.now());
         booking.setReservationStatus(ReservationStatus.COMPLETED);
-        setRoomAvailable(roomBookedList, true);
         bookingRepository.save(booking);
     }
 
@@ -97,17 +83,7 @@ public class BookingBusinessRules {
                 roomBookedService.delete(roomBooked.getId());
             }
 
-            setRoomAvailable(roomBookedList, true);
             bookingRepository.delete(booking);
-        }
-    }
-
-    public void setRoomAvailable(List<RoomBooked> roomBookedList, boolean available) {
-        for (RoomBooked roomBooked : roomBookedList) {
-            Room room = roomService.getById(roomBooked.getRoom().getId());
-            UpdateRoomRequest updateRoomRequest = RoomMapper.INSTANCE.updateRoomRequestFromRoom(room);
-            updateRoomRequest.setAvailable(available);
-            roomService.update(updateRoomRequest);
         }
     }
 }
