@@ -127,12 +127,18 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Hotel> searchAllHotelsWithFilters(String location, LocalDate startDate, LocalDate endDate, Integer roomCapacity) {
+    public List<Hotel> searchAllHotelsWithFilters(String location, LocalDate startDate, LocalDate endDate, Integer roomCapacity,Double minPrice,Double maxPrice) {
         Specification<Hotel> spec = Specification.where(null);
         spec.and(HotelSpecification.hasRoomCapacity(roomCapacity))
                 .and(HotelSpecification.hasDateRange(startDate, endDate))
                 .and(HotelSpecification.hasLocation(location))
-                .and(HotelSpecification.hasAvailableRooms());
+                .and(HotelSpecification.hasAvailableRooms())
+                .and(HotelSpecification.hasHotelFeatures())
+                ;
+        if (minPrice != null && maxPrice != null) {
+            spec = spec.and(HotelSpecification.hasHotelPrice(minPrice, maxPrice));
+        }
+
         List<Hotel> hotels = hotelRepository.findAll(spec);
 
         if (roomCapacity != null) {

@@ -62,4 +62,20 @@ public class HotelSpecification {
             );
         };
     }
+    public static Specification<Hotel> hasHotelFeatures() {
+        return (root, query, cb) -> {
+            Join<Object, Object> hotelFeaturesJoin = root.join("hotelFeatures", JoinType.LEFT);
+            Join<Object, Object> featureJoin = hotelFeaturesJoin.join("features", JoinType.LEFT);
+            return cb.isNotNull(featureJoin.get("id"));
+        };
+    }
+
+    public static Specification<Hotel> hasHotelPrice(double minPrice,double maxPrice) {
+        return (root, query, cb) -> {
+            Join<Object, Object> roomJoin = root.join("rooms", JoinType.LEFT);
+
+            return cb.between(roomJoin.get("cost"), minPrice, maxPrice);
+        };
+    }
+
 }
