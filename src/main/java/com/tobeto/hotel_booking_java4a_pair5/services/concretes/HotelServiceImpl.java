@@ -169,20 +169,27 @@ public class HotelServiceImpl implements HotelService {
                 .and(HotelSpecification.hasLocation(location))
                 .and(HotelSpecification.hasAvailableRooms(startDate, endDate))
                 .and(HotelSpecification.hasHotelFeatures(featureIds));
-        
+
         if (minPrice != null && maxPrice != null) {
             spec = spec.and(HotelSpecification.hasHotelPrice(minPrice, maxPrice));
         }
         List<Hotel> hotels = hotelRepository.findAll(spec);
 
         if (featureIds != null) {
+            List<Hotel> filteredHotels = new ArrayList<>();
+
             for (Hotel hotel : hotels) {
                 List<HotelFeature> filteredFeatures = hotel.getHotelFeatures().stream()
-                        .filter(hf -> featureIds.contains(hf.getId()))
+                        .filter(hf -> featureIds.contains(hf.getFeature().getId()))
                         .collect(Collectors.toList());
 
-                hotel.setHotelFeatures(filteredFeatures);
+                if (!filteredFeatures.isEmpty()) {
+                    hotel.setHotelFeatures(filteredFeatures);
+                    filteredHotels.add(hotel);
+                }
             }
+
+            hotels = filteredHotels;
         }
 
         if (roomCapacity != null) {
