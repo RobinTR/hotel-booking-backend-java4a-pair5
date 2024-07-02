@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/supports")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class SupportsController {
     private SupportService supportService;
 
