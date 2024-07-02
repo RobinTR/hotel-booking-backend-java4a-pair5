@@ -232,8 +232,6 @@ public class HotelServiceImpl implements HotelService {
                         })
                         .collect(Collectors.toList());
 
-                List<Room> availableRoomsWithoutNulls = new ArrayList<>();
-
                 if (!availableRooms.isEmpty()) {
                     hotel.setRooms(availableRooms);
                     filteredHotels.add(hotel);
