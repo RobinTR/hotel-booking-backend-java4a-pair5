@@ -21,7 +21,7 @@ public class JwtService {
     @Value("${jwt.key}")
     private String SECRET_KEY;
 
-    public String generateToken(String username, Map<String, Object> extraClaims) {
+    public String createToken(String username, Map<String, Object> extraClaims) {
         return Jwts
                 .builder()
                 .issuedAt(new Date(System.currentTimeMillis()))

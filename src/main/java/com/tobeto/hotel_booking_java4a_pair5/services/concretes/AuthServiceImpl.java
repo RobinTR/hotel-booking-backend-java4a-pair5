@@ -49,8 +49,9 @@ public class AuthServiceImpl implements AuthService {
         }
 
         Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("UserId", user.getId());
+        extraClaims.put("userId", user.getId());
+        extraClaims.put("roles", user.getAuthorities());
 
-        return jwtService.generateToken(user.getUsername(), extraClaims);
+        return jwtService.createToken(user.getUsername(), extraClaims);
     }
 }
