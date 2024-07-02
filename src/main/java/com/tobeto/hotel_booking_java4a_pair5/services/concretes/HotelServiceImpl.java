@@ -206,43 +206,43 @@ public class HotelServiceImpl implements HotelService {
             }
         }
 
-        // Filter bookings by date range and availability if startDate and endDate are provided
         if (startDate != null && endDate != null) {
+            List<Hotel> filteredHotels = new ArrayList<>();
+
             hotels.forEach(hotel -> {
+                // Filter bookings by date range and availability
                 List<Booking> filteredBookings = hotel.getBookings().stream()
                         .filter(booking -> {
-                            // Check if the booking is within the given date range
                             boolean isWithinDateRange = booking.getStartDate().isBefore(endDate.plusDays(1))
                                     && booking.getEndDate().isAfter(startDate.minusDays(1));
-
-                            // Include booking if it meets the date criteria and has an approved or pending status
                             return isWithinDateRange &&
                                     (booking.getReservationStatus() == ReservationStatus.APPROVED || booking.getReservationStatus() == ReservationStatus.PENDING);
                         })
                         .collect(Collectors.toList());
-                hotel.setBookings(filteredBookings);
-            });
-        }
 
-        // After filtering bookings, ensure to filter out rooms that are booked within the given date range with APPROVED or PENDING status
-        if (startDate != null && endDate != null) {
-            hotels.forEach(hotel -> {
+                hotel.setBookings(filteredBookings);
+
+                // Filter out rooms that are booked within the given date range with APPROVED or PENDING status
                 List<Room> availableRooms = hotel.getRooms().stream()
                         .filter(room -> {
-                            boolean isRoomAvailable = hotel.getBookings().stream()
-                                    .noneMatch(booking -> {
-                                        boolean isWithinDateRange = booking.getStartDate().isBefore(endDate.plusDays(1))
-                                                && booking.getEndDate().isAfter(startDate.minusDays(1));
-                                        return isWithinDateRange &&
-                                                (booking.getReservationStatus() == ReservationStatus.APPROVED || booking.getReservationStatus() == ReservationStatus.PENDING) &&
-                                                booking.getRoomBooked().stream()
-                                                        .anyMatch(roomBooked -> roomBooked.getRoom().getId().equals(room.getId()));
-                                    });
+                            boolean isRoomAvailable = filteredBookings.stream()
+                                    .noneMatch(booking -> booking.getRoomBooked().stream()
+                                            .anyMatch(roomBooked -> roomBooked.getRoom().getId().equals(room.getId())));
                             return isRoomAvailable;
                         })
                         .collect(Collectors.toList());
-                hotel.setRooms(availableRooms);
+
+                List<Room> availableRoomsWithoutNulls = new ArrayList<>();
+
+                if (!availableRooms.isEmpty()) {
+                    hotel.setRooms(availableRooms);
+                    filteredHotels.add(hotel);
+                }
+
+
             });
+
+            hotels = filteredHotels;
         }
 
         return hotels;
