@@ -1,8 +1,6 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.mappers;
 
-import com.tobeto.hotel_booking_java4a_pair5.entities.HotelImage;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomImage;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.image.GetHotelImageResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.image.GetImageUrlsOfRoomResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.image.GetRoomImageResponse;
 import org.mapstruct.Mapper;
