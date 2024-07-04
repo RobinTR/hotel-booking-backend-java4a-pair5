@@ -1,12 +1,15 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Guest;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.GuestRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.GuestService;
+import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.UserService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.GuestMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.AddGuestRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.UpdateGuestRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.user.AddUserRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.GuestMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -210,7 +210,6 @@ public class HotelServiceImpl implements HotelService {
             List<Hotel> filteredHotels = new ArrayList<>();
 
             hotels.forEach(hotel -> {
-                // Filter bookings by date range and availability
                 List<Booking> filteredBookings = hotel.getBookings().stream()
                         .filter(booking -> {
                             boolean isWithinDateRange = booking.getStartDate().isBefore(endDate.plusDays(1))
@@ -222,7 +221,7 @@ public class HotelServiceImpl implements HotelService {
 
                 hotel.setBookings(filteredBookings);
 
-                // Filter out rooms that are booked within the given date range with APPROVED or PENDING status
+
                 List<Room> availableRooms = hotel.getRooms().stream()
                         .filter(room -> {
                             boolean isRoomAvailable = filteredBookings.stream()

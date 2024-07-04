@@ -53,6 +53,9 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "role")
     private Set<Role> authorities = new HashSet<>();
 
+    @OneToOne(mappedBy = "user")
+    private Guest guest;
+
     @Override
     public String getUsername() {
         return email;

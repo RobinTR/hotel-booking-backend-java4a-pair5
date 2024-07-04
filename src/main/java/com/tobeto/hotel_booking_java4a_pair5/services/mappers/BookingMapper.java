@@ -28,14 +28,14 @@ public interface BookingMapper {
     Booking bookingFromUpdateRequest(UpdateBookingRequest request);
 
     @Mapping(target = "hotelName", source = "hotel.name")
-    @Mapping(target = "guestName", expression = "java(booking.getGuest().getFirstName() + \"\" + booking.getGuest().getLastName())")
+    @Mapping(target = "guestName", expression = "java(booking.getGuest().getUser().getFirstName() + \"\" + booking.getGuest().getUser().getLastName())")
     @Mapping(target = "paymentMethodName", source = "paymentMethod.name")
     GetAllBookingResponse getAllBookingResponseMap(Booking booking);
 
     List<GetAllBookingResponse> getAllBookingResponseListFromBookings(List<Booking> bookings);
 
     @Mapping(target = "hotelName", source = "hotel.name")
-    @Mapping(target = "guestName", expression = "java(booking.getGuest().getFirstName() + \"\" + booking.getGuest().getLastName())")
+    @Mapping(target = "guestName", expression = "java(booking.getGuest().getUser().getFirstName() + \"\" + booking.getGuest().getUser().getLastName())")
     @Mapping(target = "paymentMethodName", source = "paymentMethod.name")
     GetByIdBookingResponse getByIdBookingResponse(Booking booking);
 
