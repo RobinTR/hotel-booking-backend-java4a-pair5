@@ -38,6 +38,7 @@ public class Hotel extends BaseEntity {
     private String website;
 
     @Column(name = "description")
+    @Size(max = 2000)
     private String description;
 
     @Column(name = "floor_count")
