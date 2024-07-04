@@ -85,6 +85,7 @@ public class HotelSpecification {
             );
         };
     }
+
     public static Specification<Hotel> hasHotelFeatures(List<Integer> featureIds) {
         return (root, query, cb) -> {
             // Hotel ile HotelFeature ilişkisini join ediyoruz
@@ -98,7 +99,7 @@ public class HotelSpecification {
         };
     }
 
-    public static Specification<Hotel> hasHotelPrice(double minPrice,double maxPrice) {
+    public static Specification<Hotel> hasHotelPrice(double minPrice, double maxPrice) {
         return (root, query, cb) -> {
             Join<Object, Object> roomJoin = root.join("rooms", JoinType.LEFT);
 

@@ -176,9 +176,9 @@ public class HotelsController {
 
     @GetMapping("/searchByRoomFilters")
     public DataResponse<List<FindHotelWithAvailableRoomsResponse>> searchByRoomFilters(@RequestParam Integer hotelId,
-                                                   @RequestParam(required = false) LocalDate startDate,
-                                                   @RequestParam(required = false) LocalDate endDate,
-                                                   @RequestParam(required = false) Integer roomCapacity) {
+                                                                                       @RequestParam(required = false) LocalDate startDate,
+                                                                                       @RequestParam(required = false) LocalDate endDate,
+                                                                                       @RequestParam(required = false) Integer roomCapacity) {
         List<Hotel> hotels = hotelService.searchHotelByRoomWithFilters(hotelId, startDate, endDate, roomCapacity);
         List<FindHotelWithAvailableRoomsResponse> response = HotelMapper.INSTANCE.findHotelResponseFromHotelResponseList(hotels);
 
@@ -204,13 +204,13 @@ public class HotelsController {
 
     @GetMapping("/searchAllHotelsWithFilters")
     public DataResponse<List<FindHotelWithAvailableRoomsResponse>> searchAllHotelsWithFilters(@RequestParam(required = false) String location,
-                                                                                       @RequestParam(required = false) LocalDate startDate,
-                                                                                       @RequestParam(required = false) LocalDate endDate,
-                                                                                       @RequestParam(required = false) Integer roomCapacity,
+                                                                                              @RequestParam(required = false) LocalDate startDate,
+                                                                                              @RequestParam(required = false) LocalDate endDate,
+                                                                                              @RequestParam(required = false) Integer roomCapacity,
                                                                                               @RequestParam(required = false) Double minPrice,
                                                                                               @RequestParam(required = false) Double maxPrice,
                                                                                               @RequestParam(required = false) List<Integer> featureIds) {
-        List<Hotel> hotels = hotelService.searchAllHotelsWithFilters(location, startDate, endDate, roomCapacity,minPrice,maxPrice,featureIds);
+        List<Hotel> hotels = hotelService.searchAllHotelsWithFilters(location, startDate, endDate, roomCapacity, minPrice, maxPrice, featureIds);
         List<FindHotelWithAvailableRoomsResponse> response = HotelMapper.INSTANCE.findHotelResponseFromHotelResponseList(hotels);
 
         for (int i = 0; i < hotels.size(); i++) {
