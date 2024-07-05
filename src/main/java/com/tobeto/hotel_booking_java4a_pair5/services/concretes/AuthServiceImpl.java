@@ -41,6 +41,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final RequestService requestBuilder;
+    private final UserRepository userRepository;
 
     @Override
     public Response register(RegisterRequest request) {
@@ -69,5 +70,11 @@ public class AuthServiceImpl implements AuthService {
         extraClaims.put("roles", user.getAuthorities());
 
         return jwtService.createToken(user.getUsername(), extraClaims);
+    }
+
+    @Override
+    public User getUserProfile(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
     }
 }
