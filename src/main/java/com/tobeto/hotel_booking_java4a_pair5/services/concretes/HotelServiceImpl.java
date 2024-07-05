@@ -23,8 +23,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class HotelServiceImpl implements HotelService {
     private final HotelRepository hotelRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Override
     public Hotel add(AddHotelRequest request) {
@@ -109,7 +107,7 @@ public class HotelServiceImpl implements HotelService {
                 .and(HotelSpecification.hasAvailableRooms(startDate, endDate));
         List<Hotel> hotels = hotelRepository.findAll(spec);
 
-        // Filter rooms by capacity if roomCapacity is provided
+        //Filter Capacity
         if (roomCapacity != null) {
             hotels.forEach(hotel -> {
                 List<Room> filteredRooms = hotel.getRooms().stream()
@@ -119,16 +117,16 @@ public class HotelServiceImpl implements HotelService {
             });
         }
 
-        // Filter bookings by date range and availability if startDate and endDate are provided
+        //Filter Date
         if (startDate != null && endDate != null) {
             hotels.forEach(hotel -> {
                 List<Booking> filteredBookings = hotel.getBookings().stream()
                         .filter(booking -> {
-                            // Check if the booking is within the given date range
+                            //Booking tarih aralık müsaitlik kontrolü
                             boolean isWithinDateRange = booking.getStartDate().isBefore(endDate.plusDays(1))
                                     && booking.getEndDate().isAfter(startDate.minusDays(1));
 
-                            // Include booking if it meets the date criteria and has an approved or pending status
+                            //Booking rezervasyon durumuna göre kontrol
                             return isWithinDateRange &&
                                     (booking.getReservationStatus() == ReservationStatus.APPROVED || booking.getReservationStatus() == ReservationStatus.PENDING);
                         })
@@ -137,7 +135,7 @@ public class HotelServiceImpl implements HotelService {
             });
         }
 
-        // After filtering bookings, ensure to filter out rooms that are booked within the given date range with APPROVED or PENDING status
+        //Filtreleme işlemlerinin rezervasyona ait odalar için de kontrolü.
         if (startDate != null && endDate != null) {
             hotels.forEach(hotel -> {
                 List<Room> availableRooms = hotel.getRooms().stream()

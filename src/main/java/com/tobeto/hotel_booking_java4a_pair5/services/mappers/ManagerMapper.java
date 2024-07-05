@@ -16,20 +16,20 @@ public interface ManagerMapper {
     ManagerMapper INSTANCE = Mappers.getMapper(ManagerMapper.class);
 
     @Mapping(target = "hotel.id", source = "hotelId")
-    @Mapping(target = "address.id", source = "addressId")
+    @Mapping(target = "user.address.id", source = "addressId")
     Manager managerFromAddRequest(AddManagerRequest request);
 
     @Mapping(target = "hotel.id", source = "hotelId")
-    @Mapping(target = "address.id", source = "addressId")
+    @Mapping(target = "user.address.id", source = "addressId")
     Manager managerFromUpdateRequest(UpdateManagerRequest request);
 
     @Mapping(target = "hotelName", source = "hotel.name")
-    @Mapping(target = "fullAddress", source = "address.fullAddress")
+    @Mapping(target = "fullAddress", source = "user.address.fullAddress")
     GetAllManagerResponse getAllManagerResponseMap(Manager manager);
 
     List<GetAllManagerResponse> getAllManagerResponseList(List<Manager> managers);
 
     @Mapping(target = "hotelName", source = "hotel.name")
-    @Mapping(target = "fullAddress", source = "address.fullAddress")
+    @Mapping(target = "fullAddress", source = "user.address.fullAddress")
     GetByIdManagerResponse getByIdManagerResponse(Manager manager);
 }

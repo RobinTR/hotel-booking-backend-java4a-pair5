@@ -56,6 +56,9 @@ public class User extends BaseEntity implements UserDetails {
     @OneToOne(mappedBy = "user")
     private Guest guest;
 
+    @OneToOne(mappedBy = "user")
+    private Manager manager;
+
     @Override
     public String getUsername() {
         return email;

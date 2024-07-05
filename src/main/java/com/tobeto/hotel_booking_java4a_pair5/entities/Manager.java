@@ -1,5 +1,6 @@
 package com.tobeto.hotel_booking_java4a_pair5.entities;
 
+import com.tobeto.hotel_booking_java4a_pair5.core.entities.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,11 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Manager extends User {
+public class Manager extends BaseEntity {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
