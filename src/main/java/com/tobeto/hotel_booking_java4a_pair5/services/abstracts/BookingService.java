@@ -29,4 +29,6 @@ public interface BookingService {
     Booking changeCheckOutDate(Integer id);
 
     Booking changeReservationStatus(Integer id, ReservationStatus reservationStatus);
+
+    List<Booking> getBookingsByUserId(Integer userId);
 }

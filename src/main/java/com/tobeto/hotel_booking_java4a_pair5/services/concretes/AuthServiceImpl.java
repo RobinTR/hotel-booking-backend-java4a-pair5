@@ -40,8 +40,6 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final RequestService requestBuilder;
-    private final UserRepository userRepository;
 
     @Override
     public Response register(RegisterRequest request) {
@@ -67,6 +65,7 @@ public class AuthServiceImpl implements AuthService {
 
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("userId", user.getId());
+        extraClaims.put("guestId", user.getGuest().getId());
         extraClaims.put("roles", user.getAuthorities());
 
         return jwtService.createToken(user.getUsername(), extraClaims);

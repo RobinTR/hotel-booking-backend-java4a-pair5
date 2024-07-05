@@ -26,4 +26,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "WHERE rt.id = :roomTypeId " +
             "AND b.reservationStatus = 'ABORTED' OR b.reservationStatus = 'COMPLETED'")
     List<Booking> searchByRoomType(Integer roomTypeId);
+
+    @Query("SELECT b FROM Booking AS b WHERE b.guest.user.id = :userId")
+    List<Booking> findAllByUserId(Integer userId);
 }

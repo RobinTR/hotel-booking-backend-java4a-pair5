@@ -4,21 +4,26 @@ import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataRe
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
-import com.tobeto.hotel_booking_java4a_pair5.entities.ReservationStatus;
+import com.tobeto.hotel_booking_java4a_pair5.entities.*;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.BookingService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.BookingMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.AddBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.UpdateBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetBookingByUserIdResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetByIdBookingResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.citizenofbooking.GetCitizenOfBookingResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roombooked.RoomBookedDtoForBookingResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.BookingMapper;
+import com.tobeto.hotel_booking_java4a_pair5.services.mappers.CitizenOfBookingMapper;
+import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomBookedMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -102,5 +107,24 @@ public class BookingsController {
         bookingService.changeReservationStatus(id, reservationStatus);
 
         return new SuccessResponse(BookingMessages.BOOKING_RESERVATION_STATUS_UPDATED);
+    }
+
+    @GetMapping("/getBookingsByUserId")
+    public DataResponse<List<GetBookingByUserIdResponse>> getBookingsByUserId(@RequestParam Integer userId) {
+        List<GetBookingByUserIdResponse> response = new ArrayList<>();
+        List<Booking> bookings = bookingService.getBookingsByUserId(userId);
+
+        for (Booking booking : bookings) {
+            GetBookingByUserIdResponse getBookingByUserIdResponse = BookingMapper.INSTANCE.getBookingByUserIdResponseMap(booking);
+            List<RoomBookedDtoForBookingResponse> roomBookedDtoForBookingResponseList = RoomBookedMapper.INSTANCE.getRoomBookedDtoForBookingResponseListFromRoomBookedList(booking.getRoomBooked());
+            List<GetCitizenOfBookingResponse> citizenOfBookingResponseList = CitizenOfBookingMapper.INSTANCE.getCitizenOfBookingListFromCitizenOfBookingList(booking.getCitizenOfBookings());
+
+            getBookingByUserIdResponse.setRoomBooked(roomBookedDtoForBookingResponseList);
+            getBookingByUserIdResponse.setCitizenOfBookings(citizenOfBookingResponseList);
+
+            response.add(getBookingByUserIdResponse);
+        }
+
+        return new SuccessDataResponse<>(response, BookingMessages.BOOKING_LISTED);
     }
 }

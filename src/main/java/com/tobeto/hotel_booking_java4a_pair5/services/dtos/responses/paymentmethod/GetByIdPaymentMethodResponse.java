@@ -6,5 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetByIdPaymentMethodResponse {
+    private Integer id;
     private String name;
 }

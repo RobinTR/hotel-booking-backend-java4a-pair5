@@ -58,11 +58,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public DataResponse<GetByIdUserResponse> getById(int id) {
+    public User getById(int id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException(UserMessages.PERSON_NOT_FOUND));
-        GetByIdUserResponse response = UserMapper.INSTANCE.getByIdUserResponseFromUser(user);
 
-        return new SuccessDataResponse<>(response, UserMessages.PERSON_LISTED);
+        return user;
     }
 
     @Override

@@ -53,10 +53,11 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer>, JpaSpeci
     Hotel findHotelWithAvailableRooms(Integer hotelId);
 
     @Query("SELECT h FROM Hotel h " +
-            "LEFT JOIN h.bookings b " +
-            "LEFT JOIN h.rooms r " +
+            "INNER JOIN h.rooms r ON h.id = r.hotel.id " +
+            "INNER JOIN r.roomBooked rb ON r.id = rb.room.id " +
+            "INNER JOIN rb.booking b ON rb.booking.id = b.id " +
             "WHERE (b.startDate <= :endDate AND b.endDate >= :startDate " +
-            "AND b.reservationStatus = 'ABORTED' OR b.reservationStatus = 'COMPLETED')")
+            "AND (b.reservationStatus = 'PENDING' OR b.reservationStatus = 'COMPLETED')) ")
     Hotel searchByBookingDateHotels(LocalDate startDate, LocalDate endDate);
 
     @Query("SELECT DISTINCT h FROM Hotel h " +
