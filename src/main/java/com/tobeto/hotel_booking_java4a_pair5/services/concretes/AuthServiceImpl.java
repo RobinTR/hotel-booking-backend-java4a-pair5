@@ -70,4 +70,10 @@ public class AuthServiceImpl implements AuthService {
 
         return jwtService.createToken(user.getUsername(), extraClaims);
     }
+
+    @Override
+    public User getUserProfile(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+    }
 }

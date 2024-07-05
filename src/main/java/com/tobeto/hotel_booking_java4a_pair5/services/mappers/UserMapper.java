@@ -26,6 +26,7 @@ public interface UserMapper {
 
     List<GetAllUserResponse> getAllUserResponseListFromUser(List<User> users);
 
+
     @Mapping(target = "fullAddress", source = "address.fullAddress")
     GetByIdUserResponse getByIdUserResponseFromUser(User user);
 }

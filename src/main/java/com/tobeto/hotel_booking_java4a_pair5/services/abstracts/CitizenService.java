@@ -6,5 +6,6 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.citizen.Upda
 
 public interface CitizenService {
     Citizen add(AddCitizenRequest request);
+
     Citizen update(UpdateCitizenRequest request);
 }
