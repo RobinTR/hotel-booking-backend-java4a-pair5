@@ -16,4 +16,6 @@ public interface GuestService {
     List<Guest> getAll();
 
     Guest getById(Integer id);
+
+    Integer getByUserId(Integer userId);
 }

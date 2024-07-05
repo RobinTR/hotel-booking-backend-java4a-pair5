@@ -17,7 +17,7 @@ public interface UserService extends UserDetailsService {
 
     DataResponse<List<GetAllUserResponse>> getAll();
 
-    DataResponse<GetByIdUserResponse> getById(int id);
+    User getById(int id);
 
     User findByEmail(String email);
 }

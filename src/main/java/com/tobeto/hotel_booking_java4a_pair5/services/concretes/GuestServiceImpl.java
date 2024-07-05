@@ -3,6 +3,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Guest;
+import com.tobeto.hotel_booking_java4a_pair5.entities.User;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.GuestRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.GuestService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.UserService;
@@ -20,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GuestServiceImpl implements GuestService {
     private final GuestRepository guestRepository;
+    private final UserService userService;
 
     @Override
     public Guest add(AddGuestRequest request) {
@@ -55,5 +57,13 @@ public class GuestServiceImpl implements GuestService {
         Guest guest = guestRepository.findById(id).orElseThrow(() -> new BusinessException(GuestMessages.GUEST_NOT_FOUND));
 
         return guest;
+    }
+
+    @Override
+    public Integer getByUserId(Integer userId) {
+        User user = userService.getById(userId);
+        Guest guest = guestRepository.findByUser(user);
+
+        return guest.getId();
     }
 }
