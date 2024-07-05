@@ -1,5 +1,6 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.mappers;
 
+import com.tobeto.hotel_booking_java4a_pair5.entities.Citizen;
 import com.tobeto.hotel_booking_java4a_pair5.entities.CitizenOfBooking;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.citizenofbooking.AddCitizenOfBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.citizenofbooking.UpdateCitizenOfBookingRequest;
@@ -36,4 +37,7 @@ public interface CitizenOfBookingMapper {
     GetCitizenOfBookingResponse getCitizenOfBookingFromCitizenOfBookingMap(CitizenOfBooking citizenOfBooking);
 
     List<GetCitizenOfBookingResponse> getCitizenOfBookingListFromCitizenOfBookingList(List<CitizenOfBooking> citizenOfBookings);
+
+    @Mapping(target = "citizenId", source = "citizen.id")
+    AddCitizenOfBookingRequest addCitizenOfBookingRequestFromCitizen(Citizen citizen);
 }

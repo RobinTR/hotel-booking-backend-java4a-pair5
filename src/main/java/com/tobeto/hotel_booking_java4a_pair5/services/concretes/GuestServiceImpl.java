@@ -8,6 +8,7 @@ import com.tobeto.hotel_booking_java4a_pair5.repositories.GuestRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.GuestService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.UserService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.GuestMessages;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.AddGuestForRegisterRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.AddGuestRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.UpdateGuestRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.user.AddUserRequest;
@@ -24,8 +25,8 @@ public class GuestServiceImpl implements GuestService {
     private final UserService userService;
 
     @Override
-    public Guest add(AddGuestRequest request) {
-        Guest guest = GuestMapper.INSTANCE.guestFromAddRequest(request);
+    public Guest add(AddGuestForRegisterRequest request) {
+        Guest guest = GuestMapper.INSTANCE.addGuestForRegisterRequestFromUser(request);
         guest = guestRepository.save(guest);
 
         return guest;
