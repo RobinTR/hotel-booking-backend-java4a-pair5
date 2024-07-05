@@ -2,21 +2,30 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 
 import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Citizen;
+import com.tobeto.hotel_booking_java4a_pair5.entities.CitizenOfBooking;
 import com.tobeto.hotel_booking_java4a_pair5.entities.ReservationStatus;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.BookingRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.BookingService;
+import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.CitizenOfBookingService;
+import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.CitizenService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomBookedService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.BookingMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.AddBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.UpdateBookingRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.citizen.AddCitizenRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.citizenofbooking.AddCitizenOfBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roombooked.AddRoomBookedRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.BookingMapper;
+import com.tobeto.hotel_booking_java4a_pair5.services.mappers.CitizenMapper;
+import com.tobeto.hotel_booking_java4a_pair5.services.mappers.CitizenOfBookingMapper;
 import com.tobeto.hotel_booking_java4a_pair5.services.rules.BookingBusinessRules;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,6 +34,8 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final RoomBookedService roomBookedService;
     private final BookingBusinessRules bookingBusinessRules;
+    private final CitizenService citizenService;
+    private final CitizenOfBookingService citizenOfBookingService;
 
     @Transactional
     @Override
@@ -32,6 +43,19 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = BookingMapper.INSTANCE.bookingFromAddRequest(request);
         booking.setReservationStatus(ReservationStatus.PENDING);
         booking = bookingRepository.save(booking);
+
+        //Manuel mapping for citizen details
+        List<CitizenOfBooking> citizenOfBookings = new ArrayList<>();
+
+        for (AddCitizenRequest citizenRequest : request.getCitizens()) {
+            Citizen citizen = citizenService.add(citizenRequest);
+            AddCitizenOfBookingRequest addCitizenOfBookingRequest = CitizenOfBookingMapper.INSTANCE.addCitizenOfBookingRequestFromCitizen(citizen);
+            addCitizenOfBookingRequest.setBookingId(booking.getId());
+            CitizenOfBooking citizenOfBooking = citizenOfBookingService.add(addCitizenOfBookingRequest);
+            citizenOfBookings.add(citizenOfBooking);
+        }
+
+        booking.setCitizenOfBookings(citizenOfBookings);
 
         for (Integer id : request.getRoomIds()) {
             AddRoomBookedRequest roomBookedRequest = new AddRoomBookedRequest();

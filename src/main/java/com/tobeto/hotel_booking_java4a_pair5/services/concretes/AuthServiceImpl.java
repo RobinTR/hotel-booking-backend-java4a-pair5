@@ -4,8 +4,6 @@ import com.tobeto.hotel_booking_java4a_pair5.core.services.JwtService;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Guest;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Role;
 import com.tobeto.hotel_booking_java4a_pair5.entities.User;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.UserRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.AuthService;
@@ -14,13 +12,12 @@ import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.UserService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.AuthMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.auth.LoginRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.auth.RegisterRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.AddGuestForRegisterRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.AddGuestRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.user.AddUserRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.mappers.AuthMapper;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.GuestMapper;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.webmvc.core.service.RequestService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -48,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
         addUserRequest.setPassword(passwordEncoder.encode(request.getPassword()));
         User user = userService.add(addUserRequest);
 
-        AddGuestRequest guestRequest = GuestMapper.INSTANCE.addGuestRequestFromUser(user);
+        AddGuestForRegisterRequest guestRequest = GuestMapper.INSTANCE.addGuestForRegisterRequestFromUser(user);
         guestService.add(guestRequest);
 
         return new SuccessResponse(AuthMessages.AUTH_REGISTER_SUCCESS);

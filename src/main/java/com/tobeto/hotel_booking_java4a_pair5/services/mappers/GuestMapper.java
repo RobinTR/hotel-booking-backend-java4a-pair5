@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.mappers;
 
 import com.tobeto.hotel_booking_java4a_pair5.entities.Guest;
 import com.tobeto.hotel_booking_java4a_pair5.entities.User;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.AddGuestForRegisterRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.AddGuestRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.UpdateGuestRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.user.AddUserRequest;
@@ -17,10 +18,9 @@ import java.util.List;
 public interface GuestMapper {
     GuestMapper INSTANCE = Mappers.getMapper(GuestMapper.class);
 
-    @Mapping(target = "user.id", source = "userId")
-    Guest guestFromAddRequest(AddGuestRequest request);
+    AddGuestForRegisterRequest addGuestForRegisterRequestFromUser(User user);
 
-    AddGuestRequest addGuestRequestFromUser(User user);
+    Guest addGuestForRegisterRequestFromUser(AddGuestForRegisterRequest request);
 
     Guest guestFromUpdateRequest(UpdateGuestRequest request);
 
