@@ -32,7 +32,7 @@ public class Booking extends BaseEntity {
     private PaymentMethod paymentMethod;
 
     @Size(max = 128, message = "Email must be maximum 128 characters.")
-    @Column(name = "email_id")
+    @Column(name = "email")
     private String email;
 
     @Column(name = "phone")
