@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -20,20 +23,21 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public BusinessProblemDetails handleRuntimeException(BusinessException exception) {
         BusinessProblemDetails businessProblemDetails = new BusinessProblemDetails(exception.getMessage());
+
         return businessProblemDetails;
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ValidationProblemDetails handleValidationException(MethodArgumentNotValidException exception) {
-        List<String> errorMessages = new ArrayList<>();
-        List<FieldError> errors = exception.getBindingResult().getFieldErrors();
+        Map<String, String> validationErrors = exception.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .collect(Collectors.toMap(
+                        error -> error.getField(),
+                        error -> error.getDefaultMessage()
+                ));
 
-        for (FieldError error : errors) {
-            errorMessages.add(error.getDefaultMessage());
-        }
-
-        ValidationProblemDetails validationProblemDetails = new ValidationProblemDetails(errorMessages);
-        return validationProblemDetails;
+        return new ValidationProblemDetails(validationErrors);
     }
 }
