@@ -6,6 +6,7 @@ import com.tobeto.hotel_booking_java4a_pair5.entities.User;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.user.AddUserRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.user.GetAllUserResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.user.GetByIdUserResponse;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface UserService extends UserDetailsService {
     User getById(int id);
 
     User findByEmail(String email);
+
+    UserDetails loadUserByUsername(String email);
 }
