@@ -232,4 +232,12 @@ public class HotelsController {
 
         return new SuccessDataResponse<>(response, HotelMessages.HOTEL_LISTED);
     }
+
+    @GetMapping("/searchHotelsByManager")
+    public DataResponse<List<FindHotelWithAvailableRoomsResponse>> searchHotelsByManager(@RequestParam Integer managerId) {
+        List<Hotel> hotels = hotelService.searchHotelsByManager(managerId);
+        List<FindHotelWithAvailableRoomsResponse> response = HotelMapper.INSTANCE.findHotelResponseFromHotelResponseList(hotels);
+
+        return new SuccessDataResponse<>(response, HotelMessages.HOTEL_LISTED);
+    }
 }

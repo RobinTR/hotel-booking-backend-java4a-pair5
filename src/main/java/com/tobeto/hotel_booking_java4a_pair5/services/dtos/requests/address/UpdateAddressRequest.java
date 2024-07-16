@@ -11,19 +11,6 @@ public class UpdateAddressRequest {
     @NotNull(message = "You must enter an id.")
     private Integer id;
 
-    @NotNull(message = "You must enter a country id.")
-    private Integer countryId;
-
-    @NotNull(message = "You must enter a city id.")
-    private Integer cityId;
-
-    @NotNull(message = "You must enter a district id.")
-    private Integer districtId;
-
-    @NotNull(message = "You must enter an area id.")
-    private Integer areaId;
-
-    @NotNull(message = "You must enter a neighborhood id.")
     private Integer neighborhoodId;
 
     @NotBlank(message = "Full address cannot be blank.")
