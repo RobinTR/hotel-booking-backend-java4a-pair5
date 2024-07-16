@@ -32,7 +32,6 @@ public class HotelSpecification {
             Join<Object, Object> bookingJoin = roomBookedJoin.join("booking", JoinType.LEFT);
 
             if (startDate != null && endDate != null) {
-                // Condition to check if the booking is within the given date range and has APPROVED or PENDING status
                 Predicate isBookedWithinDateRange = cb.and(
                         cb.or(
                                 cb.equal(bookingJoin.get("reservationStatus"), ReservationStatus.APPROVED),
@@ -54,13 +53,12 @@ public class HotelSpecification {
                         )
                 );
 
-                // The room is available if there are no bookings in the specified date range with APPROVED or PENDING status
                 return cb.or(
-                        cb.isNull(roomBookedJoin.get("booking")),  // Room has no booking
-                        cb.not(isBookedWithinDateRange)  // Room is not booked within the specified date range
+                        cb.isNull(roomBookedJoin.get("booking")),
+                        cb.not(isBookedWithinDateRange)
                 );
             } else {
-                // If no date range is provided, consider all rooms available
+
                 return cb.isTrue(cb.literal(true));
             }
         };

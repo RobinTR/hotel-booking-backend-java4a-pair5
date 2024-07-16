@@ -20,9 +20,9 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer>, JpaSpeci
 
     @Query(value = "SELECT h " +
             "FROM Hotel AS h " +
-            "INNER JOIN h.address AS a ON h.address.id = a.id " +
+            "INNER JOIN h.address AS a " +
             "INNER JOIN Room AS r ON h.id = r.hotel.id " +
-            "INNER JOIN RoomType AS rt ON r.roomType.id = r.id " +
+            "INNER JOIN RoomType AS rt ON r.roomType.id = rt.id " +
             "WHERE LOWER(a.neighborhood.name) LIKE LOWER(:name) OR " +
             "LOWER(a.neighborhood.area.name) LIKE LOWER(:name) OR " +
             "LOWER(a.neighborhood.area.district.name) LIKE LOWER(:name) OR " +
@@ -65,4 +65,29 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer>, JpaSpeci
             "INNER JOIN h.rooms r " +
             "WHERE r.roomType.capacity = :person")
     List<Hotel> searchByRoomCapacityHotels(int person);
+
+    /*
+        @Query("SELECT DISTINCT h FROM Hotel h " +
+            "LEFT JOIN h.bookings b " +
+            "LEFT JOIN h.address a " +
+            "LEFT JOIN a.neighborhood n " +
+            "LEFT JOIN n.area ar " +
+            "LEFT JOIN ar.district d " +
+            "LEFT JOIN d.city ci " +
+            "LEFT JOIN ci.country co " +
+            "LEFT JOIN h.rooms r " +
+            "LEFT JOIN r.roomBooked rb " +
+            "WHERE (:hotelId IS NULL OR h.id = :hotelId) " +
+            "AND (:location IS NULL OR co.name LIKE :location) " +
+            "AND (:location IS NULL OR ci.name LIKE :location) " +
+            "AND (:location IS NULL OR d.name LIKE :location) " +
+            "AND (:location IS NULL OR ar.name LIKE :location) " +
+            "AND (:location IS NULL OR n.name LIKE :location) " +
+            "AND (:roomCapacity IS NULL OR r.roomType.capacity = :roomCapacity) " +
+            "AND ((:startDate IS NULL OR :endDate IS NULL) OR (b.startDate <= :endDate AND b.endDate >= :startDate))")
+    Hotel searchByRoomFilterss(Integer hotelId, String location,
+                               LocalDate startDate,
+                               LocalDate endDate,
+                               Integer roomCapacity);
+     */
 }
