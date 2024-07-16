@@ -23,7 +23,7 @@ public class Hotel extends BaseEntity {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @Size(min = 8, max = 128, message = "Hotel name must be between 8-128 characters.")
+    @Size(min = 2, max = 128, message = "Hotel name must be between 2-128 characters.")
     @Column(name = "name")
     private String name;
 

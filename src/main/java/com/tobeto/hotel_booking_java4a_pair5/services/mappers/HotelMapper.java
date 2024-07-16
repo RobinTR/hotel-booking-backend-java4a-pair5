@@ -17,10 +17,10 @@ import java.util.List;
 public interface HotelMapper {
     HotelMapper INSTANCE = Mappers.getMapper(HotelMapper.class);
 
-    @Mapping(target = "address.id", source = "addressId")
+    @Mapping(target = "address.fullAddress", source = "fullAddress")
     Hotel hotelFromAddRequest(AddHotelRequest request);
 
-    @Mapping(target = "address.id", source = "addressId")
+    @Mapping(target = "address.fullAddress", source = "fullAddress")
     Hotel hotelFromUpdateRequest(UpdateHotelRequest request);
 
     @Mapping(target = "addressName", source = "address.fullAddress")

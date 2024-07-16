@@ -3,10 +3,14 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.*;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelRepository;
+import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.AddressService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
+import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.ManagerService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.HotelMessages;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.address.AddAddressRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHotelRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.UpdateHotelRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.mappers.AddressMapper;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -23,10 +27,17 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class HotelServiceImpl implements HotelService {
     private final HotelRepository hotelRepository;
+    private final AddressService addressService;
+    private final ManagerService managerService;
 
     @Override
     public Hotel add(AddHotelRequest request) {
         Hotel hotel = HotelMapper.INSTANCE.hotelFromAddRequest(request);
+
+        AddAddressRequest addAddressRequest = AddressMapper.INSTANCE.addRequestFromHotel(hotel);
+        Address address = addressService.add(addAddressRequest);
+
+        hotel.setAddress(address);
         hotel = hotelRepository.save(hotel);
 
         return hotel;
@@ -238,6 +249,16 @@ public class HotelServiceImpl implements HotelService {
 
             hotels = filteredHotels;
         }
+
+        return hotels;
+    }
+
+    @Override
+    public List<Hotel> searchHotelsByManager(Integer managerId) {
+        Manager manager = managerService.getById(managerId);
+        List<Hotel> hotels = new ArrayList<>();
+
+        hotels.add(manager.getHotel());
 
         return hotels;
     }

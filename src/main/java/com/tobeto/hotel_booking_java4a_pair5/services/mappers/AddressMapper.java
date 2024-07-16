@@ -1,6 +1,7 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.mappers;
 
 import com.tobeto.hotel_booking_java4a_pair5.entities.Address;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.address.AddAddressRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.address.UpdateAddressRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.address.GetAllAddressResponse;
@@ -28,4 +29,7 @@ public interface AddressMapper {
 
     @Mapping(target = "neighborhoodName", source = "neighborhood.name")
     GetByIdAddressResponse getByIdAddressResponse(Address address);
+
+    @Mapping(target = "fullAddress", source = "address.fullAddress")
+    AddAddressRequest addRequestFromHotel(Hotel hotel);
 }

@@ -2,6 +2,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Address;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Neighborhood;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.AddressRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.AddressService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.AddressMessages;
@@ -21,8 +22,13 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Address add(AddAddressRequest request) {
         Address address = AddressMapper.INSTANCE.addressFromAddRequest(request);
-        address = addressRepository.save(address);
 
+        if (request.getNeighborhoodId() == null) {
+            Neighborhood neighborhood = null;
+            address.setNeighborhood(neighborhood);
+        }
+
+        address = addressRepository.save(address);
         return address;
     }
 
