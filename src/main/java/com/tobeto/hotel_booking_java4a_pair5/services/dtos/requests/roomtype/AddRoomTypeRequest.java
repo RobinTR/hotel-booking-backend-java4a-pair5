@@ -7,12 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddRoomTypeRequest {
-    @NotBlank(message = "Payment method name cannot be blank.")
+    @NotBlank(message = "Room Type name cannot be blank.")
     private String name;
 
     private String description;
 
     private int capacity;
-
-    private boolean isAllInclusive;
 }

@@ -117,14 +117,14 @@ public class SecurityConfiguration {
     };
     private static final String[] PUT_MANAGER_ADMIN = {
             "/api/roomfeedbacks",
-            "/api/rooms",
+            "/api/rooms/**",
+            "/api/roomtypes/**",
             "/api/managers",
             "/api/hotels",
     };
     private static final String[] PUT_ADMIN = {
             "/api/roombooked",
             "/api/hotelreviews",
-            "/api/roomtypes",
             "/api/paymentmethods",
             "/api/countries",
             "/api/cities",
