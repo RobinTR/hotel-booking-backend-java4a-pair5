@@ -9,6 +9,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomTypeService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.RoomTypeMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomtype.AddRoomTypeRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomtype.UpdateRoomTypeRequest;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtype.AddRoomTypeResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtype.GetAllRoomTypeResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.roomtype.GetByIdRoomTypeResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomTypeMapper;
@@ -28,11 +29,11 @@ public class RoomTypesController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Response add(@RequestBody @Valid AddRoomTypeRequest request) {
-        roomTypeService.add(request);
+    public DataResponse<AddRoomTypeResponse> add(@RequestBody @Valid AddRoomTypeRequest request) {
+        RoomType roomType = roomTypeService.add(request);
+        AddRoomTypeResponse response = RoomTypeMapper.INSTANCE.responseFromRoomType(roomType);
 
-        return new SuccessResponse(RoomTypeMessages.ROOMTYPE_ADDED);
-
+        return new SuccessDataResponse<>(response, RoomTypeMessages.ROOMTYPE_ADDED);
     }
 
     @PutMapping

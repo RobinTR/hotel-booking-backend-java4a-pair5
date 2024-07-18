@@ -29,4 +29,10 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT b FROM Booking AS b WHERE b.guest.user.id = :userId")
     List<Booking> findAllByUserId(Integer userId);
+
+    @Query("SELECT b FROM Booking AS b " +
+            "LEFT JOIN b.hotel AS h" +
+            "LEFT JOIN b.hotel.managers AS m " +
+            "WHERE m.id = :managerId")
+    List<Booking> findAllByManagerId(Integer managerId);
 }

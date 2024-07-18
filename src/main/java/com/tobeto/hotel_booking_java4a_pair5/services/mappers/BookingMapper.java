@@ -4,10 +4,7 @@ package com.tobeto.hotel_booking_java4a_pair5.services.mappers;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.AddBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.UpdateBookingRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingDateResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetBookingByUserIdResponse;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetByIdBookingResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -48,4 +45,8 @@ public interface BookingMapper {
     GetBookingByUserIdResponse getBookingByUserIdResponseMap(Booking booking);
 
     List<GetBookingByUserIdResponse> getBookingByUserIdResponseListFromBookings(List<Booking> bookings);
+
+    GetBookingByManagerIdResponse getBookingByManagerIdResponseMap(Booking booking);
+
+    List<GetBookingByManagerIdResponse> getBookingByManagerIdResponseListFromBookings(List<Booking> bookings);
 }

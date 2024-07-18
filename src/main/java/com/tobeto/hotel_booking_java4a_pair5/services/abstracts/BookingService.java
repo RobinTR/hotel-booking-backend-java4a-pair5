@@ -31,4 +31,6 @@ public interface BookingService {
     Booking changeReservationStatus(Integer id, ReservationStatus reservationStatus);
 
     List<Booking> getBookingsByUserId(Integer userId);
+
+    List<Booking> getBookingsByManagerId(Integer managerId);
 }
