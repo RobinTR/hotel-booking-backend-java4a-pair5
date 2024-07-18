@@ -96,9 +96,9 @@ public class SecurityConfiguration {
             "/api/rooms",
             "/api/managers",
             "/api/hotels",
+            "/api/roomtypes"
     };
     private static final String[] POST_ADMIN = {
-            "/api/roomtypes",
             "/api/paymentmethods",
             "/api/countries",
             "/api/cities",

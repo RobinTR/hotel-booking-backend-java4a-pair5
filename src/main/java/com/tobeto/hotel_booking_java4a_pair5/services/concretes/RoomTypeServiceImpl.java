@@ -21,9 +21,8 @@ public class RoomTypeServiceImpl implements RoomTypeService {
     @Override
     public RoomType add(AddRoomTypeRequest request) {
         RoomType roomType = RoomTypeMapper.INSTANCE.roomTypeFromAddRequest(request);
-        roomType = roomTypeRepository.save(roomType);
 
-        return roomType;
+        return roomTypeRepository.save(roomType);
     }
 
     @Override

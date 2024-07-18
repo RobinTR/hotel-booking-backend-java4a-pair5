@@ -10,6 +10,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.BookingMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.AddBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.UpdateBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetAllBookingResponse;
+import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetBookingByManagerIdResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetBookingByUserIdResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.booking.GetByIdBookingResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.citizenofbooking.GetCitizenOfBookingResponse;
@@ -123,6 +124,23 @@ public class BookingsController {
             getBookingByUserIdResponse.setCitizenOfBookings(citizenOfBookingResponseList);
 
             response.add(getBookingByUserIdResponse);
+        }
+
+        return new SuccessDataResponse<>(response, BookingMessages.BOOKING_LISTED);
+    }
+
+    @GetMapping("/getBookingsByManagerId")
+    public DataResponse<List<GetBookingByManagerIdResponse>> getBookingsByManagerId(@RequestParam Integer managerId) {
+        List<GetBookingByManagerIdResponse> response = new ArrayList<>();
+        List<Booking> bookings = bookingService.getBookingsByManagerId(managerId);
+
+        for (Booking booking : bookings) {
+            GetBookingByManagerIdResponse getBookingByManagerIdResponse = BookingMapper.INSTANCE.getBookingByManagerIdResponseMap(booking);
+            List<RoomBookedDtoForBookingResponse> roomBookedDtoForBookingResponseList = RoomBookedMapper.INSTANCE.getRoomBookedDtoForBookingResponseListFromRoomBookedList(booking.getRoomBooked());
+
+            getBookingByManagerIdResponse.setRoomBooked(roomBookedDtoForBookingResponseList);
+
+            response.add(getBookingByManagerIdResponse);
         }
 
         return new SuccessDataResponse<>(response, BookingMessages.BOOKING_LISTED);
