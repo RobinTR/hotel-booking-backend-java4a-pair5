@@ -2,13 +2,17 @@ package com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AddUserRequest {
+public class UpdateUserRequest {
+    @NotNull(message = "You must enter an id.")
+    private Integer id;
+
     @NotBlank(message = "First name cannot be blank.")
     @Size(min = 2, max = 32, message = "First name must be between 2-32 characters.")
     private String firstName;
@@ -24,8 +28,4 @@ public class AddUserRequest {
 
     @NotBlank(message = "Phone cannot be blank.")
     private String phone;
-
-    @NotBlank(message = "Password cannot be blank.")
-    @Size(min = 8, max = 32, message = "Password must be between 8-32 characters.")
-    private String password;
 }
