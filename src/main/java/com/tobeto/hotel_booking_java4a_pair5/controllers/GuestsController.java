@@ -44,14 +44,13 @@ public class GuestsController {
     @PutMapping
     public Response update(@RequestBody @Valid UpdateGuestRequest request) {
         return new SuccessResponse(GuestMessages.GUEST_UPDATED);
-
     }
 
     @DeleteMapping
     public Response delete(@RequestParam Integer id) {
         guestService.delete(id);
-        return new SuccessResponse(GuestMessages.GUEST_DELETED);
 
+        return new SuccessResponse(GuestMessages.GUEST_DELETED);
     }
 
     @GetMapping

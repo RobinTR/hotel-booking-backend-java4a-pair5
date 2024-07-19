@@ -10,5 +10,5 @@ public interface AuthService {
 
     String login(LoginRequest request);
 
-    User getUserProfile(String email);
+    User getUserProfileById(Integer id);
 }

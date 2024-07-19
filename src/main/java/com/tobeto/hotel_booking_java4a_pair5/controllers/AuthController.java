@@ -31,16 +31,11 @@ public class AuthController {
         authService.register(request);
     }
 
-
-    @GetMapping("/profile")
-    public DataResponse<GetByIdUserResponse> getUserProfile() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
-        User user = authService.getUserProfile(email);
+    @GetMapping("profile")
+    public DataResponse<GetByIdUserResponse> getUserProfile(@RequestParam Integer userId) {
+        User user = authService.getUserProfileById(userId);
         GetByIdUserResponse response = UserMapper.INSTANCE.getByIdUserResponseFromUser(user);
 
-        response.setGuest(user.getGuest());
         return new SuccessDataResponse<>(response);
     }
 }
