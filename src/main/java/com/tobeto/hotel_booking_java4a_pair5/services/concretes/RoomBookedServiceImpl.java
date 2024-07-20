@@ -1,6 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomBooked;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomBookedRepository;
@@ -9,15 +8,17 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.RoomBookedMessag
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roombooked.AddRoomBookedRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roombooked.UpdateRoomBookedRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomBookedMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.RoomBookedRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoomBookedServiceImpl implements RoomBookedService {
     private final RoomBookedRepository roomBookedRepository;
+    private final RoomBookedRules roomBookedRules;
 
     @Override
     public RoomBooked add(AddRoomBookedRequest request) {
@@ -37,10 +38,10 @@ public class RoomBookedServiceImpl implements RoomBookedService {
 
     @Override
     public String delete(Integer id) {
-        RoomBooked roomBooked = roomBookedRepository.findById(id).orElseThrow(() -> new BusinessException(RoomBookedMessages.ROOMBOOKED_NOT_FOUND));
+        RoomBooked roomBooked = roomBookedRules.findById(id);
         roomBookedRepository.delete(roomBooked);
 
-        return RoomBookedMessages.ROOMBOOKED_DELETED;
+        return RoomBookedMessages.ROOM_BOOKED_DELETED;
     }
 
     @Override
@@ -50,15 +51,11 @@ public class RoomBookedServiceImpl implements RoomBookedService {
 
     @Override
     public RoomBooked getById(Integer id) {
-        RoomBooked roomBooked = roomBookedRepository.findById(id).orElseThrow(() -> new BusinessException(RoomBookedMessages.ROOMBOOKED_NOT_FOUND));
-
-        return roomBooked;
+        return roomBookedRules.findById(id);
     }
 
     @Override
     public List<RoomBooked> findByBooking(Booking booking) {
-        List<RoomBooked> roomBooked = roomBookedRepository.findByBooking(booking);
-
-        return roomBooked;
+        return roomBookedRepository.findByBooking(booking);
     }
 }

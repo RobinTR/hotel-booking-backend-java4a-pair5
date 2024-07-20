@@ -4,18 +4,21 @@ import com.tobeto.hotel_booking_java4a_pair5.entities.*;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class HotelSpecification {
-
-    public static Specification<Hotel> hasHotelId(Integer hotelId) {
+    public Specification<Hotel> hasHotelId(Integer hotelId) {
         return (root, query, cb) -> cb.equal(root.get("id"), hotelId);
     }
 
-    public static Specification<Hotel> hasRoomCapacity(Integer roomCapacity) {
+    public Specification<Hotel> hasRoomCapacity(Integer roomCapacity) {
         return (root, query, cb) -> {
             if (roomCapacity != null) {
                 Join<Object, Object> roomJoin = root.join("rooms");
@@ -25,7 +28,7 @@ public class HotelSpecification {
         };
     }
 
-    public static Specification<Hotel> hasAvailableRooms(LocalDate startDate, LocalDate endDate) {
+    public Specification<Hotel> hasAvailableRooms(LocalDate startDate, LocalDate endDate) {
         return (root, query, cb) -> {
             Join<Object, Object> roomJoin = root.join("rooms", JoinType.LEFT);
             Join<Object, Object> roomBookedJoin = roomJoin.join("roomBooked", JoinType.LEFT);
@@ -58,13 +61,12 @@ public class HotelSpecification {
                         cb.not(isBookedWithinDateRange)
                 );
             } else {
-
                 return cb.isTrue(cb.literal(true));
             }
         };
     }
 
-    public static Specification<Hotel> hasLocation(String location) {
+    public Specification<Hotel> hasLocation(String location) {
         return (root, query, cb) -> {
             String finalLocation = location.toUpperCase();
             Join<Hotel, Address> addressJoin = root.join("address");
@@ -84,7 +86,7 @@ public class HotelSpecification {
         };
     }
 
-    public static Specification<Hotel> hasHotelFeatures(List<Integer> featureIds) {
+    public Specification<Hotel> hasHotelFeatures(List<Integer> featureIds) {
         return (root, query, cb) -> {
             // Hotel ile HotelFeature ilişkisini join ediyoruz
             Join<Hotel, HotelFeature> hotelFeaturesJoin = root.join("hotelFeatures", JoinType.INNER);
@@ -97,12 +99,11 @@ public class HotelSpecification {
         };
     }
 
-    public static Specification<Hotel> hasHotelPrice(double minPrice, double maxPrice) {
+    public Specification<Hotel> hasHotelPrice(double minPrice, double maxPrice) {
         return (root, query, cb) -> {
             Join<Object, Object> roomJoin = root.join("rooms", JoinType.LEFT);
 
             return cb.between(roomJoin.get("cost"), minPrice, maxPrice);
         };
     }
-
 }

@@ -1,34 +1,30 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Address;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Neighborhood;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.AddressRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.AddressService;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.AddressMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.address.AddAddressRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.address.UpdateAddressRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.AddressMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.AddressRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
-    private AddressRepository addressRepository;
+    private final AddressRepository addressRepository;
+    private final AddressRules addressRules;
 
     @Override
     public Address add(AddAddressRequest request) {
         Address address = AddressMapper.INSTANCE.addressFromAddRequest(request);
-
-        if (request.getNeighborhoodId() == null) {
-            Neighborhood neighborhood = null;
-            address.setNeighborhood(neighborhood);
-        }
-
+        addressRules.checkNeighborhood(address, request.getNeighborhoodId());
         address = addressRepository.save(address);
+
         return address;
     }
 
@@ -42,7 +38,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public String delete(Integer id) {
-        Address address = addressRepository.findById(id).orElseThrow(() -> new BusinessException(AddressMessages.ADDRESS_NOT_FOUND));
+        Address address = addressRules.findById(id);
         addressRepository.deleteById(address.getId());
 
         return AddressMessages.ADDRESS_DELETED;
@@ -55,8 +51,6 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address getById(Integer id) {
-        Address address = addressRepository.findById(id).orElseThrow(() -> new BusinessException(AddressMessages.ADDRESS_NOT_FOUND));
-
-        return address;
+        return addressRules.findById(id);
     }
 }

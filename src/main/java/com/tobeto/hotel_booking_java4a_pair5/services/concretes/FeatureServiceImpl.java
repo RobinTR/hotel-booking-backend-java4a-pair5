@@ -1,6 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Feature;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.FeatureRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.FeatureService;
@@ -8,6 +7,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.FeatureMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.feature.AddFeatureRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.feature.UpdateFeatureRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.FeatureMapper;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.FeatureRules;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeatureServiceImpl implements FeatureService {
     private final FeatureRepository featureRepository;
+    private final FeatureRules featureRules;
 
     @Override
     public Feature add(AddFeatureRequest request) {
@@ -36,7 +37,7 @@ public class FeatureServiceImpl implements FeatureService {
 
     @Override
     public String delete(Integer id) {
-        Feature feature = featureRepository.findById(id).orElseThrow(() -> new BusinessException(FeatureMessages.FEATURE_NOT_FOUND));
+        Feature feature = featureRules.findById(id);
         featureRepository.delete(feature);
 
         return FeatureMessages.FEATURE_DELETED;
@@ -49,8 +50,6 @@ public class FeatureServiceImpl implements FeatureService {
 
     @Override
     public Feature getById(Integer id) {
-        Feature feature = featureRepository.findById(id).orElseThrow(() -> new BusinessException(FeatureMessages.FEATURE_NOT_FOUND));
-
-        return feature;
+        return featureRules.findById(id);
     }
 }

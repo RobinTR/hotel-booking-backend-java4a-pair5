@@ -1,6 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
 import com.tobeto.hotel_booking_java4a_pair5.entities.HotelFeature;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelFeatureRepository;
@@ -10,6 +9,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.HotelFeatureMess
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotelfeature.AddHotelFeatureRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotelfeature.UpdateHotelFeatureRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelFeatureMapper;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.HotelFeatureRules;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +20,7 @@ import java.util.List;
 public class HotelFeatureServiceImpl implements HotelFeatureService {
     private final HotelFeatureRepository hotelFeatureRepository;
     private final HotelService hotelService;
+    private final HotelFeatureRules hotelFeatureRules;
 
     @Override
     public HotelFeature add(AddHotelFeatureRequest request) {
@@ -39,7 +40,7 @@ public class HotelFeatureServiceImpl implements HotelFeatureService {
 
     @Override
     public String delete(Integer hotelId) {
-        HotelFeature hotelFeature = hotelFeatureRepository.findById(hotelId).orElseThrow(() -> new BusinessException(HotelFeatureMessages.HOTEL_FEATURE_NOT_FOUND));
+        HotelFeature hotelFeature = hotelFeatureRules.findById(hotelId);
         hotelFeatureRepository.delete(hotelFeature);
 
         return HotelFeatureMessages.HOTEL_FEATURE_DELETED;
@@ -48,8 +49,7 @@ public class HotelFeatureServiceImpl implements HotelFeatureService {
     @Override
     public List<HotelFeature> getAllFeaturesByHotelId(Integer hotelId) {
         Hotel hotel = hotelService.getById(hotelId);
-        List<HotelFeature> hotelFeatures = hotelFeatureRepository.findAllByHotel(hotel);
 
-        return hotelFeatures;
+        return hotelFeatureRepository.findAllByHotel(hotel);
     }
 }

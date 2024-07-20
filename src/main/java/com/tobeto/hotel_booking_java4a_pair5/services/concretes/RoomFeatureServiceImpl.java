@@ -1,6 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Room;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomFeature;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomFeatureRepository;
@@ -10,6 +9,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.RoomFeatureMessa
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomfeature.AddRoomFeatureRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomfeature.UpdateRoomFeatureRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomFeatureMapper;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.RoomFeatureRules;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +20,7 @@ import java.util.List;
 public class RoomFeatureServiceImpl implements RoomFeatureService {
     private final RoomFeatureRepository roomFeatureRepository;
     private final RoomService roomService;
+    private final RoomFeatureRules roomFeatureRules;
 
     @Override
     public RoomFeature add(AddRoomFeatureRequest request) {
@@ -39,7 +40,7 @@ public class RoomFeatureServiceImpl implements RoomFeatureService {
 
     @Override
     public String delete(Integer roomId) {
-        RoomFeature roomFeature = roomFeatureRepository.findById(roomId).orElseThrow(() -> new BusinessException(RoomFeatureMessages.ROOM_FEATURE_NOT_FOUND));
+        RoomFeature roomFeature = roomFeatureRules.findById(roomId);
         roomFeatureRepository.delete(roomFeature);
 
         return RoomFeatureMessages.ROOM_FEATURE_DELETED;
@@ -48,8 +49,7 @@ public class RoomFeatureServiceImpl implements RoomFeatureService {
     @Override
     public List<RoomFeature> getAllFeaturesByRoomId(Integer roomId) {
         Room room = roomService.getById(roomId);
-        List<RoomFeature> roomFeatures = roomFeatureRepository.findAllByRoom(room);
 
-        return roomFeatures;
+        return roomFeatureRepository.findAllByRoom(room);
     }
 }

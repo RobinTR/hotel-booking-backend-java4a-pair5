@@ -7,6 +7,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.PaymentByCardMes
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentbycard.AddPaymentByCardRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentbycard.UpdatePaymentByCardRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.PaymentByCardMapper;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.PaymentByCardRules;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentByCardServiceImpl implements PaymentByCardService {
     private final PaymentByCardRepository paymentByCardRepository;
+    private final PaymentByCardRules paymentByCardRules;
 
     @Override
     public PaymentByCard add(AddPaymentByCardRequest request) {
         PaymentByCard paymentByCard = PaymentByCardMapper.INSTANCE.paymentByCardFromAddRequest(request);
-
         paymentByCard = paymentByCardRepository.save(paymentByCard);
 
         return paymentByCard;
@@ -36,22 +37,19 @@ public class PaymentByCardServiceImpl implements PaymentByCardService {
 
     @Override
     public String delete(Integer id) {
-        PaymentByCard paymentByCard = paymentByCardRepository.findById(id).orElseThrow(() -> new RuntimeException(PaymentByCardMessages.PAYMENTBYCARD_NOT_FOUND));
+        PaymentByCard paymentByCard = paymentByCardRules.findById(id);
         paymentByCardRepository.delete(paymentByCard);
 
-        return PaymentByCardMessages.PAYMENTBYCARD_DELETED;
+        return PaymentByCardMessages.PAYMENT_BY_CARD_DELETED;
     }
 
     @Override
     public List<PaymentByCard> getAll() {
         return paymentByCardRepository.findAll();
-
     }
 
     @Override
     public PaymentByCard getById(Integer id) {
-        PaymentByCard paymentByCard = paymentByCardRepository.findById(id).orElseThrow(() -> new RuntimeException(PaymentByCardMessages.PAYMENTBYCARD_NOT_FOUND));
-
-        return paymentByCard;
+        return paymentByCardRules.findById(id);
     }
 }

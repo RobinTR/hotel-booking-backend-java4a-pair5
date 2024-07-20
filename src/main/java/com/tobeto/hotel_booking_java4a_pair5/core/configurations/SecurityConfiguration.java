@@ -135,8 +135,8 @@ public class SecurityConfiguration {
     private static final String[] PUT_GUEST_ADMIN = {
             "/api/guests"
     };
-    private static final String[] DELETE_MANAGER_ADMIN = {
-            "/api/hotels",
+    private static final String[] DELETE_MANAGER = {
+            "/api/hotels/**",
             "/api/bookings",
             "/api/roomimages/**",
             "/api/hotelimages/**"
@@ -212,10 +212,10 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.PUT, PUT_MANAGER_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority(), Role.MANAGER.getAuthority())
                                 .requestMatchers(HttpMethod.PUT, PUT_GUEST_MANAGER_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority(), Role.MANAGER.getAuthority(), Role.GUEST.getAuthority())
                                 .requestMatchers(HttpMethod.DELETE, DELETE_WHITE_LIST_URL).permitAll()
-                                .requestMatchers(HttpMethod.DELETE, DELETE_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority())
-                                .requestMatchers(HttpMethod.DELETE, DELETE_MANAGER_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority(), Role.MANAGER.getAuthority())
+                                .requestMatchers(HttpMethod.DELETE, DELETE_MANAGER).hasAnyAuthority(Role.MANAGER.getAuthority())
                                 .requestMatchers(HttpMethod.PATCH, PATCH_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority())
                                 .requestMatchers(HttpMethod.PATCH, PATCH_MANAGER_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority(), Role.MANAGER.getAuthority())
+                                .requestMatchers(HttpMethod.DELETE, DELETE_ADMIN).hasAnyAuthority(Role.ADMIN.getAuthority())
                                 .anyRequest().permitAll()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)

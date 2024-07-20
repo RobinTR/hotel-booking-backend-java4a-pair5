@@ -1,6 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Manager;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.ManagerRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.ManagerService;
@@ -8,15 +7,17 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.ManagerMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.manager.AddManagerRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.manager.UpdateManagerRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.ManagerMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.ManagerRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
     private final ManagerRepository managerRepository;
+    private final ManagerRules managerRules;
 
     @Override
     public Manager add(AddManagerRequest request) {
@@ -36,7 +37,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public String delete(Integer id) {
-        Manager manager = managerRepository.findById(id).orElseThrow(() -> new BusinessException(ManagerMessages.MANAGER_NOT_FOUND));
+        Manager manager = managerRules.findById(id);
         managerRepository.delete(manager);
 
         return ManagerMessages.MANAGER_DELETED;
@@ -49,8 +50,6 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public Manager getById(Integer id) {
-        Manager manager = managerRepository.findById(id).orElseThrow(() -> new BusinessException(ManagerMessages.MANAGER_NOT_FOUND));
-
-        return manager;
+        return managerRules.findById(id);
     }
 }

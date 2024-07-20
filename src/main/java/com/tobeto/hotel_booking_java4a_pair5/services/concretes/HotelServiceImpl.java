@@ -1,7 +1,10 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
-import com.tobeto.hotel_booking_java4a_pair5.entities.*;
+import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.ResourceNotFoundException;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Address;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
+import com.tobeto.hotel_booking_java4a_pair5.entities.Manager;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.AddressService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
@@ -12,8 +15,7 @@ import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.AddHot
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotel.UpdateHotelRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.AddressMapper;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelMapper;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.HotelRules;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +30,7 @@ public class HotelServiceImpl implements HotelService {
     private final HotelRepository hotelRepository;
     private final AddressService addressService;
     private final ManagerService managerService;
+    private final HotelRules hotelRules;
 
     @Override
     public Hotel add(AddHotelRequest request) {
@@ -53,7 +55,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public String delete(Integer id) {
-        Hotel hotel = hotelRepository.findById(id).orElseThrow(() -> new BusinessException(HotelMessages.HOTEL_NOT_FOUND));
+        Hotel hotel = hotelRules.findById(id);
         hotelRepository.delete(hotel);
 
         return HotelMessages.HOTEL_DELETED;
@@ -67,9 +69,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Hotel getById(Integer id) {
-        Hotel hotel = hotelRepository.findById(id).orElseThrow(() -> new BusinessException(HotelMessages.HOTEL_NOT_FOUND));
-
-        return hotel;
+        return hotelRules.findById(id);
     }
 
     @Override
@@ -94,77 +94,31 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Hotel findHotelWithAvailableRooms(Integer hotelId) {
-        Hotel hotel = hotelRepository.findHotelWithAvailableRooms(hotelId);
-
-        return hotel;
+        return hotelRepository.findHotelWithAvailableRooms(hotelId);
     }
 
     @Override
     public Hotel searchByBookingDateHotelsResponse(LocalDate startDate, LocalDate endDate) {
-        Hotel hotel = hotelRepository.searchByBookingDateHotels(startDate, endDate);
-        return hotel;
+        return hotelRepository.searchByBookingDateHotels(startDate, endDate);
     }
 
     @Override
     public List<Hotel> searchByRoomCapacityHotels(int person) {
-        List<Hotel> hotels = hotelRepository.searchByRoomCapacityHotels(person);
-        return hotels;
+        return hotelRepository.searchByRoomCapacityHotels(person);
     }
 
     @Override
     public List<Hotel> searchHotelByRoomWithFilters(Integer hotelId, LocalDate startDate, LocalDate endDate, Integer roomCapacity) {
-        Specification<Hotel> spec = Specification.where(HotelSpecification.hasHotelId(hotelId))
-                .and(HotelSpecification.hasRoomCapacity(roomCapacity))
-                .and(HotelSpecification.hasAvailableRooms(startDate, endDate));
+        Specification<Hotel> spec = hotelRules.createSpecification(hotelId, startDate, endDate, roomCapacity, null, null, null, null);
         List<Hotel> hotels = hotelRepository.findAll(spec);
 
-        //Filter Capacity
         if (roomCapacity != null) {
-            hotels.forEach(hotel -> {
-                List<Room> filteredRooms = hotel.getRooms().stream()
-                        .filter(room -> room.getRoomType().getCapacity() == roomCapacity)
-                        .collect(Collectors.toList());
-                hotel.setRooms(filteredRooms);
-            });
+            hotels = hotelRules.filterHotelsByRoomCapacity(hotels, roomCapacity);
         }
 
-        //Filter Date
         if (startDate != null && endDate != null) {
-            hotels.forEach(hotel -> {
-                List<Booking> filteredBookings = hotel.getBookings().stream()
-                        .filter(booking -> {
-                            //Booking tarih aralık müsaitlik kontrolü
-                            boolean isWithinDateRange = booking.getStartDate().isBefore(endDate.plusDays(1))
-                                    && booking.getEndDate().isAfter(startDate.minusDays(1));
-
-                            //Booking rezervasyon durumuna göre kontrol
-                            return isWithinDateRange &&
-                                    (booking.getReservationStatus() == ReservationStatus.APPROVED || booking.getReservationStatus() == ReservationStatus.PENDING);
-                        })
-                        .collect(Collectors.toList());
-                hotel.setBookings(filteredBookings);
-            });
-        }
-
-        //Filtreleme işlemlerinin rezervasyona ait odalar için de kontrolü.
-        if (startDate != null && endDate != null) {
-            hotels.forEach(hotel -> {
-                List<Room> availableRooms = hotel.getRooms().stream()
-                        .filter(room -> {
-                            boolean isRoomAvailable = hotel.getBookings().stream()
-                                    .noneMatch(booking -> {
-                                        boolean isWithinDateRange = booking.getStartDate().isBefore(endDate.plusDays(1))
-                                                && booking.getEndDate().isAfter(startDate.minusDays(1));
-                                        return isWithinDateRange &&
-                                                (booking.getReservationStatus() == ReservationStatus.APPROVED || booking.getReservationStatus() == ReservationStatus.PENDING) &&
-                                                booking.getRoomBooked().stream()
-                                                        .anyMatch(roomBooked -> roomBooked.getRoom().getId().equals(room.getId()));
-                                    });
-                            return isRoomAvailable;
-                        })
-                        .collect(Collectors.toList());
-                hotel.setRooms(availableRooms);
-            });
+            hotels = hotelRules.filterHotelsByDateRange(hotels, startDate, endDate);
+            hotels = hotelRules.filterRoomsByAvailability(hotels, startDate, endDate);
         }
 
         return hotels;
@@ -172,82 +126,20 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<Hotel> searchAllHotelsWithFilters(String location, LocalDate startDate, LocalDate endDate, Integer roomCapacity, Double minPrice, Double maxPrice, List<Integer> featureIds) {
-        Specification<Hotel> spec = Specification.where(null);
-        spec.and(HotelSpecification.hasRoomCapacity(roomCapacity))
-                .and(HotelSpecification.hasLocation(location))
-                .and(HotelSpecification.hasAvailableRooms(startDate, endDate))
-                .and(HotelSpecification.hasHotelFeatures(featureIds));
-
-        if (minPrice != null && maxPrice != null) {
-            spec = spec.and(HotelSpecification.hasHotelPrice(minPrice, maxPrice));
-        }
+        Specification<Hotel> spec = hotelRules.createSpecification(null, startDate, endDate, roomCapacity, location, minPrice, maxPrice, featureIds);
         List<Hotel> hotels = hotelRepository.findAll(spec);
 
-        if (featureIds != null) {
-            List<Hotel> filteredHotels = new ArrayList<>();
-
-            for (Hotel hotel : hotels) {
-                List<HotelFeature> filteredFeatures = hotel.getHotelFeatures().stream()
-                        .filter(hf -> featureIds.contains(hf.getFeature().getId()))
-                        .collect(Collectors.toList());
-
-                if (!filteredFeatures.isEmpty()) {
-                    hotel.setHotelFeatures(filteredFeatures);
-                    filteredHotels.add(hotel);
-                }
-            }
-
-            hotels = filteredHotels;
+        if (featureIds != null && !featureIds.isEmpty()) {
+            hotels = hotelRules.filterHotelsByFeatures(hotels, featureIds);
         }
 
         if (roomCapacity != null) {
-            for (Hotel hotel : hotels) {
-                List<Room> rooms = new ArrayList<>();
-
-                for (Room room : hotel.getRooms()) {
-                    if (room.getRoomType().getCapacity() == roomCapacity) {
-                        rooms.add(room);
-                    }
-                }
-
-                hotel.setRooms(rooms);
-            }
+            hotels = hotelRules.filterHotelsByRoomCapacity(hotels, roomCapacity);
         }
 
         if (startDate != null && endDate != null) {
-            List<Hotel> filteredHotels = new ArrayList<>();
-
-            hotels.forEach(hotel -> {
-                List<Booking> filteredBookings = hotel.getBookings().stream()
-                        .filter(booking -> {
-                            boolean isWithinDateRange = booking.getStartDate().isBefore(endDate.plusDays(1))
-                                    && booking.getEndDate().isAfter(startDate.minusDays(1));
-                            return isWithinDateRange &&
-                                    (booking.getReservationStatus() == ReservationStatus.APPROVED || booking.getReservationStatus() == ReservationStatus.PENDING);
-                        })
-                        .collect(Collectors.toList());
-
-                hotel.setBookings(filteredBookings);
-
-
-                List<Room> availableRooms = hotel.getRooms().stream()
-                        .filter(room -> {
-                            boolean isRoomAvailable = filteredBookings.stream()
-                                    .noneMatch(booking -> booking.getRoomBooked().stream()
-                                            .anyMatch(roomBooked -> roomBooked.getRoom().getId().equals(room.getId())));
-                            return isRoomAvailable;
-                        })
-                        .collect(Collectors.toList());
-
-                if (!availableRooms.isEmpty()) {
-                    hotel.setRooms(availableRooms);
-                    filteredHotels.add(hotel);
-                }
-
-
-            });
-
-            hotels = filteredHotels;
+            hotels = hotelRules.filterHotelsByDateRange(hotels, startDate, endDate);
+            hotels = hotelRules.filterRoomsByAvailability(hotels, startDate, endDate);
         }
 
         return hotels;

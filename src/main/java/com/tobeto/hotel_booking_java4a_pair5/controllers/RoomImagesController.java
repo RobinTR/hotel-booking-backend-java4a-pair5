@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/roomimages")
 @AllArgsConstructor
@@ -20,7 +22,7 @@ public class RoomImagesController {
     private final RoomImageService roomImageService;
 
     @PostMapping(value = "/save", consumes = "multipart/form-data")
-    public DataResponse<Object> save(@RequestParam("file") MultipartFile file, @RequestParam Integer roomId) {
+    public DataResponse<Object> save(@RequestParam("file") MultipartFile file, @RequestParam Integer roomId) throws IOException {
         Object object = roomImageService.save(file, roomId);
         GetRoomImageResponse getRoomImageResponse = RoomImageMapper.INSTANCE.getRoomImageResponseFromRoomImage((RoomImage) object);
 
@@ -28,7 +30,7 @@ public class RoomImagesController {
     }
 
     @DeleteMapping("/delete")
-    public Response delete(@RequestParam String url) {
+    public Response delete(@RequestParam String url) throws IOException {
         roomImageService.delete(url);
 
         return new SuccessResponse(ImageMessages.IMAGE_DELETED);

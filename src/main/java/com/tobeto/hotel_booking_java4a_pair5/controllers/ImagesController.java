@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/images")
 @AllArgsConstructor
@@ -17,14 +19,14 @@ public class ImagesController {
     private final ImageService imageService;
 
     @PostMapping(value = "/save", consumes = "multipart/form-data")
-    public DataResponse<Object> save(@RequestParam("file") MultipartFile file) {
+    public DataResponse<Object> save(@RequestParam("file") MultipartFile file) throws IOException {
         Object object = imageService.save(file);
 
         return new SuccessDataResponse<>(object, ImageMessages.IMAGE_UPLOADED);
     }
 
     @DeleteMapping("/delete")
-    public Response delete(@RequestParam String url) {
+    public Response delete(@RequestParam String url) throws IOException {
         imageService.delete(url);
 
         return new SuccessResponse(ImageMessages.IMAGE_DELETED);

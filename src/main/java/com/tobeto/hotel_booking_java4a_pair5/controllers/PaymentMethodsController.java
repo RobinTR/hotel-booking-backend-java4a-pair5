@@ -29,20 +29,20 @@ public class PaymentMethodsController {
     @ResponseStatus(HttpStatus.CREATED)
     public Response add(@RequestBody @Valid AddPaymentMethodRequest request) {
         paymentMethodService.add(request);
-        return new SuccessResponse(PaymentMethodMessages.PAYMENTMETHOD_ADDED);
+        return new SuccessResponse(PaymentMethodMessages.PAYMENT_METHOD_ADDED);
     }
 
     @PutMapping
     public Response update(@RequestBody @Valid UpdatePaymentMethodRequest request) {
         paymentMethodService.update(request);
-        return new SuccessResponse(PaymentMethodMessages.PAYMENTMETHOD_UPDATED);
+        return new SuccessResponse(PaymentMethodMessages.PAYMENT_METHOD_UPDATED);
     }
 
     @DeleteMapping
     public Response delete(@RequestParam Integer id) {
         paymentMethodService.delete(id);
 
-        return new SuccessResponse(PaymentMethodMessages.PAYMENTMETHOD_DELETED);
+        return new SuccessResponse(PaymentMethodMessages.PAYMENT_METHOD_DELETED);
     }
 
     @GetMapping
@@ -50,7 +50,7 @@ public class PaymentMethodsController {
         List<PaymentMethod> paymentMethods = paymentMethodService.getAll();
         List<GetAllPaymentMethodResponse> getAllPaymentMethodResponseList = PaymentMethodMapper.INSTANCE.getAllPaymentMethodResponseList(paymentMethods);
 
-        return new SuccessDataResponse<>(getAllPaymentMethodResponseList, PaymentMethodMessages.PAYMENTMETHOD_LISTED);
+        return new SuccessDataResponse<>(getAllPaymentMethodResponseList, PaymentMethodMessages.PAYMENT_METHOD_LISTED);
 
     }
 
@@ -59,6 +59,6 @@ public class PaymentMethodsController {
         PaymentMethod paymentMethod = paymentMethodService.getById(getById);
         GetByIdPaymentMethodResponse getByIdPaymentMethodResponse = PaymentMethodMapper.INSTANCE.getByIdPaymentMethodResponse(paymentMethod);
 
-        return new SuccessDataResponse<>(getByIdPaymentMethodResponse, PaymentMethodMessages.PAYMENTMETHOD_LISTED);
+        return new SuccessDataResponse<>(getByIdPaymentMethodResponse, PaymentMethodMessages.PAYMENT_METHOD_LISTED);
     }
 }

@@ -30,14 +30,14 @@ public class HotelReviewsController {
     public Response add(@RequestBody @Valid AddHotelReviewRequest request) {
         hotelReviewService.add(request);
 
-        return new SuccessResponse(HotelReviewMessages.HOTELREVIEW_ADDED);
+        return new SuccessResponse(HotelReviewMessages.HOTEL_REVIEW_ADDED);
     }
 
     @PutMapping
     public Response update(@RequestBody @Valid UpdateHotelReviewRequest request) {
         hotelReviewService.update(request);
 
-        return new SuccessResponse(HotelReviewMessages.HOTELREVIEW_UPDATED);
+        return new SuccessResponse(HotelReviewMessages.HOTEL_REVIEW_UPDATED);
 
     }
 
@@ -45,7 +45,7 @@ public class HotelReviewsController {
     public Response delete(@RequestParam Integer id) {
         hotelReviewService.delete(id);
 
-        return new SuccessResponse(HotelReviewMessages.HOTELREVIEW_DELETED);
+        return new SuccessResponse(HotelReviewMessages.HOTEL_REVIEW_DELETED);
 
     }
 
@@ -54,7 +54,7 @@ public class HotelReviewsController {
         List<HotelReview> hotelReview = hotelReviewService.getAll();
         List<GetAllHotelReviewResponse> hotelReviewResponseList = HotelReviewMapper.INSTANCE.getAllHotelReviewResponseList(hotelReview);
 
-        return new SuccessDataResponse<>(hotelReviewResponseList, HotelReviewMessages.HOTELREVIEW_LISTED);
+        return new SuccessDataResponse<>(hotelReviewResponseList, HotelReviewMessages.HOTEL_REVIEW_LISTED);
     }
 
 
@@ -63,6 +63,6 @@ public class HotelReviewsController {
         HotelReview hotelReview = hotelReviewService.getById(getById);
         GetByIdHotelReviewResponse getByIdHotelReviewResponse = HotelReviewMapper.INSTANCE.getByIdHotelReviewResponse(hotelReview);
 
-        return new SuccessDataResponse<>(getByIdHotelReviewResponse, HotelReviewMessages.HOTELREVIEW_LISTED);
+        return new SuccessDataResponse<>(getByIdHotelReviewResponse, HotelReviewMessages.HOTEL_REVIEW_LISTED);
     }
 }

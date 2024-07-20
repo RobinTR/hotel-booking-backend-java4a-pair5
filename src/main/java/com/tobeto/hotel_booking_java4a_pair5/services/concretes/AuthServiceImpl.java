@@ -5,7 +5,6 @@ import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Respon
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.User;
-import com.tobeto.hotel_booking_java4a_pair5.repositories.UserRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.AuthService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.GuestService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.UserService;
@@ -13,7 +12,6 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.AuthMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.auth.LoginRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.auth.RegisterRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.AddGuestForRegisterRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.guest.AddGuestRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.user.AddUserRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.GuestMapper;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.UserMapper;
