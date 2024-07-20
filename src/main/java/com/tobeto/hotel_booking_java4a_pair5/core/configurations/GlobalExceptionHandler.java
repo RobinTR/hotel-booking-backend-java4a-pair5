@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({CustomIOException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public CustomIODetails handleResourceNotFoundException(IOException exception) {
+    public CustomIODetails handleCustomIOException(IOException exception) {
         return new CustomIODetails(exception.getMessage());
     }
 
