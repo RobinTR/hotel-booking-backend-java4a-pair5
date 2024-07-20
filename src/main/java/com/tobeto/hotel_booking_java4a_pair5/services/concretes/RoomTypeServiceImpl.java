@@ -1,6 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.RoomType;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.RoomTypeRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomTypeService;
@@ -8,15 +7,17 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.RoomTypeMessages
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomtype.AddRoomTypeRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.roomtype.UpdateRoomTypeRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomTypeMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.RoomTypeRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoomTypeServiceImpl implements RoomTypeService {
     private final RoomTypeRepository roomTypeRepository;
+    private final RoomTypeRules roomTypeRules;
 
     @Override
     public RoomType add(AddRoomTypeRequest request) {
@@ -35,22 +36,19 @@ public class RoomTypeServiceImpl implements RoomTypeService {
 
     @Override
     public String delete(Integer id) {
-        RoomType roomType = roomTypeRepository.findById(id).orElseThrow(() -> new BusinessException(RoomTypeMessages.ROOMTYPE_NOT_FOUND));
+        RoomType roomType = roomTypeRules.findById(id);
         roomTypeRepository.delete(roomType);
 
-        return RoomTypeMessages.ROOMTYPE_DELETED;
+        return RoomTypeMessages.ROOM_TYPE_DELETED;
     }
 
     @Override
     public List<RoomType> getAll() {
         return roomTypeRepository.findAll();
-
     }
 
     @Override
     public RoomType getById(Integer id) {
-        RoomType roomType = roomTypeRepository.findById(id).orElseThrow(() -> new BusinessException(RoomTypeMessages.ROOMTYPE_NOT_FOUND));
-
-        return roomType;
+        return roomTypeRules.findById(id);
     }
 }

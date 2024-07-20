@@ -30,21 +30,21 @@ public class PaymentByCardsController {
     public Response add(@RequestBody @Valid AddPaymentByCardRequest request) {
         paymentByCardService.add(request);
 
-        return new SuccessResponse(PaymentByCardMessages.PAYMENTBYCARD_ADDED);
+        return new SuccessResponse(PaymentByCardMessages.PAYMENT_BY_CARD_ADDED);
     }
 
     @PutMapping
     public Response update(@RequestBody @Valid UpdatePaymentByCardRequest request) {
         paymentByCardService.update(request);
 
-        return new SuccessResponse(PaymentByCardMessages.PAYMENTBYCARD_UPDATED);
+        return new SuccessResponse(PaymentByCardMessages.PAYMENT_BY_CARD_UPDATED);
     }
 
     @DeleteMapping
     public Response delete(@RequestParam Integer id) {
         paymentByCardService.delete(id);
 
-        return new SuccessResponse(PaymentByCardMessages.PAYMENTBYCARD_DELETED);
+        return new SuccessResponse(PaymentByCardMessages.PAYMENT_BY_CARD_DELETED);
     }
 
     @GetMapping
@@ -52,7 +52,7 @@ public class PaymentByCardsController {
         List<PaymentByCard> paymentByCards = paymentByCardService.getAll();
         List<GetAllPaymentByCardResponse> getAllPaymentByCardResponseList = PaymentByCardMapper.INSTANCE.getAllPaymentByCardResponseListFromPaymentByCards(paymentByCards);
 
-        return new SuccessDataResponse<>(getAllPaymentByCardResponseList, PaymentByCardMessages.PAYMENTBYCARD_LISTED);
+        return new SuccessDataResponse<>(getAllPaymentByCardResponseList, PaymentByCardMessages.PAYMENT_BY_CARD_LISTED);
     }
 
     @GetMapping("/{getById}")
@@ -60,6 +60,6 @@ public class PaymentByCardsController {
         PaymentByCard paymentByCard = paymentByCardService.getById(getById);
         GetByIdPaymentByCardResponse getByIdPaymentByCardResponse = PaymentByCardMapper.INSTANCE.getByIdPaymentByCardResponseFromPaymentByCard(paymentByCard);
 
-        return new SuccessDataResponse<>(getByIdPaymentByCardResponse, PaymentByCardMessages.PAYMENTBYCARD_LISTED);
+        return new SuccessDataResponse<>(getByIdPaymentByCardResponse, PaymentByCardMessages.PAYMENT_BY_CARD_LISTED);
     }
 }

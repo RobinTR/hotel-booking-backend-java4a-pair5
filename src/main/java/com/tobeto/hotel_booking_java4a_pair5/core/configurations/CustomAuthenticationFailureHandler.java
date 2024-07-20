@@ -22,7 +22,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationEntryPo
         data.put("timestamp", Calendar.getInstance().getTime().toString());
         data.put("status", 403);
         data.put("error", "Forbidden");
-        data.put("message", "Access Denied");
+        data.put("message", authException.getMessage());
         data.put("path", request.getRequestURI());
 
         ObjectMapper mapper = new ObjectMapper();

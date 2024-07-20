@@ -7,7 +7,6 @@ import com.tobeto.hotel_booking_java4a_pair5.entities.Hotel;
 import com.tobeto.hotel_booking_java4a_pair5.entities.HotelImage;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Image;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelImageRepository;
-import com.tobeto.hotel_booking_java4a_pair5.repositories.ImageRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelImageService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelService;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.ImageService;
@@ -21,16 +20,14 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class HotelImageServiceImpl implements HotelImageService {
-    private final ImageRepository imageRepository;
-    private final ImageService imageService;
     private final HotelImageRepository hotelImageRepository;
+    private final ImageService imageService;
     private final Cloudinary cloudinary;
     private final HotelService hotelService;
 
     @Override
-    public Object save(MultipartFile file, Integer hotelId) {
+    public Object save(MultipartFile file, Integer hotelId) throws IOException {
         Image image = (Image) imageService.save(file);
-
         Hotel hotel = hotelService.getById(hotelId);
 
         HotelImage hotelImage = new HotelImage(hotel, image);
@@ -40,12 +37,8 @@ public class HotelImageServiceImpl implements HotelImageService {
     }
 
     @Override
-    public String delete(String url) {
-        try {
-            cloudinary.uploader().destroy(CloudinaryImageHelperUtil.getImagePublicIdFromUrl(url), ObjectUtils.emptyMap());
-        } catch (IOException e) {
-            return ImageMessages.IMAGE_DELETE_ERROR;
-        }
+    public String delete(String url) throws IOException {
+        cloudinary.uploader().destroy(CloudinaryImageHelperUtil.getImagePublicIdFromUrl(url), ObjectUtils.emptyMap());
 
         return ImageMessages.IMAGE_DELETED;
     }

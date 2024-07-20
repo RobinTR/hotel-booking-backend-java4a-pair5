@@ -30,21 +30,21 @@ public class RoomBookedController {
     public Response add(@RequestBody @Valid AddRoomBookedRequest request) {
         roomBookedService.add(request);
 
-        return new SuccessResponse(RoomBookedMessages.ROOMBOOKED_ADDED);
+        return new SuccessResponse(RoomBookedMessages.ROOM_BOOKED_ADDED);
     }
 
     @PutMapping
     public Response update(@RequestBody @Valid UpdateRoomBookedRequest request) {
         roomBookedService.update(request);
 
-        return new SuccessResponse(RoomBookedMessages.ROOMBOOKED_UPDATED);
+        return new SuccessResponse(RoomBookedMessages.ROOM_BOOKED_UPDATED);
     }
 
     @DeleteMapping
     public Response delete(@RequestParam Integer id) {
         roomBookedService.delete(id);
 
-        return new SuccessResponse(RoomBookedMessages.ROOMBOOKED_DELETED);
+        return new SuccessResponse(RoomBookedMessages.ROOM_BOOKED_DELETED);
     }
 
     @GetMapping
@@ -52,7 +52,7 @@ public class RoomBookedController {
         List<RoomBooked> roomBooked = roomBookedService.getAll();
         List<GetAllRoomBookedResponse> response = RoomBookedMapper.INSTANCE.getAllRoomBookedResponseListFromRoomBooked(roomBooked);
 
-        return new SuccessDataResponse<>(response, RoomBookedMessages.ROOMBOOKED_LISTED);
+        return new SuccessDataResponse<>(response, RoomBookedMessages.ROOM_BOOKED_LISTED);
     }
 
     @GetMapping("/{getById}")
@@ -60,6 +60,6 @@ public class RoomBookedController {
         RoomBooked roomBooked = roomBookedService.getById(getById);
         GetByIdRoomBookedResponse response = RoomBookedMapper.INSTANCE.getByIdRoomBookedResponseFromRoomBooked(roomBooked);
 
-        return new SuccessDataResponse<>(response, RoomBookedMessages.ROOMBOOKED_LISTED);
+        return new SuccessDataResponse<>(response, RoomBookedMessages.ROOM_BOOKED_LISTED);
     }
 }

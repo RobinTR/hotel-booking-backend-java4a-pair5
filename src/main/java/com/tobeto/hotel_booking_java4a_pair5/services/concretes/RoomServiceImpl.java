@@ -11,17 +11,19 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.RoomMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.room.AddRoomRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.room.UpdateRoomRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.RoomMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.RoomRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final HotelService hotelService;
     private final RoomTypeService roomTypeService;
+    private final RoomRules roomRules;
 
     @Override
     public Room add(AddRoomRequest request) {
@@ -48,7 +50,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public String delete(Integer id) {
-        Room room = roomRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomMessages.ROOM_NOT_FOUND));
+        Room room = roomRules.findById(id);
         roomRepository.delete(room);
 
         return RoomMessages.ROOM_DELETED;
@@ -61,8 +63,6 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room getById(Integer id) {
-        Room room = roomRepository.findById(id).orElseThrow(() -> new RuntimeException(RoomMessages.ROOM_NOT_FOUND));
-
-        return room;
+        return roomRules.findById(id);
     }
 }

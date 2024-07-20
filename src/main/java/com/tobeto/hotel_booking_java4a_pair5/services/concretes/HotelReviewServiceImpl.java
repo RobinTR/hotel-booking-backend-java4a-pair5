@@ -1,6 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.HotelReview;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.HotelReviewRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.HotelReviewService;
@@ -8,15 +7,17 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.HotelReviewMessa
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotelreview.AddHotelReviewRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.hotelreview.UpdateHotelReviewRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.HotelReviewMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.HotelReviewRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HotelReviewServiceImpl implements HotelReviewService {
     private final HotelReviewRepository hotelReviewRepository;
+    private final HotelReviewRules hotelReviewRules;
 
     @Override
     public HotelReview add(AddHotelReviewRequest request) {
@@ -36,10 +37,10 @@ public class HotelReviewServiceImpl implements HotelReviewService {
 
     @Override
     public String delete(Integer id) {
-        HotelReview hotelReview = hotelReviewRepository.findById(id).orElseThrow(() -> new BusinessException(HotelReviewMessages.HOTELREVIEW_NOT_FOUND));
+        HotelReview hotelReview = hotelReviewRules.findById(id);
         hotelReviewRepository.delete(hotelReview);
 
-        return HotelReviewMessages.HOTELREVIEW_DELETED;
+        return HotelReviewMessages.HOTEL_REVIEW_DELETED;
     }
 
     @Override
@@ -49,8 +50,6 @@ public class HotelReviewServiceImpl implements HotelReviewService {
 
     @Override
     public HotelReview getById(Integer id) {
-        HotelReview hotelReview = hotelReviewRepository.findById(id).orElseThrow(() -> new BusinessException(HotelReviewMessages.HOTELREVIEW_NOT_FOUND));
-
-        return hotelReview;
+        return hotelReviewRules.findById(id);
     }
 }

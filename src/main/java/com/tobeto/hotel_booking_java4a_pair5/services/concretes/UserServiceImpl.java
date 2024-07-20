@@ -1,8 +1,6 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.DataResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.Response;
-import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessDataResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.services.dtos.responses.SuccessResponse;
 import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Role;
@@ -13,9 +11,9 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.AuthMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.UserMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.user.AddUserRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.user.UpdateUserRequest;
-import com.tobeto.hotel_booking_java4a_pair5.services.dtos.responses.user.GetAllUserResponse;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.UserMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.UserRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,9 +23,10 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserRules userRules;
 
     @Override
     public User add(AddUserRequest request) {
@@ -43,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(UpdateUserRequest request) {
-        User userOld = userRepository.findById(request.getId()).orElseThrow(() -> new BusinessException(UserMessages.USER_NOT_FOUND));
+        User userOld = userRules.findById(request.getId());
         User user = UserMapper.INSTANCE.userFromUpdateUserRequest(request);
         user.setPassword(userOld.getPassword());
         user.setAuthorities(userOld.getAuthorities());
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response delete(int id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException(UserMessages.USER_NOT_FOUND));
+        User user = userRules.findById(id);
         userRepository.deleteById(user.getId());
 
         return new SuccessResponse(UserMessages.USER_DELETED);
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException(UserMessages.USER_NOT_FOUND));
+        return userRules.findById(id);
     }
 
     @Override
@@ -77,6 +76,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException(UserMessages.USER_NOT_FOUND));
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(UserMessages.USER_NOT_FOUND));
     }
 }

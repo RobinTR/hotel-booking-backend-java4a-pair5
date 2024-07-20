@@ -33,14 +33,14 @@ public class RoomTypesController {
         RoomType roomType = roomTypeService.add(request);
         AddRoomTypeResponse response = RoomTypeMapper.INSTANCE.responseFromRoomType(roomType);
 
-        return new SuccessDataResponse<>(response, RoomTypeMessages.ROOMTYPE_ADDED);
+        return new SuccessDataResponse<>(response, RoomTypeMessages.ROOM_TYPE_ADDED);
     }
 
     @PutMapping
     public Response update(@RequestBody @Valid UpdateRoomTypeRequest request) {
         roomTypeService.update(request);
 
-        return new SuccessResponse(RoomTypeMessages.ROOMTYPE_UPDATED);
+        return new SuccessResponse(RoomTypeMessages.ROOM_TYPE_UPDATED);
 
     }
 
@@ -48,7 +48,7 @@ public class RoomTypesController {
     public Response delete(@RequestParam Integer id) {
         roomTypeService.delete(id);
 
-        return new SuccessResponse(RoomTypeMessages.ROOMTYPE_DELETED);
+        return new SuccessResponse(RoomTypeMessages.ROOM_TYPE_DELETED);
 
     }
 
@@ -57,7 +57,7 @@ public class RoomTypesController {
         List<RoomType> roomTypes = roomTypeService.getAll();
         List<GetAllRoomTypeResponse> getAllRoomTypeResponseList = RoomTypeMapper.INSTANCE.getAllRoomTypeResponseListFromRoomTypes(roomTypes);
 
-        return new SuccessDataResponse<>(getAllRoomTypeResponseList, RoomTypeMessages.ROOMTYPE_LISTED);
+        return new SuccessDataResponse<>(getAllRoomTypeResponseList, RoomTypeMessages.ROOM_TYPE_LISTED);
 
     }
 
@@ -66,7 +66,7 @@ public class RoomTypesController {
         RoomType roomType = roomTypeService.getById(getById);
         GetByIdRoomTypeResponse getByIdRoomTypeResponse = RoomTypeMapper.INSTANCE.getByIdRoomTypeResponseFromRoomType(roomType);
 
-        return new SuccessDataResponse<>(getByIdRoomTypeResponse, RoomTypeMessages.ROOMTYPE_LISTED);
+        return new SuccessDataResponse<>(getByIdRoomTypeResponse, RoomTypeMessages.ROOM_TYPE_LISTED);
 
     }
 }

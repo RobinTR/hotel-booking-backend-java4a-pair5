@@ -1,6 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.PaymentMethod;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.PaymentMethodRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.PaymentMethodService;
@@ -8,16 +7,17 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.PaymentMethodMes
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentmethod.AddPaymentMethodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.paymentmethod.UpdatePaymentMethodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.PaymentMethodMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.PaymentMethodRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-
+@RequiredArgsConstructor
 public class PaymentMethodServiceImpl implements PaymentMethodService {
-    private PaymentMethodRepository paymentMethodRepository;
+    private final PaymentMethodRepository paymentMethodRepository;
+    private final PaymentMethodRules paymentMethodRules;
 
     @Override
     public PaymentMethod add(AddPaymentMethodRequest request) {
@@ -37,22 +37,19 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Override
     public String delete(Integer id) {
-        PaymentMethod paymentMethod = paymentMethodRepository.findById(id).orElseThrow(() -> new BusinessException(PaymentMethodMessages.PAYMENTMETHOD_NOT_FOUND));
+        PaymentMethod paymentMethod = paymentMethodRules.findById(id);
         paymentMethodRepository.delete(paymentMethod);
 
-        return PaymentMethodMessages.PAYMENTMETHOD_DELETED;
+        return PaymentMethodMessages.PAYMENT_METHOD_DELETED;
     }
 
     @Override
     public List<PaymentMethod> getAll() {
         return paymentMethodRepository.findAll();
-
     }
 
     @Override
     public PaymentMethod getById(Integer id) {
-        PaymentMethod paymentMethod = paymentMethodRepository.findById(id).orElseThrow(() -> new BusinessException(PaymentMethodMessages.PAYMENTMETHOD_NOT_FOUND));
-
-        return paymentMethod;
+        return paymentMethodRules.findById(id);
     }
 }

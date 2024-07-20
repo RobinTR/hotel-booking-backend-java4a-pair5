@@ -24,14 +24,10 @@ public class ImageServiceImpl implements ImageService {
     private final Cloudinary cloudinary;
 
     @Override
-    public Object save(MultipartFile file) {
+    public Object save(MultipartFile file) throws IOException {
         Map<?, ?> result;
 
-        try {
-            result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-        } catch (Exception e) {
-            return new BusinessException(ImageMessages.IMAGE_UPLOAD_ERROR);
-        }
+        result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
 
         ImageModel imageModel = ImageModel.builder()
                 .publicId(String.valueOf(result.get("public_id")))
@@ -39,6 +35,7 @@ public class ImageServiceImpl implements ImageService {
                 .width((Integer) result.get("width"))
                 .height((Integer) result.get("height"))
                 .build();
+
         Image image = ImageMapper.INSTANCE.imageFromImageModel(imageModel);
         imageRepository.save(image);
 
@@ -46,12 +43,8 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String delete(String url) {
-        try {
-            cloudinary.uploader().destroy(CloudinaryImageHelperUtil.getImagePublicIdFromUrl(url), ObjectUtils.emptyMap());
-        } catch (IOException e) {
-            return ImageMessages.IMAGE_DELETE_ERROR;
-        }
+    public String delete(String url) throws IOException {
+        cloudinary.uploader().destroy(CloudinaryImageHelperUtil.getImagePublicIdFromUrl(url), ObjectUtils.emptyMap());
 
         return ImageMessages.IMAGE_DELETED;
     }

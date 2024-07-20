@@ -8,15 +8,17 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.NeighborhoodMess
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.neighborhood.AddNeighborhoodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.neighborhood.UpdateNeighborhoodRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.NeighborhoodMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.NeighborhoodRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NeighborhoodServiceImpl implements NeighborhoodService {
     private final NeighborhoodRepository neighborhoodRepository;
+    private final NeighborhoodRules neighborhoodRules;
 
     @Override
     public Neighborhood add(AddNeighborhoodRequest request) {
@@ -36,7 +38,7 @@ public class NeighborhoodServiceImpl implements NeighborhoodService {
 
     @Override
     public String delete(Integer id) {
-        Neighborhood neighborhood = neighborhoodRepository.findById(id).orElseThrow(() -> new RuntimeException(NeighborhoodMessages.NEIGHBORHOOD_NOT_FOUND));
+        Neighborhood neighborhood = neighborhoodRules.findById(id);
         neighborhoodRepository.deleteById(neighborhood.getId());
 
         return NeighborhoodMessages.NEIGHBORHOOD_DELETED;
@@ -49,8 +51,6 @@ public class NeighborhoodServiceImpl implements NeighborhoodService {
 
     @Override
     public Neighborhood getById(Integer id) {
-        Neighborhood neighborhood = neighborhoodRepository.findById(id).orElseThrow(() -> new RuntimeException(NeighborhoodMessages.NEIGHBORHOOD_NOT_FOUND));
-
-        return neighborhood;
+        return neighborhoodRules.findById(id);
     }
 }

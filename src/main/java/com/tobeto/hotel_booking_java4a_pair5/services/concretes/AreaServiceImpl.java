@@ -1,6 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.Area;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.AreaRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.AreaService;
@@ -8,15 +7,17 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.AreaMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.area.AddAreaRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.area.UpdateAreaRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.AreaMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.AreaRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AreaServiceImpl implements AreaService {
-    private AreaRepository areaRepository;
+    private final AreaRepository areaRepository;
+    private final AreaRules areaRules;
 
     @Override
     public Area add(AddAreaRequest request) {
@@ -36,7 +37,7 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public String delete(Integer id) {
-        Area area = areaRepository.findById(id).orElseThrow(() -> new BusinessException(AreaMessages.AREA_NOT_FOUND));
+        Area area = areaRules.findById(id);
         areaRepository.deleteById(area.getId());
 
         return AreaMessages.AREA_DELETED;
@@ -49,8 +50,6 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public Area getById(Integer id) {
-        Area area = areaRepository.findById(id).orElseThrow(() -> new BusinessException(AreaMessages.AREA_NOT_FOUND));
-
-        return area;
+        return areaRules.findById(id);
     }
 }

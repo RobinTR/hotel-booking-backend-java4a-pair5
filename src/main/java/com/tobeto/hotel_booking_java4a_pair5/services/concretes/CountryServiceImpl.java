@@ -7,15 +7,17 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.CountryMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.country.AddCountryRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.country.UpdateCountryRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.CountryMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.CountryRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CountryServiceImpl implements CountryService {
     private final CountryRepository countryRepository;
+    private final CountryRules countryRules;
 
     @Override
     public Country add(AddCountryRequest request) {
@@ -35,8 +37,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public String delete(Integer id) {
-        //TODO: Refactor Exception and Message
-        Country country = countryRepository.findById(id).orElseThrow(() -> new RuntimeException(CountryMessages.COUNTRY_NOT_FOUND));
+        Country country = countryRules.findById(id);
         countryRepository.deleteById(country.getId());
 
         return CountryMessages.COUNTRY_DELETED;
@@ -49,8 +50,6 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Country getById(Integer id) {
-        Country country = countryRepository.findById(id).orElseThrow(() -> new RuntimeException(CountryMessages.COUNTRY_NOT_FOUND));
-
-        return country;
+        return countryRules.findById(id);
     }
 }

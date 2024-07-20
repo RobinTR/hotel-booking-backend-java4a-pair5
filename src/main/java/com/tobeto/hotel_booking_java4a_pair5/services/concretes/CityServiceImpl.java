@@ -1,6 +1,5 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-import com.tobeto.hotel_booking_java4a_pair5.core.utils.exceptions.types.BusinessException;
 import com.tobeto.hotel_booking_java4a_pair5.entities.City;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.CityRepository;
 import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.CityService;
@@ -8,15 +7,17 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.CityMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.city.AddCityRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.city.UpdateCityRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.CityMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.CityRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CityServiceImpl implements CityService {
-    private CityRepository cityRepository;
+    private final CityRepository cityRepository;
+    private final CityRules cityRules;
 
     @Override
     public City add(AddCityRequest request) {
@@ -36,7 +37,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public String delete(Integer id) {
-        City city = cityRepository.findById(id).orElseThrow(() -> new BusinessException(CityMessages.CITY_NOT_FOUND));
+        City city = cityRules.findById(id);
         cityRepository.deleteById(city.getId());
 
         return CityMessages.CITY_DELETED;
@@ -49,8 +50,6 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public City getById(Integer id) {
-        City city = cityRepository.findById(id).orElseThrow(() -> new BusinessException(CityMessages.CITY_NOT_FOUND));
-
-        return city;
+        return cityRules.findById(id);
     }
 }

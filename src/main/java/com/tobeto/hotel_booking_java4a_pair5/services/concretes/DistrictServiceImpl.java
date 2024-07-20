@@ -8,15 +8,17 @@ import com.tobeto.hotel_booking_java4a_pair5.services.constants.DistrictMessages
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.district.AddDistrictRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.district.UpdateDistrictRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.mappers.DistrictMapper;
-import lombok.AllArgsConstructor;
+import com.tobeto.hotel_booking_java4a_pair5.services.rules.DistrictRules;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DistrictServiceImpl implements DistrictService {
     private final DistrictRepository districtRepository;
+    private final DistrictRules districtRules;
 
     @Override
     public District add(AddDistrictRequest request) {
@@ -36,8 +38,7 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Override
     public String delete(Integer id) {
-        //TODO: Refactor Exception and Message
-        District district = districtRepository.findById(id).orElseThrow(() -> new RuntimeException(DistrictMessages.DISTRICT_NOT_FOUND));
+        District district = districtRules.findById(id);
         districtRepository.deleteById(district.getId());
 
         return DistrictMessages.DISTRICT_DELETED;
@@ -50,9 +51,6 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Override
     public District getById(Integer id) {
-        District district = districtRepository.findById(id).orElseThrow(() -> new RuntimeException(DistrictMessages.DISTRICT_NOT_FOUND));
-
-
-        return district;
+        return districtRules.findById(id);
     }
 }
