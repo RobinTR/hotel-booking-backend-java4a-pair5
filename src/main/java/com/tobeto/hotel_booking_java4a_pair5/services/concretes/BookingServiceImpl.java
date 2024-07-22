@@ -1,15 +1,8 @@
 package com.tobeto.hotel_booking_java4a_pair5.services.concretes;
 
-
-import com.tobeto.hotel_booking_java4a_pair5.entities.Booking;
-import com.tobeto.hotel_booking_java4a_pair5.entities.Citizen;
-import com.tobeto.hotel_booking_java4a_pair5.entities.CitizenOfBooking;
-import com.tobeto.hotel_booking_java4a_pair5.entities.ReservationStatus;
+import com.tobeto.hotel_booking_java4a_pair5.entities.*;
 import com.tobeto.hotel_booking_java4a_pair5.repositories.BookingRepository;
-import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.BookingService;
-import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.CitizenOfBookingService;
-import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.CitizenService;
-import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.RoomBookedService;
+import com.tobeto.hotel_booking_java4a_pair5.services.abstracts.*;
 import com.tobeto.hotel_booking_java4a_pair5.services.constants.BookingMessages;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.AddBookingRequest;
 import com.tobeto.hotel_booking_java4a_pair5.services.dtos.requests.booking.UpdateBookingRequest;
@@ -31,6 +24,10 @@ import java.util.List;
 @AllArgsConstructor
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
+    private final RoomService roomService;
+    private final RoomBookedService roomBookedService;
+    private final CitizenService citizenService;
+    private final CitizenOfBookingService citizenOfBookingService;
     private final BookingRules bookingRules;
 
     @Transactional
@@ -40,12 +37,13 @@ public class BookingServiceImpl implements BookingService {
         booking.setReservationStatus(ReservationStatus.PENDING);
         booking = bookingRepository.save(booking);
 
-        List<CitizenOfBooking> citizenOfBookings = bookingRules.addCitizensToBooking(request.getCitizens(), booking.getId());
+        List<CitizenOfBooking> citizenOfBookings = addCitizensToBooking(request.getCitizens(), booking.getId());
         booking.setCitizenOfBookings(citizenOfBookings);
 
-        bookingRules.reserveRooms(request.getRoomIds(), booking.getId());
+        reserveRooms(request.getRoomIds(), booking.getId());
 
-        booking.setTotalCost(bookingRules.reserveRoomAndCalculatePrice(booking.getId()));
+        List<RoomBooked> roomBookedList = roomBookedService.findByBooking(booking);
+        booking.setTotalCost(bookingRules.calculateTotalPrice(booking, roomBookedList, roomService));
         booking = bookingRepository.save(booking);
 
         return booking;
@@ -63,9 +61,14 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public String delete(Integer id) {
         Booking booking = bookingRules.findById(id);
-        bookingRules.deleteBookingCheck(booking);
-        bookingRepository.deleteById(booking.getId());
+        bookingRules.validateDeleteBooking(booking);
 
+        List<RoomBooked> roomBookedList = roomBookedService.findByBooking(booking);
+        for (RoomBooked roomBooked : roomBookedList) {
+            roomBookedService.delete(roomBooked.getId());
+        }
+
+        bookingRepository.delete(booking);
         return BookingMessages.BOOKING_DELETED;
     }
 
@@ -76,9 +79,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking getById(Integer id) {
-        Booking booking = bookingRules.findById(id);
-
-        return booking;
+        return bookingRules.findById(id);
     }
 
     @Override
@@ -94,7 +95,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking changeCheckInDate(Integer id) {
         Booking booking = bookingRules.findById(id);
-        bookingRules.changeCheckInDate(booking);
+        bookingRules.validateCheckInDateChange(booking);
         bookingRepository.save(booking);
 
         return booking;
@@ -103,7 +104,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking changeCheckOutDate(Integer id) {
         Booking booking = bookingRules.findById(id);
-        bookingRules.changeCheckOutDate(booking);
+        bookingRules.validateCheckOutDateChange(booking);
         bookingRepository.save(booking);
 
         return booking;
@@ -113,7 +114,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking changeReservationStatus(Integer id, ReservationStatus reservationStatus) {
         Booking booking = bookingRules.findById(id);
-        bookingRules.changeReservationStatus(booking, reservationStatus);
+        bookingRules.validateReservationStatusChange(booking, reservationStatus);
         bookingRepository.save(booking);
 
         return booking;
@@ -127,5 +128,28 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> getBookingsByManagerId(Integer managerId) {
         return bookingRepository.findAllByManagerId(managerId);
+    }
+
+    private List<CitizenOfBooking> addCitizensToBooking(List<AddCitizenRequest> citizenRequests, Integer bookingId) {
+        List<CitizenOfBooking> citizenOfBookings = new ArrayList<>();
+
+        for (AddCitizenRequest citizenRequest : citizenRequests) {
+            Citizen citizen = citizenService.add(citizenRequest);
+            AddCitizenOfBookingRequest addCitizenOfBookingRequest = CitizenOfBookingMapper.INSTANCE.addCitizenOfBookingRequestFromCitizen(citizen);
+            addCitizenOfBookingRequest.setBookingId(bookingId);
+            CitizenOfBooking citizenOfBooking = citizenOfBookingService.add(addCitizenOfBookingRequest);
+            citizenOfBookings.add(citizenOfBooking);
+        }
+
+        return citizenOfBookings;
+    }
+
+    private void reserveRooms(List<Integer> roomIds, Integer bookingId) {
+        for (Integer id : roomIds) {
+            AddRoomBookedRequest roomBookedRequest = new AddRoomBookedRequest();
+            roomBookedRequest.setBookingId(bookingId);
+            roomBookedRequest.setRoomId(id);
+            roomBookedService.add(roomBookedRequest);
+        }
     }
 }
