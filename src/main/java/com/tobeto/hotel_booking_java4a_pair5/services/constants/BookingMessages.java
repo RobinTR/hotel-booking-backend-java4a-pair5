@@ -9,4 +9,5 @@ public class BookingMessages {
     public static final String BOOKING_RESERVATION_STATUS_UPDATED = "Reservation status updated.";
     public static final String BOOKING_CHECK_IN_DATE_UPDATED = "Check in Date updated.";
     public static final String BOOKING_CHECK_OUT_DATE_UPDATED = "Check out Date updated.";
+    public static final String INVALID_BOOKING_STATUS_FOR_DELETION = "Invalid Booking Status";
 }
