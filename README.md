@@ -11,34 +11,6 @@
 ![Blue and Black Minimalist Travel Agency Email Header (2)](https://hackmd.io/_uploads/ryL4gBYOC.png)
 
 
-
-![Installation](https://hackmd.io/_uploads/rJJkHBtdR.png)
-
-Clone the project
-
-```bash
-  git clone https://github.com/RobinTR/hotel-booking-frontend-java4a-pair5.git
-```
-
-Go to the project directory
-
-```bash
-  cd hotel-booking-frontend-java4a-pair5
-```
-
-Install required packages
-
-```bash
-  npm install
-```
-
-Run the server
-
-```bash
-  ng serve
-```
-
-
 ## ![Database Diagram](https://hackmd.io/_uploads/S15_lrKOA.png)
 
 ![Hotel_Booking](https://hackmd.io/_uploads/BycsxBFdA.png)
