@@ -5,5 +5,9 @@ spring.datasource.password=123456
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 
-jwt.expiration=6000000000000
-jwt.key=903002abd9ce15310dcbdbfa6dfc6eefa9e74d8dcfddea918c8bfb5d92d57207ea2bcc35d72a30e7e10d227651e2db3e76bee305a65a7f875ab3cfa3ca651d3c
+jwt.expiration=
+jwt.key=
+
+cloudinary.cloud_name=
+cloudinary.api_key=
+cloudinary.api_secret=
